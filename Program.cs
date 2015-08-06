@@ -1,7 +1,5 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using OpenTK;
-using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
@@ -11,7 +9,13 @@ namespace SageCS
     {
         static void Main(string[] args)
         {
+            //mein renderer
             TKWindow game = new TKWindow(30, 30);
+
+            using (var game = new Core.Engine())
+            {             
+                game.Run(60.0);
+            }
         }
     }
 }

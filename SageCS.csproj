@@ -72,10 +72,14 @@
     <Compile Include="Graphics\GraphicsTK\TKTexture.cs" />
     <Compile Include="Graphics\GraphicsTK\TKTexturedCube.cs" />
     <Compile Include="Graphics\Texture.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Graphics\GraphicsTK\TKRenderer.cs" />
     <Compile Include="Graphics\GraphicsTK\TKWindow.cs" />
+    <Compile Include="Core\Engine.cs" />
+    <Compile Include="Core\FileSystem.cs" />
+    <Compile Include="Core\Loaders\BigStream.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Loaders\BigArchive.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
