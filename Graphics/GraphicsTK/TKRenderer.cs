@@ -125,7 +125,7 @@ namespace SageCS
                     GL.Uniform1(shaders[activeShader].GetAttribute("maintexture"), v.TextureID);
                 }
 
-                GL.DrawElements(BeginMode.Triangles, v.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
+                //GL.DrawElements(BeginMode.Triangles, v.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
                 indiceat += v.IndiceCount;
             }
 

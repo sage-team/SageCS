@@ -10,7 +10,7 @@ namespace SageCS
         static void Main(string[] args)
         {
             //mein renderer
-            TKWindow game = new TKWindow(30, 30);
+            TKWindow win = new TKWindow(30, 30);
 
             using (var game = new Core.Engine())
             {             
