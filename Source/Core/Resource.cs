@@ -10,7 +10,9 @@ namespace SageCS.Core
         public static Stream GetShader(string name)
         {
             Assembly curAssembly = Assembly.GetExecutingAssembly();
-            return curAssembly.GetManifestResourceStream(ShaderResource + name);
+            Stream s = curAssembly.GetManifestResourceStream(ShaderResource + name);
+            s.Position = 0;
+            return s;
         }
     }
 }

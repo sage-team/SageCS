@@ -1,13 +1,14 @@
 ﻿#version 330
 
-in vec2 f_texcoord;
-out vec4 outputColor;
+in  vec3 vPosition;
+in vec2 texcoord;
+out vec2 f_texcoord;
 
-uniform sampler2D maintexture;
+uniform mat4 modelview;
 
 void
 main()
 {
- vec2 flipped_texcoord = vec2(f_texcoord.x, 1.0 - f_texcoord.y);
-    outputColor = texture(maintexture, flipped_texcoord);
+    gl_Position = modelview * vec4(vPosition, 1.0);
+    f_texcoord = texcoord;
 }

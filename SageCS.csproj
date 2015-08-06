@@ -68,15 +68,15 @@
   <ItemGroup>
     <Compile Include="Source\Core\Engine.cs" />
     <Compile Include="Source\Core\FileSystem.cs" />
+    <Compile Include="Source\Core\Graphics\Mesh.cs" />
+    <Compile Include="Source\Core\Graphics\Renderer.cs" />
+    <Compile Include="Source\Core\Graphics\ShaderProgram.cs" />
+    <Compile Include="Source\Core\Graphics\Sprite.cs" />
+    <Compile Include="Source\Core\Graphics\Texture.cs" />
     <Compile Include="Source\Core\Loaders\BigStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Source\Core\Loaders\BigArchive.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Source\Core\Resource.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -101,15 +101,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Source\Graphics\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
