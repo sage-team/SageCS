@@ -14,6 +14,7 @@ namespace SageCS.Core
             var s = FileSystem.Open("language.ini");
             StreamReader sr = new StreamReader(s);
             string content = sr.ReadToEnd();
+            s = Resource.GetShader("tex.frag");
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)

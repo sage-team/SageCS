@@ -66,24 +66,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\GraphicsTK\TKCube.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKMesh.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKShaderProgram.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKTexture.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKTexturedCube.cs" />
-    <Compile Include="Graphics\Texture.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKRenderer.cs" />
-    <Compile Include="Graphics\GraphicsTK\TKWindow.cs" />
-    <Compile Include="Core\Engine.cs" />
-    <Compile Include="Core\FileSystem.cs" />
-    <Compile Include="Core\Loaders\BigStream.cs" />
+    <Compile Include="Source\Core\Engine.cs" />
+    <Compile Include="Source\Core\FileSystem.cs" />
+    <Compile Include="Source\Core\Loaders\BigStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Core\Loaders\BigArchive.cs" />
+    <Compile Include="Source\Core\Loaders\BigArchive.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Source\Core\Resource.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <EmbeddedResource Include="Shader\tex.frag" />
+    <EmbeddedResource Include="Shader\tex.vert" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
@@ -96,6 +100,15 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Source\Graphics\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
