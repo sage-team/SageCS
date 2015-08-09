@@ -15,7 +15,7 @@ namespace SageCS.Core
             base.WindowBorder = WindowBorder.Hidden;
             base.OnLoad(e);
             FileSystem.Init();
-            AudioSystem.Init();
+            AudioSystem.Init();     
             var s = FileSystem.Open("language.ini");
             StreamReader sr = new StreamReader(s);
             string content = sr.ReadToEnd();
@@ -23,7 +23,7 @@ namespace SageCS.Core
             Renderer.shaders.Add("textured", new ShaderProgram(Resource.GetShader("tex.vert"), Resource.GetShader("tex.frag")));
             Renderer.activeShader = "textured";
 
-            Renderer.textures.Add("germanSplash", Texture.loadImage("GermanSplash.jpg"));
+            Renderer.textures.Add("germanSplash", Texture.load(File.Open("GermanSplash.jpg",FileMode.Open)));
 
             Sprite background = new Sprite();
             background.TextureID = Renderer.textures["germanSplash"];

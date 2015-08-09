@@ -70,11 +70,11 @@
     <Compile Include="Source\Audio\Sound.cs" />
     <Compile Include="Source\Core\Engine.cs" />
     <Compile Include="Source\Core\FileSystem.cs" />
-    <Compile Include="Source\Core\Graphics\Mesh.cs" />
-    <Compile Include="Source\Core\Graphics\Renderer.cs" />
-    <Compile Include="Source\Core\Graphics\ShaderProgram.cs" />
-    <Compile Include="Source\Core\Graphics\Sprite.cs" />
-    <Compile Include="Source\Core\Graphics\Texture.cs" />
+    <Compile Include="Source\Graphics\Mesh.cs" />
+    <Compile Include="Source\Graphics\Renderer.cs" />
+    <Compile Include="Source\Graphics\ShaderProgram.cs" />
+    <Compile Include="Source\Graphics\Sprite.cs" />
+    <Compile Include="Source\Graphics\Texture.cs" />
     <Compile Include="Source\Core\Loaders\BigStream.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

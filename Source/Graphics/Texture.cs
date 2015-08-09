@@ -26,11 +26,11 @@ namespace SageCS.Core.Graphics
             return texID;
         }
 
-        public static int loadImage(string filename)
-        {
+        public static int load(Stream s)
+        {           
             try
             {
-                Bitmap file = new Bitmap(filename);         
+                Bitmap file = new Bitmap(s);         
                 return loadImage(file);
             }
             catch (FileNotFoundException e)
