@@ -61,8 +61,9 @@ namespace SageCS.Core.Graphics
 
             Console.WriteLine(GL.GetProgramInfoLog(ProgramID));
 
-            GL.GetProgram(ProgramID, ProgramParameter.ActiveAttributes, out AttributeCount);
-            GL.GetProgram(ProgramID, ProgramParameter.ActiveUniforms, out UniformCount);
+           
+            GL.GetProgram(ProgramID, GetProgramParameterName.ActiveAttributes, out AttributeCount);
+            GL.GetProgram(ProgramID, GetProgramParameterName.ActiveUniforms, out UniformCount);
 
             for (int i = 0; i < AttributeCount; i++)
             {

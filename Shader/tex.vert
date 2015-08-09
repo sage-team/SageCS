@@ -6,8 +6,7 @@ out vec2 f_texcoord;
 
 uniform mat4 modelview;
 
-void
-main()
+void main()
 {
     gl_Position = modelview * vec4(vPosition, 1.0);
     f_texcoord = texcoord;

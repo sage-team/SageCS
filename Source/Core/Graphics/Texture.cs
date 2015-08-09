@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using OpenTK.Graphics.OpenGL4;
 
@@ -35,7 +30,7 @@ namespace SageCS.Core.Graphics
         {
             try
             {
-                Bitmap file = new Bitmap(filename);
+                Bitmap file = new Bitmap(filename);         
                 return loadImage(file);
             }
             catch (FileNotFoundException e)

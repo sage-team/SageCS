@@ -4,6 +4,8 @@ using SageCS.Core.Graphics;
 using System;
 using System.IO;
 
+using SageCS.Audio;
+
 namespace SageCS.Core
 {
     class Engine : GameWindow
@@ -13,6 +15,7 @@ namespace SageCS.Core
             base.WindowBorder = WindowBorder.Hidden;
             base.OnLoad(e);
             FileSystem.Init();
+            AudioSystem.Init();
             var s = FileSystem.Open("language.ini");
             StreamReader sr = new StreamReader(s);
             string content = sr.ReadToEnd();
