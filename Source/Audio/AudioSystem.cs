@@ -15,6 +15,7 @@ namespace SageCS.Audio
         static XRamExtension xram;
         static IList<string> devices;
 
+        static bool mp3_sup;
         static bool eax_sup;
         public static void Init()
         {
@@ -22,6 +23,10 @@ namespace SageCS.Audio
             ac.CheckErrors();
             ac.MakeCurrent();
             eax_sup = ac.SupportsExtension("EAX3.0");
+            if (eax_sup)
+                xram = new XRamExtension();
+
+            mp3_sup = ac.SupportsExtension("AL_EXT_mp3");
             devices = Alc.GetString(IntPtr.Zero, AlcGetStringList.AllDevicesSpecifier); 
         }
     }

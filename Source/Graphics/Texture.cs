@@ -3,40 +3,29 @@ using System.Drawing.Imaging;
 using System.IO;
 
 using OpenTK.Graphics.OpenGL4;
+using SageCS.Core.Loaders;
 
 namespace SageCS.Core.Graphics
 {
     class Texture
     {
-        public static int loadImage(Bitmap image)
+        public static int loadImage(ImageData image)
         {
             int texID = GL.GenTexture();
 
             GL.BindTexture(TextureTarget.Texture2D, texID);
-            BitmapData data = image.LockBits(new System.Drawing.Rectangle(0, 0, image.Width, image.Height),
-                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
-                OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
-
-            image.UnlockBits(data);
-
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb,image.width, image.height, 0,
+                OpenTK.Graphics.OpenGL4.PixelFormat.Rgb, PixelType.UnsignedByte, image.data);
 
             return texID;
         }
 
-        public static int load(Stream s)
-        {           
-            try
-            {
-                Bitmap file = new Bitmap(s);         
-                return loadImage(file);
-            }
-            catch (FileNotFoundException e)
-            {
-                return -1;
-            }
+        public static int loadImage(Stream s)
+        {
+            var img = ImageLoader.Load(s);
+            loadImage(img);
+            return 0;
         }
     }
 }
