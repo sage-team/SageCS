@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+
+//multithreaded rendering??
 
 namespace SageCS.Core.Graphics
 {
@@ -14,7 +14,7 @@ namespace SageCS.Core.Graphics
     {
         static int width;
         static int height;
-        public static Dictionary<string, ShaderProgram> shaders = new Dictionary<string, ShaderProgram>();
+        public static Dictionary<string, Shader> shaders = new Dictionary<string, Shader>();
         public static Dictionary<string, int> textures = new Dictionary<string, int>();
         public static List<Mesh> meshes = new List<Mesh>();
 
@@ -85,16 +85,12 @@ namespace SageCS.Core.Graphics
 
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo_elements);
             GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indicedata.Length * sizeof(int)), indicedata, BufferUsageHint.StaticDraw);
-
-            GL.UseProgram(shaders[activeShader].ProgramID);
-
-            GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
         }
 
         public static void render()
         {
             clear();
+            clearColor();
 
             shaders[activeShader].EnableVertexAttribArrays();
 
@@ -108,9 +104,11 @@ namespace SageCS.Core.Graphics
                 {
                     GL.Uniform1(shaders[activeShader].GetAttribute("maintexture"), m.TextureID);
                 }
+
                 GL.DrawElements(BeginMode.Triangles, m.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
                 indiceat += m.IndiceCount;
             }
+
             shaders[activeShader].DisableVertexAttribArrays();
 
             GL.Flush();
@@ -140,6 +138,15 @@ namespace SageCS.Core.Graphics
             width = Width;
             height = Height;
             update();
+        }
+
+        public static void DeleteBuffers()
+        {
+            GL.DeleteBuffer(ibo_elements);
+            foreach (KeyValuePair<string, Shader> s in shaders)
+            {
+                s.Value.DeleteBuffers();
+            }
         }
     }
 }

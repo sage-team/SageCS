@@ -15,7 +15,7 @@ namespace SageCS.Core.Loaders
         public int width;
         public int height;
         public byte[] data;
-        public PixelFormat format;
+        public OpenTK.Graphics.OpenGL4.PixelFormat format;
     }
 
     class ImageLoader
@@ -30,12 +30,13 @@ namespace SageCS.Core.Loaders
             return img;
         }
 
-        private static PixelFormat FromPfimFormat(ImageFormat f)
+        private static OpenTK.Graphics.OpenGL4.PixelFormat FromPfimFormat(ImageFormat f)
         {
+            Console.WriteLine(f);
             if (f == ImageFormat.Rgb24)
-                return PixelFormat.Rgb;
+                return OpenTK.Graphics.OpenGL4.PixelFormat.Bgr;
             else if (f == ImageFormat.Rgba32)
-                return PixelFormat.Rgba;
+                return OpenTK.Graphics.OpenGL4.PixelFormat.Bgra;
 
             throw new Exception("Unknown Image format");
         }
@@ -51,12 +52,12 @@ namespace SageCS.Core.Loaders
             return img;
         }
 
-        private static PixelFormat FromPixelformat(System.Drawing.Imaging.PixelFormat pf)
+        private static OpenTK.Graphics.OpenGL4.PixelFormat FromPixelformat(System.Drawing.Imaging.PixelFormat pf)
         {
             if (pf == System.Drawing.Imaging.PixelFormat.Format32bppArgb)
-                return PixelFormat.Rgba;
+                return OpenTK.Graphics.OpenGL4.PixelFormat.Bgra;
             else if (pf == System.Drawing.Imaging.PixelFormat.Format24bppRgb)
-                return PixelFormat.Rgb;
+                return OpenTK.Graphics.OpenGL4.PixelFormat.Bgr;
 
             throw new Exception("Unknown Image format");
         }

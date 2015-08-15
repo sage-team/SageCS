@@ -9,7 +9,7 @@ using OpenTK.Graphics.OpenGL;
 
 namespace SageCS.Core.Graphics
 {
-    class ShaderProgram
+    class Shader
     {
         public int ProgramID = -1;
         public int VShaderID = -1;
@@ -21,12 +21,7 @@ namespace SageCS.Core.Graphics
         public Dictionary<String, UniformInfo> Uniforms = new Dictionary<string, UniformInfo>();
         public Dictionary<String, uint> Buffers = new Dictionary<string, uint>();
 
-        public ShaderProgram()
-        {
-            ProgramID = GL.CreateProgram();
-        }
-
-        public ShaderProgram(Stream vshader, Stream fshader)
+        public Shader(Stream vshader, Stream fshader)
         {
             ProgramID = GL.CreateProgram();
             loadShader(new StreamReader(vshader).ReadToEnd(), ShaderType.VertexShader, out VShaderID);
@@ -36,7 +31,7 @@ namespace SageCS.Core.Graphics
             GenBuffers();
         }
 
-        public ShaderProgram(String vshader, String fshader, bool fromFile = false)
+        public Shader(String vshader, String fshader, bool fromFile = false)
         {
             ProgramID = GL.CreateProgram();
 
@@ -61,7 +56,6 @@ namespace SageCS.Core.Graphics
 
             Console.WriteLine(GL.GetProgramInfoLog(ProgramID));
 
-           
             GL.GetProgram(ProgramID, GetProgramParameterName.ActiveAttributes, out AttributeCount);
             GL.GetProgram(ProgramID, GetProgramParameterName.ActiveUniforms, out UniformCount);
 
@@ -110,6 +104,14 @@ namespace SageCS.Core.Graphics
                 GL.GenBuffers(1, out buffer);
 
                 Buffers.Add(Uniforms.Values.ElementAt(i).name, buffer);
+            }
+        }
+
+        public void DeleteBuffers()
+        {
+            foreach (KeyValuePair<string, uint> b in Buffers)
+            {
+                GL.DeleteBuffer(b.Value);
             }
         }
 

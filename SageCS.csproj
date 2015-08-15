@@ -78,7 +78,7 @@
     <Compile Include="Source\Core\Loaders\ImageLoader.cs" />
     <Compile Include="Source\Graphics\Mesh.cs" />
     <Compile Include="Source\Graphics\Renderer.cs" />
-    <Compile Include="Source\Graphics\ShaderProgram.cs" />
+    <Compile Include="Source\Graphics\Shader.cs" />
     <Compile Include="Source\Graphics\Sprite.cs" />
     <Compile Include="Source\Graphics\Texture.cs" />
     <Compile Include="Source\Core\Loaders\BigStream.cs" />

@@ -10,25 +10,39 @@ namespace SageCS.Core
 {
     class Engine : GameWindow
     {
+        ~Engine()
+        {
+            Renderer.DeleteBuffers();
+        }
+
         protected override void OnLoad(EventArgs e)
         {
             base.WindowBorder = WindowBorder.Hidden;
             base.OnLoad(e);
+
+            Title = "SageCS - BFME II";
+
+            Renderer.shaders.Add("textured", new Shader(Resource.GetShader("tex.vert"), Resource.GetShader("tex.frag")));
+            Renderer.activeShader = "textured";
+            
+            try
+            {
+                Renderer.textures.Add("splash", new Texture(File.Open("GermanSplash.jpg", FileMode.Open)).ID());
+            }
+            catch
+            {
+                Renderer.textures.Add("splash", new Texture(File.Open("EnglishSplash.jpg", FileMode.Open)).ID());
+            }
+            
+            Sprite background = new Sprite("splash");
+
+            Renderer.initProgram(Width, Height);
+
             FileSystem.Init();
-            AudioSystem.Init();     
+            AudioSystem.Init();
             var s = FileSystem.Open("language.ini");
             StreamReader sr = new StreamReader(s);
             string content = sr.ReadToEnd();
-
-            Renderer.shaders.Add("textured", new ShaderProgram(Resource.GetShader("tex.vert"), Resource.GetShader("tex.frag")));
-            Renderer.activeShader = "textured";
-
-            Renderer.textures.Add("germanSplash", Texture.loadImage(File.Open("GermanSplash.jpg",FileMode.Open)));
-
-            Sprite background = new Sprite();
-            background.TextureID = Renderer.textures["germanSplash"];
-            Renderer.meshes.Add(background);
-            Renderer.initProgram(Width, Height);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)

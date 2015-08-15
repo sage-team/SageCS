@@ -17,6 +17,29 @@ namespace SageCS.Core.Graphics
             IndiceCount = 6;
             TextureCoordsCount = 4;
             IsTextured = true;
+            Renderer.meshes.Add(this);
+        }
+
+        public Sprite(int texID)
+        : base()
+        {
+            TextureID = texID;
+            VertCount = 4;
+            IndiceCount = 6;
+            TextureCoordsCount = 4;
+            IsTextured = true;
+            Renderer.meshes.Add(this);
+        }
+
+        public Sprite(string tex)
+        : base()
+        {
+            TextureID = Renderer.textures[tex];
+            VertCount = 4;
+            IndiceCount = 6;
+            TextureCoordsCount = 4;
+            IsTextured = true;
+            Renderer.meshes.Add(this);
         }
 
         public override Vector3[] GetVerts()

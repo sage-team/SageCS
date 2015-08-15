@@ -4,28 +4,34 @@ using System.IO;
 
 using OpenTK.Graphics.OpenGL4;
 using SageCS.Core.Loaders;
+using System;
 
 namespace SageCS.Core.Graphics
 {
     class Texture
     {
-        public static int loadImage(ImageData image)
+        int texID = -1;
+
+        public Texture(Stream s)
         {
-            int texID = GL.GenTexture();
+            ImageData img = ImageLoader.Load(s);
+            texID = GL.GenTexture();
 
             GL.BindTexture(TextureTarget.Texture2D, texID);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgb,image.width, image.height, 0,
-                OpenTK.Graphics.OpenGL4.PixelFormat.Rgb, PixelType.UnsignedByte, image.data);
+            //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, img.width, img.height, 0,
+            //        OpenTK.Graphics.OpenGL4.PixelFormat.RgbaInteger, PixelType.UnsignedByte, img.data);
 
-            return texID;
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, img.width, img.height, 0,
+                     img.format, PixelType.UnsignedByte, img.data);
+
+            //needed to make the texture visible
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
-        public static int loadImage(Stream s)
+        public int ID()
         {
-            var img = ImageLoader.Load(s);
-            loadImage(img);
-            return 0;
+            return this.texID;
         }
     }
 }
