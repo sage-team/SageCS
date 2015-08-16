@@ -32,7 +32,6 @@ namespace SageCS.Core.Loaders
 
         private static OpenTK.Graphics.OpenGL4.PixelFormat FromPfimFormat(ImageFormat f)
         {
-            Console.WriteLine(f);
             if (f == ImageFormat.Rgb24)
                 return OpenTK.Graphics.OpenGL4.PixelFormat.Bgr;
             else if (f == ImageFormat.Rgba32)
@@ -98,9 +97,7 @@ namespace SageCS.Core.Loaders
                     System.Drawing.Bitmap image = new System.Drawing.Bitmap(s);
                     img = FromBitmap(image);
                 }
-
             }
-
             return img;
         }
     }
