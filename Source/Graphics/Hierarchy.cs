@@ -9,7 +9,7 @@ namespace SageCS.Graphics
 {
     class Hierarchy
     {
-        public static Dictionary<string, Hierarchy> hierarchies = new Dictionary<string, Hierarchy>();
+        private static Dictionary<string, Hierarchy> hierarchies = new Dictionary<string, Hierarchy>();
 
         public struct Pivot
         {
@@ -39,6 +39,19 @@ namespace SageCS.Graphics
             p.eulerAngles = eulerAngles;
             p.rotation = rotation;
             pivots.Add(p);
+        }
+
+        public static void AddHierarchy(string key, Hierarchy hierarchy)
+        {
+            if (!hierarchies.ContainsKey(key))
+            {
+                hierarchies.Add(key, hierarchy);
+            }
+        }
+
+        public static Hierarchy getHierarchy(string key)
+        {
+            return hierarchies[key];
         }
     }
 }

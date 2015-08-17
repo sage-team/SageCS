@@ -75,6 +75,7 @@
     <Compile Include="Source\Audio\Sound.cs" />
     <Compile Include="Source\Core\Engine.cs" />
     <Compile Include="Source\Core\FileSystem.cs" />
+    <Compile Include="Source\Core\Loaders\INIParser.cs" />
     <Compile Include="Source\Core\Loaders\ImageLoader.cs" />
     <Compile Include="Source\Core\Loaders\W3DLoader.cs" />
     <Compile Include="Source\Graphics\Hierarchy.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Source\Core\Resource.cs" />
     <Compile Include="Source\Graphics\W3DMesh.cs" />
     <Compile Include="Source\Graphics\Model.cs" />
+    <Compile Include="Source\INI\INIObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

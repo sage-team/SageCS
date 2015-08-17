@@ -186,7 +186,7 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
-            Hierarchy.hierarchies.Add(hierarchyName, hierarchy);
+            Hierarchy.AddHierarchy(hierarchyName, hierarchy);
         }
 
         //#######################################################################################
@@ -1009,6 +1009,7 @@ namespace SageCS.Core.Loaders
                         if (model == null)
                         {
                             model = new Model();
+                            Model.AddModel(modelName, model);
                         } 
                         ReadMesh(br, ChunkEnd);
                         break;
@@ -1038,7 +1039,6 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
-            Model.models.Add(modelName, model);
         }
     }
 }

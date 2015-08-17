@@ -9,7 +9,7 @@ namespace SageCS.Graphics
 {
     class Model
     {
-        public static Dictionary<string, Model> models = new Dictionary<string, Model>();
+        private static Dictionary<string, Model> models = new Dictionary<string, Model>();
 
         public struct Box
         {
@@ -24,6 +24,19 @@ namespace SageCS.Graphics
         public Model()
         {
 
+        }
+
+        public static void AddModel(string key, Model model)
+        {
+            if (!models.ContainsKey(key))
+            {
+                models.Add(key, model);
+            }
+        }
+
+        public static Model GetModel(string key)
+        {
+            return models[key];
         }
     }
 }
