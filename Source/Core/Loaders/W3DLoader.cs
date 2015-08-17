@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using SageCS.Graphics;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,17 +21,17 @@ namespace SageCS.Core.Loaders
 {
     class W3DLoader
     {
+        private static string modelName = "";
+        private static Model model;
+        private static string hierarchyName = "";
+        private static Hierarchy hierarchy;
+        private static W3DMesh mesh;
+        private static string texName = "";
+        private static string matName = "";
+
         //######################################################################################
         //# structs
         //######################################################################################
-
-        struct VertexInfluences
-        {
-            public int boneIdx;
-            public int xtraIdx;
-            public int boneInf;
-            public int xtraInf;
-        }
 
         struct Version
         {
@@ -131,9 +132,11 @@ namespace SageCS.Core.Loaders
         private static void ReadHierarchyHeader(BinaryReader br)
         {
             Version version = GetVersion(ReadLong(br));
-            string name = ReadFixedString(br);
+            hierarchyName = ReadFixedString(br);
             long pivotCount = ReadLong(br);
             Vector3 centerPos = ReadVector(br);
+
+            hierarchy = new Hierarchy(pivotCount, centerPos);
         }
 
         private static void ReadPivots(BinaryReader br, uint ChunkEnd)
@@ -145,6 +148,8 @@ namespace SageCS.Core.Loaders
                 Vector3 position = ReadVector(br);
                 Vector3 eulerAngles = ReadVector(br);
                 Quaternion rotation = ReadQuaternion(br);
+
+                hierarchy.addPivot(name, parentID, position, eulerAngles, rotation);
             }
         }
 
@@ -181,6 +186,7 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
+            Hierarchy.hierarchies.Add(hierarchyName, hierarchy);
         }
 
         //#######################################################################################
@@ -405,12 +411,15 @@ namespace SageCS.Core.Loaders
 
         private static void ReadBox(BinaryReader br)
         {
+            Model.Box box = new Model.Box();
             Version version = GetVersion(ReadLong(br));
             long attributes = ReadLong(br);
             string name = ReadLongFixedString(br);
             Vector4 color = ReadRGBA(br);
-            Vector3 center = ReadVector(br);
-            Vector3 extend = ReadVector(br);
+            box.center = ReadVector(br);
+            box.extend = ReadVector(br);
+
+            model.box = box;
         }
 
         //#######################################################################################
@@ -425,22 +434,26 @@ namespace SageCS.Core.Loaders
                 uint Chunksize = getChunkSize(ReadLong(br));
                 uint subChunkEnd = (uint)br.BaseStream.Position + Chunksize;
 
+                W3DMesh.Texture tex = new W3DMesh.Texture();
                 switch (Chunktype)
                 {
                     case 50:
-                        string texName = ReadString(br);
+                        texName = ReadString(br);
+                        tex.type = W3DMesh.textureType.standard;
                         break;
                     case 51:
-                        uint attributes = ReadShort(br);
-                        uint animType = ReadShort(br);
-                        long frameCount = ReadLong(br);
-                        float frameRate = ReadFloat(br);
+                        tex.attributes = ReadShort(br);
+                        tex.animType = ReadShort(br);
+                        tex.frameCount = ReadLong(br);
+                        tex.frameRate = ReadFloat(br);
+                        tex.type = W3DMesh.textureType.animated;
                         break;
                     default:
                         Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTexture in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
+                mesh.textures.Add(texName, tex);
             }
         }
 
@@ -471,11 +484,12 @@ namespace SageCS.Core.Loaders
 
         private static void ReadMeshTextureCoordArray(BinaryReader br, uint ChunkEnd)
         {
-            List<float[]> txCoords = new List<float[]>();
+            List<Vector2> txCoords = new List<Vector2>();
             while (br.BaseStream.Position < ChunkEnd)
             {
-                txCoords.Add(new float[] {ReadFloat(br), ReadFloat(br)});
+                txCoords.Add(new Vector2(ReadFloat(br), ReadFloat(br)));
             }
+            mesh.texCoords.Add(txCoords.ToArray<Vector2>());
         }
 
         private static void ReadMeshTextureStage(BinaryReader br, uint ChunkEnd)
@@ -547,6 +561,7 @@ namespace SageCS.Core.Loaders
 
         private static void ReadMaterial(BinaryReader br, uint ChunkEnd)
         {
+            W3DMesh.Material mat = new W3DMesh.Material();
             while (br.BaseStream.Position < ChunkEnd)
             {
                 uint Chunktype = ReadLong(br);
@@ -556,23 +571,23 @@ namespace SageCS.Core.Loaders
                 switch (Chunktype)
                 {
                     case 44:
-                        string vmName = ReadString(br);
+                        matName = ReadString(br);
                         break;
                     case 45:
-                        long vmAttributes = ReadLong(br);
-                        Vector4 ambient = ReadRGBA(br);
-                        Vector4 diffuse = ReadRGBA(br);
-                        Vector4 specular = ReadRGBA(br);
-                        Vector4 emissive = ReadRGBA(br);
-                        float shininess = ReadFloat(br);
-                        float opacity = ReadFloat(br);
-                        float translucency = ReadFloat(br);
+                        mat.vmAttributes = ReadLong(br);
+                        mat.ambient = ReadRGBA(br);
+                        mat.diffuse = ReadRGBA(br);
+                        mat.specular = ReadRGBA(br);
+                        mat.emissive = ReadRGBA(br);
+                        mat.shininess = ReadFloat(br);
+                        mat.opacity = ReadFloat(br);
+                        mat.translucency = ReadFloat(br);
                         break;
                     case 46:
-                        string vmArgs0 = ReadString(br);
+                        mat.vmArgs0 = ReadString(br);
                         break;
                     case 47:
-                        string vmArgs1 = ReadString(br);
+                        mat.vmArgs1 = ReadString(br);
                         break;
                     default:
                         Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterial in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
@@ -580,6 +595,7 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
+            mesh.materials.Add(matName, mat);
         }
 
         private static void ReadMeshMaterialArray(BinaryReader br, uint ChunkEnd)
@@ -607,26 +623,24 @@ namespace SageCS.Core.Loaders
         //# Vertices
         //#######################################################################################
 
-        private static void ReadMeshVerticesArray(BinaryReader br, uint ChunkEnd)
+        private static Vector3[] ReadMeshVerticesArray(BinaryReader br, uint ChunkEnd)
         {
             List<Vector3> vecs = new List<Vector3>();
             while (br.BaseStream.Position < ChunkEnd)
             {
                 vecs.Add(ReadVector(br));
             }
+            return vecs.ToArray<Vector3>();
         }
     
         private static void ReadMeshVertexInfluences(BinaryReader br, uint ChunkEnd)
         {
-            List<VertexInfluences> vertInfs = new List<VertexInfluences>();
             while (br.BaseStream.Position < ChunkEnd)
             {
-                VertexInfluences vi = new VertexInfluences();
                 uint boneIdx = ReadShort(br);
                 uint xtraIdx = ReadShort(br);
                 uint boneInf = ReadShort(br)/100;
                 uint xtraInf = ReadShort(br)/100;
-                vertInfs.Add(vi);
             }
         }
 
@@ -634,20 +648,19 @@ namespace SageCS.Core.Loaders
         //# Faces
         //#######################################################################################	
 
-        private static void ReadMeshFace(BinaryReader br)
-        {
-            uint[] vertIds = new uint[] {ReadLong(br), ReadLong(br), ReadLong(br)};
-            uint attrs = ReadLong(br);
-            Vector3 normal = ReadVector(br);
-            float distance = ReadFloat(br);
-        }
-
         private static void ReadMeshFaceArray(BinaryReader br, uint ChunkEnd)
         {
+            List<uint> vertIds = new List<uint>();
             while (br.BaseStream.Position < ChunkEnd)
             {
-                ReadMeshFace(br);
+                vertIds.Add(ReadLong(br));
+                vertIds.Add(ReadLong(br));
+                vertIds.Add(ReadLong(br));
+                uint attrs = ReadLong(br);
+                Vector3 normal = ReadVector(br);
+                float distance = ReadFloat(br);
             }
+            mesh.vertIDs = vertIds.ToArray<uint>();
         }
 
         //#######################################################################################
@@ -658,22 +671,25 @@ namespace SageCS.Core.Loaders
         {
             while (br.BaseStream.Position < ChunkEnd)
             {
-                byte depthCompare = ReadByte(br);
-                byte depthMask = ReadByte(br);
-                byte colorMask = ReadByte(br);
-                byte destBlend = ReadByte(br);
-                byte fogFunc = ReadByte(br);
-                byte priGradient = ReadByte(br);
-                byte secGradient = ReadByte(br);
-                byte srcBlend = ReadByte(br);
-                byte texturing = ReadByte(br);
-                byte detailColorFunc = ReadByte(br);
-                byte detailAlphaFunc = ReadByte(br);
-                byte shaderPreset = ReadByte(br);
-                byte alphaTest = ReadByte(br);
-                byte postDetailColorFunc = ReadByte(br);
-                byte postDetailAlphaFunc = ReadByte(br);
+                W3DMesh.Shader shader = new W3DMesh.Shader();
+                shader.depthCompare = ReadByte(br);
+                shader.depthMask = ReadByte(br);
+                shader.colorMask = ReadByte(br);
+                shader.destBlend = ReadByte(br);
+                shader.fogFunc = ReadByte(br);
+                shader.priGradient = ReadByte(br);
+                shader.secGradient = ReadByte(br);
+                shader.srcBlend = ReadByte(br);
+                shader.texturing = ReadByte(br);
+                shader.detailColorFunc = ReadByte(br);
+                shader.detailAlphaFunc = ReadByte(br);
+                shader.shaderPreset = ReadByte(br);
+                shader.alphaTest = ReadByte(br);
+                shader.postDetailColorFunc = ReadByte(br);
+                shader.postDetailAlphaFunc = ReadByte(br);
                 byte pad = ReadByte(br);
+
+                mesh.shaders.Add(shader);
             }
         }
 
@@ -688,7 +704,7 @@ namespace SageCS.Core.Loaders
             long reserved = ReadLong(br);
         }
 
-        private static void ReadNormalMapEntryStruct(BinaryReader br, uint ChunkEnd)
+        private static void ReadNormalMapEntryStruct(BinaryReader br, uint ChunkEnd, W3DMesh.Texture tex)
         {
             long type = ReadLong(br); //1 texture, 2 bumpScale/ specularExponent, 5 color, 7 alphaTest
             long size = ReadLong(br);
@@ -698,29 +714,29 @@ namespace SageCS.Core.Loaders
             {
                 case "DiffuseTexture":
                     long unknown = ReadLong(br);
-                    string diffuseTexName = ReadString(br);
+                    texName = ReadString(br);
                     break;
                 case "NormalMap":
                     long unknown_nrm = ReadLong(br);
-                    string normalMap = ReadString(br);
+                    tex.normalMap = ReadString(br);
                     break;
                 case "BumpScale":
-                    float bumpScale = ReadFloat(br);
+                    tex.bumpScale = ReadFloat(br);
                     break;
                 case "AmbientColor":
-                    Vector4 ambientColor = ReadRGBA(br);
+                    tex.ambientColor = ReadRGBA(br);
                     break;
                 case "DiffuseColor":
-                    Vector4 diffuseColor = ReadRGBA(br);
+                    tex.diffuseColor = ReadRGBA(br);
                     break;
                 case "SpecularColor":
-                    Vector4 specularColor = ReadRGBA(br);
+                    tex.specularColor = ReadRGBA(br);
                     break;
                 case "SpecularExponent":
-                    float specularExponent = ReadFloat(br);
+                    tex.specularExponent = ReadFloat(br);
                     break;
                 case "AlphaTestEnable":
-                    byte alphaTestEnable = ReadByte(br);
+                    tex.alphaTestEnable = ReadByte(br);
                     break;
                 default:
                     Console.WriteLine("unknown entryStruct: " + name + "   in MeshNormalMapEntryStruct in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
@@ -734,6 +750,8 @@ namespace SageCS.Core.Loaders
 
         private static void ReadNormalMap(BinaryReader br, uint ChunkEnd)
         {
+            W3DMesh.Texture tex = new W3DMesh.Texture();
+            tex.type = W3DMesh.textureType.bumpMapped;
             while (br.BaseStream.Position < ChunkEnd)
             {
                 uint Chunktype = ReadLong(br);
@@ -746,7 +764,7 @@ namespace SageCS.Core.Loaders
                         ReadNormalMapHeader(br);
                         break;
                     case 83:
-                        ReadNormalMapEntryStruct(br, subChunkEnd);
+                        ReadNormalMapEntryStruct(br, subChunkEnd, tex);
                         break;
                     default:
                         Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshNormalMap in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
@@ -754,6 +772,7 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
+            mesh.textures.Add(texName, tex);
         }
 
         private static void ReadBumpMapArray(BinaryReader br, uint ChunkEnd)
@@ -849,7 +868,7 @@ namespace SageCS.Core.Loaders
 
         private static void ReadMeshHeader(BinaryReader br)
         {
-            ReadLong(br); //version -> unused
+            Version version = GetVersion(ReadLong(br));
             uint attrs = ReadLong(br);
             string meshName = ReadFixedString(br);
             string containerName = ReadFixedString(br);
@@ -866,6 +885,9 @@ namespace SageCS.Core.Loaders
             Vector3 maxCorner = ReadVector(br);
             Vector3 sphCenter = ReadVector(br);
             float sphRadius = ReadFloat(br);
+
+            mesh = new W3DMesh(faceCount);
+            modelName = containerName;
         }
 
         private static void ReadMesh(BinaryReader br, uint ChunkEnd)
@@ -880,7 +902,7 @@ namespace SageCS.Core.Loaders
                 {
                     case 2:
                         //mesh vertices
-                        ReadMeshVerticesArray(br, subChunkEnd);
+                        mesh.vertices = ReadMeshVerticesArray(br, subChunkEnd);
                         break;
                     case 3072:
                         //mesh vertices copy
@@ -960,13 +982,14 @@ namespace SageCS.Core.Loaders
                         break;
                 }
             }
+            model.meshes.Add(mesh);
         }
 
         //######################################################################################
         //# main import
         //######################################################################################
 
-        public static void Load(FileStream s)
+        public static void Load(Stream s)
         {
             BinaryReader br = new BinaryReader(s);
 
@@ -981,7 +1004,12 @@ namespace SageCS.Core.Loaders
                 switch (Chunktype)
                 {
                     case 0:
-                        //mesh 
+                        //mesh
+                        //if the w3d file contains mesh data create a new model object
+                        if (model == null)
+                        {
+                            model = new Model();
+                        } 
                         ReadMesh(br, ChunkEnd);
                         break;
                     case 256:
@@ -1005,11 +1033,12 @@ namespace SageCS.Core.Loaders
                         ReadBox(br);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in file: " + Path.GetFileName(s.Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in file: " + Path.GetFileName(((FileStream)s).Name));
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
             }
+            Model.models.Add(modelName, model);
         }
     }
 }

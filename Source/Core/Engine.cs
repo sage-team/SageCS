@@ -6,6 +6,7 @@ using System.IO;
 
 using SageCS.Audio;
 using SageCS.Core.Loaders;
+using System.Diagnostics;
 
 namespace SageCS.Core
 {
@@ -44,6 +45,15 @@ namespace SageCS.Core
             var s = FileSystem.Open("language.ini");
             StreamReader sr = new StreamReader(s);
             string content = sr.ReadToEnd();
+
+            Stopwatch stopwatch = Stopwatch.StartNew();
+
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
+
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
