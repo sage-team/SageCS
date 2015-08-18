@@ -27,8 +27,6 @@ namespace SageCS.Core
             Renderer.shaders.Add("textured", new Shader(Resource.GetShader("tex.vert"), Resource.GetShader("tex.frag")));
             Renderer.activeShader = "textured";
 
-          
-
             try
             {
                 Texture t = new Texture();
@@ -62,9 +60,10 @@ namespace SageCS.Core
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
             INIParser.Parse(FileSystem.Open("data\\ini\\gamedata.ini"));
+            INIParser.Parse(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
 
             stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("total loading time: " + stopwatch.ElapsedMilliseconds + "ms");
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)

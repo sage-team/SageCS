@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    [Serializable]
-    struct Object
+    public struct Object
     {
-        public string selectPortrait;
+        public string SelectPortrait;
 
         //The placement view angle is the initial view angle you see a building at when it's floating at the cursor for placement.  
         //Values are 0-360 with 0 being down the X axis(right side of screen) and counterclockwise from there
@@ -26,8 +25,8 @@ namespace SageCS.INI
         //public string side; //only used in worldBuilder
         //public string editorSorting; //only used in worldBuilder
         public int TransportSlotCount; //how many "slots" we take in a transport (0 == not transportable)
-        public string WeaponSet; //object
-        public string ArmorSet; //object
+        public List<WeaponSet> WeaponSets; //object
+        public List<ArmorSet> ArmorSets; //object
         public float VisionRange;
         public int BuildCost;
         public int BuildTime;
@@ -160,45 +159,40 @@ namespace SageCS.INI
         public string ExperienceScalarTable;
     }
 
-    [Serializable]
-    struct Draw
+    public struct Draw
     {
         public bool OkToChangeModelColor;
         public ModelConditionState DefaultModelConditionState;
     }
 
-    [Serializable]
-    struct ModelConditionState
+    public struct ModelConditionState
     {
         public string Model;
         public string[] ParticleSysBone;
     }
 
-    [Serializable]
-    struct WeaponSet
+    public struct WeaponSet
     {
         public string Conditions;
-        public Weapon PRIMARY;
-        public Weapon SECONDARY;
-        public Weapon TERTIARY;
+        public string PRIMARY;
+        public string SECONDARY;
+        public string TERTIARY;
+        public string AutoChooseSources;
     }
 
-    [Serializable]
-    struct ArmorSet
+    public struct ArmorSet
     {
         public string Conditions;
-        public Armor Armor;
+        public string Armor;
         public string DamageFX;
     }
 
-    [Serializable]
-    struct Body
+    public struct Body
     {
         public float MaxHealth;
     }
 
-    [Serializable]
-    struct Behaviour
+    public struct Behaviour
     {
         public int DestructionDelay;
     }

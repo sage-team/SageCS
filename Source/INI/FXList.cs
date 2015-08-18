@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.Source.INI
 {
-    [Serializable]
-    struct FXList
+    public struct FXList
     {
         public string Sound;
         public string RayEffect;
@@ -16,14 +15,12 @@ namespace SageCS.Source.INI
         public ParticleSystem[] ParticelSystem;
     }
 
-    [Serializable]
-    struct ViewShake
+    public struct ViewShake
     {
         public string Type;
     }
 
-    [Serializable]
-    struct LightPulse
+    public struct LightPulse
     {
         public string Color;
         public int Radius;
@@ -31,8 +28,7 @@ namespace SageCS.Source.INI
         public int DecreaseTime;
     }
 
-    [Serializable]
-    struct Tracer
+    public struct Tracer
     {
         public float DecayAt;
         public int Length;
@@ -40,8 +36,7 @@ namespace SageCS.Source.INI
         public string Color;
     }
 
-    [Serializable]
-    struct ParticleSystem
+    public struct ParticleSystem
     {
         public string Name;
         public bool OrientToObject;

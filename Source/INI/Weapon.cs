@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    [Serializable]
-    struct Weapon
+    public struct Weapon
     {
         public float PrimaryDamage;
         public float PrimaryDamageRadius;
@@ -80,15 +79,13 @@ namespace SageCS.INI
         public string SuspendFXDelay;
     }
 
-    [Serializable]
-    struct DamageFieldNugget
+    public struct DamageFieldNugget
     {
         public string WeaponTemplateName;
         public int Duration;
     }
 
-    [Serializable]
-    struct DamageNugget
+    public struct DamageNugget
     {
         public int Damage;
         public float Radius;
@@ -98,8 +95,7 @@ namespace SageCS.INI
         public string DeathType;
     }
 
-    [Serializable]
-    struct MetaImpactNugget
+    public struct MetaImpactNugget
     {
         public float HeroResist;
         public float ShockWaveAmount;
@@ -111,28 +107,24 @@ namespace SageCS.INI
         public bool InvertShockWave;
     }
 
-    [Serializable]
-    struct ProjectileNugget
+    public struct ProjectileNugget
     {
         public string ProjectileTemplateName;
         public string WarheadTemplateName;
     }
 
-    [Serializable]
-    struct WeaponOCLNugget
+    public struct WeaponOCLNugget
     {
         public string WeaponOCLName;
     }
 
-    [Serializable]
-    struct AttributeModifierNugget
+    public struct AttributeModifierNugget
     {
         public string AttributeModifier;
         public string DamageFXType;
     }
 
-    [Serializable]
-    struct StealMoneyNugget
+    public struct StealMoneyNugget
     {
         public float AmountStolenPerAttack;
     }
