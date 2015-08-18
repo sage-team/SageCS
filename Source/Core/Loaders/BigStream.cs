@@ -108,6 +108,7 @@ namespace SageCS.Core.Loaders
             parent = p;
             offset = (int)off;
             length = (int)len;
+            position = 0;
         }
     }
 }
