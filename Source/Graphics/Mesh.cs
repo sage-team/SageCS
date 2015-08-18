@@ -22,7 +22,7 @@ namespace SageCS.Core.Graphics
         public Matrix4 ModelViewProjectionMatrix = Matrix4.Identity;
 
         public bool IsTextured = false;
-        public int TextureID;
+        public Texture texture;
         public int TextureCoordsCount;
 
         public abstract Vector3[] GetVerts();

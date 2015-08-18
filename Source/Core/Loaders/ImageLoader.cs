@@ -79,24 +79,27 @@ namespace SageCS.Core.Loaders
         public static ImageData Load(Stream s)
         {
             ImageData img;
-
-            try
+            BinaryReader br = new BinaryReader(s);
+            var magic = br.ReadUInt32();
+            
+            if(magic== 0xE0FFD8FF)
             {
-                IImage image = Targa.Create(s);
+                s.Position = 0;
+                System.Drawing.Bitmap image = new System.Drawing.Bitmap(s);
+                img = FromBitmap(image);
+            }
+            else if(magic == 0x20534444)
+            {
+                s.Position = 0;
+                IImage image = Dds.Create(s);
                 img = FromPfimImg(image);
             }
-            catch
+            //tga image
+            else
             {
-                try
-                {
-                    IImage image = Dds.Create(s);
-                    img = FromPfimImg(image);
-                }
-                catch
-                {
-                    System.Drawing.Bitmap image = new System.Drawing.Bitmap(s);
-                    img = FromBitmap(image);
-                }
+                s.Position = 0;
+                IImage image = Targa.Create(s);
+                img = FromPfimImg(image);
             }
             return img;
         }

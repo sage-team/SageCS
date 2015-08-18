@@ -8,15 +8,18 @@ using System;
 
 namespace SageCS.Core.Graphics
 {
-    class Texture
+    public class Texture
     {
         int texID = -1;
 
-        public Texture(Stream s)
+        public Texture()
+        {       
+            texID = GL.GenTexture();      
+        }
+
+        public void Load(Stream s)
         {
             ImageData img = ImageLoader.Load(s);
-            texID = GL.GenTexture();
-
             GL.BindTexture(TextureTarget.Texture2D, texID);
 
             //GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, img.width, img.height, 0,
@@ -29,9 +32,14 @@ namespace SageCS.Core.Graphics
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
         }
 
-        public int ID()
+        public void Bind()
         {
-            return this.texID;
+            GL.BindTexture(TextureTarget.Texture2D,texID);
+        }
+
+        public int GetID()
+        {
+            return texID;
         }
     }
 }

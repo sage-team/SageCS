@@ -26,14 +26,20 @@ namespace SageCS.Core
 
             Renderer.shaders.Add("textured", new Shader(Resource.GetShader("tex.vert"), Resource.GetShader("tex.frag")));
             Renderer.activeShader = "textured";
-            
+
+          
+
             try
             {
-                Renderer.textures.Add("splash", new Texture(File.Open("GermanSplash.jpg", FileMode.Open)).ID());
+                Texture t = new Texture();
+                t.Load(File.Open("GermanSplash.jpg", FileMode.Open));
+                Renderer.textures.Add("splash", t);
             }
             catch
             {
-                Renderer.textures.Add("splash", new Texture(File.Open("EnglishSplash.jpg", FileMode.Open)).ID());
+                Texture t = new Texture();
+                t.Load(File.Open("EnglishSplashjpg", FileMode.Open));
+                Renderer.textures.Add("splash", t);
             }
             
             Sprite background = new Sprite("splash");
@@ -48,6 +54,9 @@ namespace SageCS.Core
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
+            Texture tex = new Texture();
+            var texS = FileSystem.Open("art\\compiledtextures\\al\\all_faction_banners.dds");
+            tex.Load(texS);
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
