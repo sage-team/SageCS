@@ -29,11 +29,15 @@ namespace SageCS.Core
             
             try
             {
-                Renderer.textures.Add("splash", new Texture(File.Open("GermanSplash.jpg", FileMode.Open)).ID());
+                Texture t = new Texture();
+                t.Load(File.Open("GermanSplash.jpg", FileMode.Open));
+                Renderer.textures.Add("splash", t);
             }
             catch
             {
-                Renderer.textures.Add("splash", new Texture(File.Open("EnglishSplash.jpg", FileMode.Open)).ID());
+                Texture t = new Texture();
+                t.Load(File.Open("EnglishSplashjpg", FileMode.Open));
+                Renderer.textures.Add("splash", t);
             }
             
             Sprite background = new Sprite("splash");

@@ -15,7 +15,7 @@ namespace SageCS.Core.Graphics
         static int width;
         static int height;
         public static Dictionary<string, Shader> shaders = new Dictionary<string, Shader>();
-        public static Dictionary<string, int> textures = new Dictionary<string, int>();
+        public static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
         public static List<Mesh> meshes = new List<Mesh>();
 
         public static string activeShader = "default";
@@ -96,12 +96,12 @@ namespace SageCS.Core.Graphics
             int indiceat = 0;
             foreach (Mesh m in meshes)
             {
-                GL.BindTexture(TextureTarget.Texture2D, m.TextureID);
+                m.texture.Bind();
                 GL.UniformMatrix4(shaders[activeShader].GetUniform("modelview"), false, ref m.ModelViewProjectionMatrix);
 
                 if (shaders[activeShader].GetAttribute("maintexture") != -1)
                 {
-                    GL.Uniform1(shaders[activeShader].GetAttribute("maintexture"), m.TextureID);
+                    GL.Uniform1(shaders[activeShader].GetAttribute("maintexture"), m.texture.GetID());
                 }
 
                 GL.DrawElements(BeginMode.Triangles, m.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));

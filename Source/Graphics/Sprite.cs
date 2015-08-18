@@ -20,10 +20,10 @@ namespace SageCS.Core.Graphics
             Renderer.meshes.Add(this);
         }
 
-        public Sprite(int texID)
+        public Sprite(Texture tex)
         : base()
         {
-            TextureID = texID;
+            texture = tex;
             VertCount = 4;
             IndiceCount = 6;
             TextureCoordsCount = 4;
@@ -34,7 +34,7 @@ namespace SageCS.Core.Graphics
         public Sprite(string tex)
         : base()
         {
-            TextureID = Renderer.textures[tex];
+            texture = Renderer.textures[tex];
             VertCount = 4;
             IndiceCount = 6;
             TextureCoordsCount = 4;
