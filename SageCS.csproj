@@ -91,7 +91,12 @@
     <Compile Include="Source\Core\Resource.cs" />
     <Compile Include="Source\Graphics\W3DMesh.cs" />
     <Compile Include="Source\Graphics\Model.cs" />
+    <Compile Include="Source\INI\Armor.cs" />
+    <Compile Include="Source\INI\FXList.cs" />
     <Compile Include="Source\INI\INIObject.cs" />
+    <Compile Include="Source\INI\Object.cs" />
+    <Compile Include="Source\INI\Upgrade.cs" />
+    <Compile Include="Source\INI\Weapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

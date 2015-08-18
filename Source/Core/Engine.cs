@@ -52,7 +52,7 @@ namespace SageCS.Core
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
-            INIParser.Parse(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\gondorfighter.ini"));
+            INIParser.Parse(FileSystem.Open("data\\ini\\gamedata.ini"));
 
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);

@@ -181,7 +181,7 @@ namespace SageCS.Core.Loaders
                         ReadPivotFixups(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in Hierarchy in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in Hierarchy");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -226,7 +226,7 @@ namespace SageCS.Core.Loaders
                     }
                     break;
                 default:
-                    Console.WriteLine("invalid vector len: " + vectorLen + "in AnimationChannel in file " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                    Console.WriteLine("invalid vector len: " + vectorLen + "in AnimationChannel");
                     while (br.BaseStream.Position < ChunkEnd)
                     {
                         ReadByte(br);
@@ -252,7 +252,7 @@ namespace SageCS.Core.Loaders
                         ReadAnimationChannel(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in Animation in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in Animation");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -297,7 +297,7 @@ namespace SageCS.Core.Loaders
                     }
                     break;
                 default:
-                    Console.WriteLine("invalid vector len: " + vectorLen + "in TimeCodedAnimVector in file " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                    Console.WriteLine("invalid vector len: " + vectorLen + "in TimeCodedAnimVector");
                     while (br.BaseStream.Position < ChunkEnd)
                     {
                         ReadByte(br);
@@ -319,6 +319,9 @@ namespace SageCS.Core.Loaders
                     case 641:
                         ReadCompressedAnimationHeader(br);
                         break;
+                    case 642:
+                        br.ReadBytes((int)Chunksize);
+                        break;
                     case 643:
                         br.ReadBytes((int)Chunksize);
                         break;
@@ -326,7 +329,7 @@ namespace SageCS.Core.Loaders
                         ReadTimeCodedAnimVector(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in CompressedAnimation in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in CompressedAnimation");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -374,7 +377,7 @@ namespace SageCS.Core.Loaders
                         ReadHLodSubObject(br);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in HLodArray in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in HLodArray");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -398,7 +401,7 @@ namespace SageCS.Core.Loaders
                         ReadHLodArray(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in HLod in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in HLod");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -449,7 +452,7 @@ namespace SageCS.Core.Loaders
                         tex.type = W3DMesh.textureType.animated;
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTexture in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTexture");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -471,7 +474,7 @@ namespace SageCS.Core.Loaders
                         ReadTexture(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTextureArray in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTextureArray");
                         br.ReadBytes((int)Chunksize);
                         break; 
                 }
@@ -510,7 +513,7 @@ namespace SageCS.Core.Loaders
                         ReadMeshTextureCoordArray(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTextureStage in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshTextureStage");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -552,7 +555,7 @@ namespace SageCS.Core.Loaders
                         ReadMeshTextureCoordArray(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterialPass in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterialPass");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -590,7 +593,7 @@ namespace SageCS.Core.Loaders
                         mat.vmArgs1 = ReadString(br);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterial in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterial");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -612,7 +615,7 @@ namespace SageCS.Core.Loaders
                         ReadMaterial(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterialArray in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshMaterialArray");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -739,7 +742,7 @@ namespace SageCS.Core.Loaders
                     tex.alphaTestEnable = ReadByte(br);
                     break;
                 default:
-                    Console.WriteLine("unknown entryStruct: " + name + "   in MeshNormalMapEntryStruct in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                    Console.WriteLine("unknown entryStruct: " + name + "   in MeshNormalMapEntryStruct");
                     while (br.BaseStream.Position < ChunkEnd)
                     {
                         ReadByte(br);
@@ -767,7 +770,7 @@ namespace SageCS.Core.Loaders
                         ReadNormalMapEntryStruct(br, subChunkEnd, tex);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshNormalMap in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + " in MeshNormalMap");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -789,7 +792,7 @@ namespace SageCS.Core.Loaders
                         ReadNormalMap(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshBumpMapArray in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + " in MeshBumpMapArray");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -855,7 +858,7 @@ namespace SageCS.Core.Loaders
                         ReadAABTreeNodes(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshAABTree in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in MeshAABTree");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -977,7 +980,7 @@ namespace SageCS.Core.Loaders
                         ReadAABTree(br, subChunkEnd);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in mesh in file: " + Path.GetFileName(((FileStream)br.BaseStream).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in Mesh");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }
@@ -1034,7 +1037,7 @@ namespace SageCS.Core.Loaders
                         ReadBox(br);
                         break;
                     default:
-                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in file: " + Path.GetFileName(((FileStream)s).Name));
+                        Console.WriteLine("unknown chunktype: " + Chunktype + "   in File");
                         br.ReadBytes((int)Chunksize);
                         break;
                 }

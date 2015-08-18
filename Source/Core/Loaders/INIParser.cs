@@ -11,12 +11,12 @@ namespace SageCS.Core
 {
     class INIParser
     {
+        private static Dictionary<string, string> macros = new Dictionary<string, string>();
+
         public static void Parse(Stream s)
         {
             long filesize = s.Length;
             StreamReader sr = new StreamReader(s);
-
-            INIObject obj = null;
 
             while (s.Position < filesize)
             {
@@ -25,30 +25,19 @@ namespace SageCS.Core
                 {
                     switch (data[0])
                     {
+                        case "#define":
+                            string value = "";
+                            for (int i = 2; i < data.Length; i++)
+                            {
+                                value += data[i];
+                            }
+                            macros.Add(data[1], value);
+                            break;
                         case "Object":
-                            obj = new INIObject(data[1]);
                             break;
                         case "SelectPortrait":
-                            obj.selectPortrait = data[2];
                             break;
                         case "ButtonImage":
-                            obj.buttonImage = data[2];
-                            break;
-                        case "DefaultModelConditionState":
-                            do
-                            {
-                                data = ReadLine(sr);
-                                switch (data[0])
-                                {
-                                    case "Model":
-                                        obj.model = data[2];
-                                        break;
-                                    case "Skeleton":
-                                        obj.hierarchy = data[2];
-                                        break;
-                                }
-                            }
-                            while (!data[0].Equals("End"));
                             break;
                         default:
                             break;
@@ -60,7 +49,16 @@ namespace SageCS.Core
         private static string[] ReadLine(StreamReader sr)
         {
             char[] separators = new char[] { ' ', '\t' };
-            string[] data = sr.ReadLine().Trim().Split(separators, StringSplitOptions.RemoveEmptyEntries);
+            string line = sr.ReadLine().Trim();
+            if (line.Contains(";"))
+            {
+                line = line.Remove(line.IndexOf(";"));
+            }
+            if (line.Contains("//"))
+            {
+                line = line.Remove(line.IndexOf("//"));
+            }
+            string[] data = line.Split(separators, StringSplitOptions.RemoveEmptyEntries);
             if (data.Length != 0 && !data[0].StartsWith(";") && !data[0].StartsWith("//"))
             {
                 return data;
