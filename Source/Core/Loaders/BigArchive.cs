@@ -48,7 +48,7 @@ namespace SageCS.Core.Loaders
 
             for (var i = 0;i<numEntries;++i)
             {
-                var bs = new BigStream(br.BaseStream, ReadUint32LE(br), ReadUint32LE(br));
+               
                 StringBuilder sb = new StringBuilder();
                 char c = br.ReadChar();
                 while(c!=0)
@@ -56,7 +56,7 @@ namespace SageCS.Core.Loaders
                     sb.Append(c);
                     c = br.ReadChar();
                 }
-
+                var bs = new BigStream(br.BaseStream, ReadUint32LE(br), ReadUint32LE(br),sb.ToString());
                 result.Add(sb.ToString(), bs);
             }
                                  
