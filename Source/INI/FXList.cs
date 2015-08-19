@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.Source.INI
 {
-    public struct FXList
+    public class FXList
     {
         public string Sound;
         public string RayEffect;

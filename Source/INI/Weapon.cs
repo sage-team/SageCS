@@ -1,12 +1,14 @@
-﻿using System;
+﻿using SageCS.Core;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    public struct Weapon
+    public class Weapon
     {
         public float PrimaryDamage;
         public float PrimaryDamageRadius;
@@ -77,6 +79,28 @@ namespace SageCS.INI
         public string PreAttackType;
         public string ContinueAttackRange;
         public string SuspendFXDelay;
+
+        private static void Parse(StreamReader sr, string name)
+        {
+            Weapon wep = new Weapon();
+            string[] data;
+            do
+            {
+                data = INIParser.ReadLine(sr);
+                switch (data[0])
+                {
+                    case "PrimaryDamage":
+                        wep.PrimaryDamage = float.Parse(data[2]);
+                        break;
+                    case "PrimaryDamageRadius":
+                        wep.PrimaryDamageRadius = float.Parse(data[2]);
+                        break;
+                }
+            }
+            while (!data[0].Equals("End")); //also test END ?
+
+            INIManager.AddWeapon(name, wep);
+        }
     }
 
     public struct DamageFieldNugget

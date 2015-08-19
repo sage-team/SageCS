@@ -60,6 +60,9 @@ namespace SageCS.Core
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
             INIParser.Parse(FileSystem.Open("data\\ini\\gamedata.ini"));
+            INIParser.Parse(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptimages.ini"));
+            INIParser.Parse(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptcomponents.ini"));
+
             INIParser.Parse(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
 
             stopwatch.Stop();
