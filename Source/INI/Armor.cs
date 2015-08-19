@@ -1,12 +1,14 @@
-﻿using System;
+﻿using SageCS.Core;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    public struct Armor
+    public class Armor
     {
         public int DEFAULT;
         public int FORCE;
@@ -36,5 +38,24 @@ namespace SageCS.INI
         public int CAVALRY;
         public int CAVALRY_RANGED;
         public int POISON;
+
+        private static void Parse(StreamReader sr, string name)
+        {
+            Armor ar = new Armor();
+            string[] data;
+            do
+            {
+                data = INIParser.ReadLine(sr);
+                switch (data[2])
+                {
+                    case "DEFAULT":
+                        ar.DEFAULT = int.Parse(data[3].Remove('%'));
+                        break;
+                }
+            }
+            while (!data[0].Equals("End")); //also test END ?
+
+            INIManager.AddArmor(name, ar);
+        }
     }
 }

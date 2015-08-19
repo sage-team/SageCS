@@ -742,11 +742,9 @@ namespace SageCS.Core.Loaders
                     tex.alphaTestEnable = ReadByte(br);
                     break;
                 default:
-                    Console.WriteLine("unknown entryStruct: " + name + "   in MeshNormalMapEntryStruct");
+                    //Console.WriteLine("##W3D: unknown entryStruct: " + name + "   in MeshNormalMapEntryStruct (size: " + size + ")");
                     while (br.BaseStream.Position < ChunkEnd)
-                    {
                         ReadByte(br);
-                    }
                     break;
             }
         }
