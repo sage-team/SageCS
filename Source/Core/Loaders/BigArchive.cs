@@ -36,6 +36,8 @@ namespace SageCS.Core.Loaders
         {
             SortedDictionary<string, Stream> result = new SortedDictionary<string, Stream>();
             BinaryReader br = new BinaryReader(File.OpenRead(archive));
+            StringBuilder sb = new StringBuilder();
+
             var magic = new String(br.ReadChars(4));
             if (magic != "BIG4" && magic != "BIGF")
             {
@@ -46,18 +48,20 @@ namespace SageCS.Core.Loaders
             UInt32 numEntries = ReadUint32LE(br);
             UInt32 offset = ReadUint32LE(br);
 
-            for (var i = 0; i<numEntries; ++i)
-            {
-               
-                StringBuilder sb = new StringBuilder();
+            for (var i = 0;i<numEntries;++i)
+            {                             
+                var entryOffset = ReadUint32LE(br);
+                var entrySize = ReadUint32LE(br);
+
                 char c = br.ReadChar();
                 while(c!=0)
                 {
                     sb.Append(c);
                     c = br.ReadChar();
                 }
-                var bs = new BigStream(br.BaseStream, ReadUint32LE(br), ReadUint32LE(br), sb.ToString());
+                var bs = new BigStream(br.BaseStream, entryOffset, entrySize, sb.ToString());
                 result.Add(sb.ToString(), bs);
+                sb.Clear();
             }
                                  
             return result;  

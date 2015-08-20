@@ -75,6 +75,8 @@
     <Compile Include="Source\Audio\Sound.cs" />
     <Compile Include="Source\Core\Engine.cs" />
     <Compile Include="Source\Core\FileSystem.cs" />
+    <Compile Include="Source\Core\Loaders\AptFile.cs" />
+    <Compile Include="Source\Core\Loaders\ConstFile.cs" />
     <Compile Include="Source\Core\Loaders\INIParser.cs" />
     <Compile Include="Source\Core\Loaders\ImageLoader.cs" />
     <Compile Include="Source\Core\Loaders\W3DLoader.cs" />
