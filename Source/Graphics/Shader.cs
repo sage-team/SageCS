@@ -173,7 +173,8 @@ namespace SageCS.Core.Graphics
             GL.ShaderSource(address, code);
             GL.CompileShader(address);
             GL.AttachShader(ProgramID, address);
-            Console.WriteLine(GL.GetShaderInfoLog(address));
+            if (!GL.GetShaderInfoLog(address).Equals(""))
+                Console.WriteLine("Shader info log: " + GL.GetShaderInfoLog(address));
         }
 
         //UNUSED

@@ -46,7 +46,7 @@ namespace SageCS.Core.Loaders
             UInt32 numEntries = ReadUint32LE(br);
             UInt32 offset = ReadUint32LE(br);
 
-            for (var i = 0;i<numEntries;++i)
+            for (var i = 0; i<numEntries; ++i)
             {
                
                 StringBuilder sb = new StringBuilder();
@@ -56,7 +56,7 @@ namespace SageCS.Core.Loaders
                     sb.Append(c);
                     c = br.ReadChar();
                 }
-                var bs = new BigStream(br.BaseStream, ReadUint32LE(br), ReadUint32LE(br),sb.ToString());
+                var bs = new BigStream(br.BaseStream, ReadUint32LE(br), ReadUint32LE(br), sb.ToString());
                 result.Add(sb.ToString(), bs);
             }
                                  

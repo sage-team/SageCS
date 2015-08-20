@@ -59,11 +59,11 @@ namespace SageCS.Core
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
-            INIParser.Parse(FileSystem.Open("data\\ini\\gamedata.ini"));
-            INIParser.Parse(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptimages.ini"));
-            INIParser.Parse(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptcomponents.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\gamedata.ini"));
+            //new INIParser(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptimages.ini"));
+            //new INIParser(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptcomponents.ini"));
 
-            INIParser.Parse(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
+            //new INIParser(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
 
             stopwatch.Stop();
             Console.WriteLine("total loading time: " + stopwatch.ElapsedMilliseconds + "ms");

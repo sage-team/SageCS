@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    public class Weapon
+    class Weapon
     {
         public float PrimaryDamage;
         public float PrimaryDamageRadius;
@@ -80,13 +80,13 @@ namespace SageCS.INI
         public string ContinueAttackRange;
         public string SuspendFXDelay;
 
-        private static void Parse(StreamReader sr, string name)
+        private static void Parse(INIParser ip, string name)
         {
             Weapon wep = new Weapon();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "PrimaryDamage":

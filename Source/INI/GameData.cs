@@ -543,21 +543,22 @@ namespace SageCS.INI
         public int MaxNumMembersToForceToImmediatelyEnter;
         public int WaitToForceMemberToEnterDelay;
 
-        public static void Parse(StreamReader sr)
+        public static void Parse(INIParser ip)
         {
             GameData dat = new GameData();
-            string[] data;
+            string s;
             do
             {
-                data = INIParser.ReadLine(sr);
-                switch (data[0])
+                ip.ParseLine();
+                s = ip.getString();
+                switch (s)
                 {
                     case "ShellMapName":
-                        dat.ShellMapName = data[2];
+                        dat.ShellMapName = ip.getString();
                         break;
                 }
             }
-            while (!data[0].Equals("End")); //also test END ?
+            while (!s.Equals("End")); //also test END ?
 
             INIManager.SetGameData(dat);
         }

@@ -24,13 +24,13 @@ namespace SageCS.INI
         public Coords coords;
         public string Status;
 
-        public static void Parse(StreamReader sr, string name)
+        public static void Parse(INIParser ip, string name)
         {
             MappedImage mi = new MappedImage();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "Texture":

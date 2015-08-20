@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    public class Upgrade
+    class Upgrade
     {
         public string DisplayName;
         public string Type;         //PLAYER or OBJECT
@@ -18,13 +18,13 @@ namespace SageCS.INI
         public string ResearchSound;
         public string UnitSpecificSound;
 
-        private static void Parse(StreamReader sr, string name)
+        private static void Parse(INIParser ip, string name)
         {
             Upgrade up = new Upgrade();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "DispayName":

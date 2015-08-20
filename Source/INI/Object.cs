@@ -45,13 +45,13 @@ namespace SageCS.INI
         public string Skeleton;
         public Dictionary<string, ParticleSysBone> ParticleSysBones;
 
-        public static ModelConditionState Parse(StreamReader sr)
+        public static ModelConditionState Parse(INIParser ip)
         {
             ModelConditionState state = new ModelConditionState();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "Model":
@@ -80,20 +80,20 @@ namespace SageCS.INI
         public bool OkToChangeModelColor;
         public ModelConditionState DefaultModelConditionState;
 
-        public static Draw Parse(StreamReader sr)
+        public static Draw Parse(INIParser ip)
         {
             Draw draw = new Draw();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "ExtraPublicBone":
                         draw.ExtraPublicBone = data[2];
                         break;
                     case "DefaultModelConditionState":
-                        draw.DefaultModelConditionState = ModelConditionState.Parse(sr);
+                        draw.DefaultModelConditionState = ModelConditionState.Parse(ip);
                         break;
                     case "OkToChangeModelColor":
                         if (data[2].Equals("Yes"))
@@ -120,13 +120,13 @@ namespace SageCS.INI
         public string TERTIARY;
         public string AutoChooseSources;
 
-        public static WeaponSet Parse(StreamReader sr)
+        public static WeaponSet Parse(INIParser ip)
         {
             WeaponSet set = new WeaponSet();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "Conditions":
@@ -169,13 +169,13 @@ namespace SageCS.INI
         public string Armor;
         public string DamageFX;
 
-        public static ArmorSet Parse(StreamReader sr)
+        public static ArmorSet Parse(INIParser ip)
         {
             ArmorSet set = new ArmorSet();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "Conditions":
@@ -198,17 +198,17 @@ namespace SageCS.INI
         }
     }
 
-    public class Body
+    class Body
     {
         public float MaxHealth;
 
-        public static Body Parse(StreamReader sr)
+        public static Body Parse(INIParser ip)
         {
             Body body = new Body();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "MaxHealth":
@@ -225,17 +225,17 @@ namespace SageCS.INI
         }
     }
 
-    public class Behaviour
+    class Behaviour
     {
         public int DestructionDelay;
 
-        public static Behaviour Parse(StreamReader sr)
+        public static Behaviour Parse(INIParser ip)
         {
             Behaviour behav = new Behaviour();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "DestructionDelay":
@@ -252,21 +252,21 @@ namespace SageCS.INI
         }
     }
 
-    public class InheritableModule
+    class InheritableModule
     {
         public Behaviour Behaviour;
 
-        public static InheritableModule Parse(StreamReader sr)
+        public static InheritableModule Parse(INIParser ip)
         {
             InheritableModule module = new InheritableModule();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "Behaviour":
-                        module.Behaviour = Behaviour.Parse(sr);
+                        module.Behaviour = Behaviour.Parse(ip);
                         break;
                     default:
                         //Console.WriteLine("##INI: unhandled entry in InheritableModule: " + data[0]);
@@ -279,7 +279,7 @@ namespace SageCS.INI
         }
     }
 
-    public class Object
+    class Object
     {
         public string ButtonImage;
         public string SelectPortrait;
@@ -431,13 +431,13 @@ namespace SageCS.INI
 
         public string ExperienceScalarTable;
 
-        public static void Parse(StreamReader sr, string name)
+        public static void Parse(INIParser ip, string name)
         {
             Object obj = new Object();
             string[] data;
             do
             {
-                data = INIParser.ReadLine(sr);
+                data = ip.ParseLine();
                 switch (data[0])
                 {
                     case "ButtonImage":
@@ -471,10 +471,10 @@ namespace SageCS.INI
                         obj.TransportSlotCount = int.Parse(data[2]);
                         break;
                     case "WeaponSet":
-                        obj.WeaponSets.Add(WeaponSet.Parse(sr));
+                        obj.WeaponSets.Add(WeaponSet.Parse(ip));
                         break;
                     case "ArmorSet":
-                        obj.ArmorSets.Add(ArmorSet.Parse(sr));
+                        obj.ArmorSets.Add(ArmorSet.Parse(ip));
                         break;
                     case "VisionRange":
                         obj.VisionRange = float.Parse(data[2]);
@@ -779,16 +779,16 @@ namespace SageCS.INI
                         obj.CamouflageDetectionMultiplayer = data[2];
                         break;
                     case "Body":
-                        obj.Bodys.Add(data[2], Body.Parse(sr));
+                        obj.Bodys.Add(data[2], Body.Parse(ip));
                         break;
                     case "Behaviour":
-                        obj.Behaviours.Add(data[2], Behaviour.Parse(sr));
+                        obj.Behaviours.Add(data[2], Behaviour.Parse(ip));
                         break;
                     case "Draw":
-                        obj.Draws.Add(data[2], Draw.Parse(sr));
+                        obj.Draws.Add(data[2], Draw.Parse(ip));
                         break;
                     case "InheritableModule":
-                        obj.InheritableModules.Add(InheritableModule.Parse(sr));
+                        obj.InheritableModules.Add(InheritableModule.Parse(ip));
                         break;
                     case "Scale":
                         obj.Scale = float.Parse(data[2]);

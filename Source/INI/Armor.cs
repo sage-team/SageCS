@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    public class Armor
+    class Armor
     {
         public int DEFAULT;
         public int FORCE;
@@ -39,21 +39,22 @@ namespace SageCS.INI
         public int CAVALRY_RANGED;
         public int POISON;
 
-        private static void Parse(StreamReader sr, string name)
+        public static void Parse(INIParser ip, string name)
         {
             Armor ar = new Armor();
-            string[] data;
+            string s;
             do
             {
-                data = INIParser.ReadLine(sr);
-                switch (data[2])
+                ip.ParseLine();
+                s = ip.getString();
+                switch (s)
                 {
                     case "DEFAULT":
-                        ar.DEFAULT = int.Parse(data[3].Remove('%'));
+                        ar.DEFAULT = ip.getInt();
                         break;
                 }
             }
-            while (!data[0].Equals("End")); //also test END ?
+            while (!s.Equals("End")); //also test END ?
 
             INIManager.AddArmor(name, ar);
         }
