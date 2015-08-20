@@ -64,7 +64,8 @@ namespace SageCS.Core
             INIParser.Parse(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptcomponents.ini"));
 
             INIParser.Parse(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
-
+            ConstFile constFile = new ConstFile();
+            constFile.Load(FileSystem.Open("MainMenu.const"));
             stopwatch.Stop();
             Console.WriteLine("total loading time: " + stopwatch.ElapsedMilliseconds + "ms");
         }
