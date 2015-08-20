@@ -30,6 +30,22 @@ namespace SageCS.INI
                 objects[name] = obj;
         }
 
+        public static Object getObject(string name)
+        {
+            return objects[name];
+        }
+
+        public static bool TryGetObject(string name, out Object obj)
+        {
+            if (objects.ContainsKey(name))
+            {
+                obj = getObject(name);
+                return true;
+            }
+            obj = null;
+            return false;
+        }
+
         public static void AddWeapon(string name, Weapon wep)
         {
             if (!weapons.ContainsKey(name))
@@ -37,6 +53,22 @@ namespace SageCS.INI
             else
                 //overwrite old object
                 weapons[name] = wep;
+        }
+
+        public static Weapon GetWeapon(string name)
+        {
+            return weapons[name];
+        }
+
+        public static bool TryGetWeapon(string name, out Weapon weapon)
+        {
+            if (weapons.ContainsKey(name))
+            {
+                weapon = GetWeapon(name);
+                return true;
+            }
+            weapon = null;
+            return false;
         }
 
         public static void AddUpgrade(string name, Upgrade up)

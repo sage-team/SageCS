@@ -24,34 +24,27 @@ namespace SageCS.Core
             long filesize = str.Length;
             while (str.Position < filesize)
             {
-                //ParseLine();
-                //string s = getString();
-                Console.WriteLine(base.ReadLine());
-                /*
+                ParseLine();
+                string s = getString();
                 switch (s)
                 {
                     case "#define":
-                        string s1 = getString();
-                        string s2 = getStrings();
-                        Console.WriteLine(s1);
-                        Console.WriteLine(s2);
-                        //macros.Add(s1, s2);
+                        macros.Add(getString(), getStrings());
                         break;
 
                     case "GameData":
-                        //INI.GameData.Parse(this);
+                        INI.GameData.Parse(this);
                         break;
                     case "Object":
-                        //INI.Object.Parse(this, getString());
+                        INI.Object.Parse(this, getString());
                         break;
                     case "MappedImage":
-                        //INI.MappedImage.Parse(this, getString());
+                        INI.MappedImage.Parse(this, getString());
                         break;
                     default:
-                        //Console.WriteLine("##INI: unhandled entry: " + data[0] + " in file "); //+ sr.BaseStream.Name);
+                        PrintError("unhandled entry: " + data[0]);
                         break;
                 }
-                */
             }
         }
 
@@ -64,7 +57,6 @@ namespace SageCS.Core
             if (line.Contains("//"))
                 line = line.Remove(line.IndexOf("//"));
             lineNumber++;
-            Console.WriteLine(line);
             data = line.Replace("=", "").Split(separators, StringSplitOptions.RemoveEmptyEntries);
             index = 0;
 
@@ -83,9 +75,8 @@ namespace SageCS.Core
             return ParseLine();
         }
 
-        public bool HasNext()
+        private bool HasNext()
         {
-            index++;
             return (index < data.Length);
         }
 
@@ -96,7 +87,7 @@ namespace SageCS.Core
                 PrintError("insufficient amount of values!!");
                 throw new IndexOutOfRangeException();
             }
-            return data[index];
+            return data[index++];
         }
 
         public string getStrings()

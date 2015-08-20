@@ -44,6 +44,9 @@ namespace SageCS.Core
 
             Renderer.initProgram(Width, Height);
 
+            Renderer.render();
+            base.SwapBuffers();
+
             FileSystem.Init();
             AudioSystem.Init();
             var s = FileSystem.Open("language.ini");
