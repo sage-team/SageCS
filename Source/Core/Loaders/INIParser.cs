@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,21 +29,30 @@ namespace SageCS.Core
                 string s = getString();
                 switch (s)
                 {
+                    case "#include":
+                        PrintError("include");
+                        break;
                     case "#define":
                         macros.Add(getString(), getStrings());
                         break;
 
                     case "GameData":
-                        INI.GameData.Parse(this);
+                        GameData.parse(this);
                         break;
                     case "Object":
-                        INI.Object.Parse(this, getString());
+                        //Object.Parse(this, getString());
                         break;
                     case "MappedImage":
-                        INI.MappedImage.Parse(this, getString());
+                        MappedImage.Parse(this, getString());
+                        break;
+                    case "Upgrade":
+                        Upgrade.Parse(this, getString());
+                        break;
+                    case "Weapon":
+                        
                         break;
                     default:
-                        PrintError("unhandled entry: " + data[0]);
+                        //PrintError("unhandled entry: " + data[0]);
                         break;
                 }
             }
@@ -63,16 +73,30 @@ namespace SageCS.Core
             //insert the values from the macros
             for (int i = 0; i < data.Length; i++)
             {
+                //if the string contains a '_' it should be a macro -> cast to upper case
+                if (data[i].Contains('_'))
+                    data[i] = data[i].ToUpper();
                 if (macros.ContainsKey(data[i]))
                     data[i] = macros[data[i]];
-                if (data[i].Equals("Yes"))
-                    data[i] = "True";
-                else if (data[i].Equals("No"))
-                    data[i] = "False";
             }
             if (data.Length != 0 && !data[0].StartsWith(";") && !data[0].StartsWith("//"))
                 return data;
             return ParseLine();
+        }
+
+        public void SetValue(object ob, FieldInfo info)
+        {
+            Type type = info.FieldType;
+            if (type == typeof(string))
+                info.SetValue(ob, getString());
+            else if (type == typeof(int))
+                info.SetValue(ob, getInt());
+            else if (type == typeof(float))
+                info.SetValue(ob, getFloat());
+            else if (type == typeof(bool))
+                info.SetValue(ob, getBool());
+            else
+                PrintError(" invalid type: " + type);
         }
 
         private bool HasNext()
@@ -104,8 +128,13 @@ namespace SageCS.Core
         {
             int result;
             string s = getString();
-            if (s.Contains("%"))
-                s.Replace("%", "");
+            s = s.Replace("%", "");
+            s = s.Replace("Left:", "");
+            s = s.Replace("Top:", "");
+            s = s.Replace("Right:", "");
+            s = s.Replace("Bottom:", "");
+            s = s.Replace("Min:", "");
+            s = s.Replace("Max:", "");
             if (int.TryParse(s, out result))
                 return result;
             else
@@ -119,6 +148,8 @@ namespace SageCS.Core
         {
             float result;
             string s = getString();
+            s = s.Replace("%", "");
+            s = s.Replace("f", "");
             if (float.TryParse(s, out result))
                 return result;
             else
@@ -128,14 +159,29 @@ namespace SageCS.Core
             }
         }
 
-        private void PrintError(string message)
+        public bool getBool()
         {
-            Console.WriteLine("### INI ERROR ###");
-            Console.WriteLine("# in file: " + ((BigStream)this.BaseStream).Name);
-            Console.WriteLine("# at line: " + lineNumber + "     " + line);
-            Console.WriteLine("# " + message);
-            Console.WriteLine("#################");
-            Console.WriteLine(" ");
+            bool result;
+            string s = getString();
+            s = s.Replace("Yes", "True");
+            s = s.Replace("No", "False");
+            if (bool.TryParse(s, out result))
+                return result;
+            else
+            {
+                PrintError(s + " could not be parsed as boolean value!!");
+                throw new FormatException();
+            }
+        }
+
+        public void PrintError(string message)
+        {
+            //Console.WriteLine("### INI ERROR ###");
+            //Console.WriteLine("# in file: " + ((BigStream)this.BaseStream).Name);
+            //Console.WriteLine("# at line: " + lineNumber + "     " + line);
+            //Console.WriteLine("# " + message);
+            //Console.WriteLine("#################");
+            //Console.WriteLine(" ");
         }
     }
 }

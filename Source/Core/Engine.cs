@@ -7,6 +7,7 @@ using System.IO;
 using SageCS.Audio;
 using SageCS.Core.Loaders;
 using System.Diagnostics;
+using SageCS.INI;
 
 namespace SageCS.Core
 {
@@ -55,18 +56,14 @@ namespace SageCS.Core
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            Texture tex = new Texture();
-            var texS = FileSystem.Open("art\\compiledtextures\\al\\all_faction_banners.dds");
-            tex.Load(texS);
-            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
-            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
-            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
+            //Texture tex = new Texture();
+            //var texS = FileSystem.Open("art\\compiledtextures\\al\\all_faction_banners.dds");
+            //tex.Load(texS);
+            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
+            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
+            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
-            new INIParser(FileSystem.Open("data\\ini\\gamedata.ini"));
-            //new INIParser(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptimages.ini"));
-            //new INIParser(FileSystem.Open("data\\ini\\mappedimages\\aptimages\\aptcomponents.ini"));
-
-            //new INIParser(FileSystem.Open("data\\ini\\object\\goodfaction\\units\\men\\aragorn.ini"));
+            INIManager.ParseINIs();
 
             stopwatch.Stop();
             Console.WriteLine("total loading time: " + stopwatch.ElapsedMilliseconds + "ms");

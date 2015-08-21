@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -543,24 +544,35 @@ namespace SageCS.INI
         public int MaxNumMembersToForceToImmediatelyEnter;
         public int WaitToForceMemberToEnterDelay;
 
-        public static void Parse(INIParser ip)
+        public static void parse(INIParser ip)
         {
-            GameData dat = new GameData();
+            GameData data  = new GameData();
             string s;
+
+            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
+            //get all class variables
+            foreach (var prop in data.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                fields.Add(prop.Name, prop);
+            }
             do
             {
                 ip.ParseLine();
                 s = ip.getString();
-                switch (s)
+
+                if (fields.ContainsKey(s))
                 {
-                    case "ShellMapName":
-                        dat.ShellMapName = ip.getString();
-                        break;
+                    ip.SetValue(data, fields[s]);
+                }
+                else
+                {
+                    if (!s.Equals("End"))
+                        ip.PrintError("no such variable in GameData class: " + s);
                 }
             }
             while (!s.Equals("End")); //also test END ?
 
-            INIManager.SetGameData(dat);
+            INIManager.SetGameData(data);
         }
     }
 }

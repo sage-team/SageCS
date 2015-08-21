@@ -10,38 +10,10 @@ namespace SageCS.INI
 {
     class Armor
     {
-        public int DEFAULT;
-        public int FORCE;
-        public int CRUSH;
-        public int SLASH;
-        public int PIERCE;
-        public int SIEGE;
-        public int STRUCTURAL;
-        public int FLAME;
-        public int HEALING;
-        public int UNRESISTABLE;
-        public int WATER;
-        public int PENALTY;
-        public int FALLING;
-        public int TOPPLING;
-        public int REFLECTED;
-        public int PASSENGER;
-        public int MAGIC;
-        public int CHOP;
-        public int HERO;
-        public int SPECIALIST;
-        public int URUK;
-        public int HERO_RANGED;
-        public int FLY_INTO;
-        public int UNDEFINED;
-        public int LOGICAL_FIRE;
-        public int CAVALRY;
-        public int CAVALRY_RANGED;
-        public int POISON;
+        private Dictionary<string, int> types = new Dictionary<string, int>();
 
-        public static void Parse(INIParser ip, string name)
+        public Armor(INIParser ip, string name)
         {
-            Armor ar = new Armor();
             string s;
             do
             {
@@ -50,13 +22,104 @@ namespace SageCS.INI
                 switch (s)
                 {
                     case "DEFAULT":
-                        ar.DEFAULT = ip.getInt();
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "FORCE":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "CRUSH":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "SLASH":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "PIERCE":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "SIEGE":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "STRUCTURAL":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "FLAME":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "HEALING":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "UNRESISTABLE":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "WATER":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "PENALTY":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "FALLING":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "TOPPLING":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "REFLECTED":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "PASSENGER":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "MAGIC":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "CHOP":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "HERO":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "SPECIALIST":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "URUK":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "HERO_RANGED":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "FLY_INTO":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "UNDEFINED":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "LOGICAL_FIRE":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "CAVALRY":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "CAVALRY_RANGED":
+                        types.Add(s, ip.getInt());
+                        break;
+                    case "POISON":
+                        types.Add(s, ip.getInt());
+                        break;
+                    default:
+                        ip.PrintError("invalid type: " + s);
                         break;
                 }
             }
             while (!s.Equals("End")); //also test END ?
 
-            INIManager.AddArmor(name, ar);
+            INIManager.AddArmor(name, this);
+        }
+
+        public int getType(string key)
+        {
+            if (types.ContainsKey(key))
+                return types[key];
+            return types["DEFAULT"];
         }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +26,7 @@ namespace SageCS.INI
         public string DeathType;
         public int WeaponSpeed;
         public int MinWeaponSpeed;
-        public int ScaleWeaponSpeed;
+        public bool ScaleWeaponSpeed;
         public int WeaponRecoil;
         public int MinTargetPitch;
         public int MaxTargetPitch;
@@ -36,7 +37,7 @@ namespace SageCS.INI
         public string ProjectileDetonationFX;
         public string FireOCL;
         public string ProjectileDetonationOCL;
-        public string PorjectileExhause;
+        public string ProjectileExhaust;
         public string VeterancyFireFX;
         public string VeterancyProjectileDetonationFX;
         public string VeterancyFireOCL;
@@ -45,9 +46,9 @@ namespace SageCS.INI
         public int ClipSize;
         public string ContinuousFireOne;
         public string ContinuousFireTwo;
-        public string ContinuousireCoast;
+        public string ContinuousFireCoast;
         public string AutoReloadWhenIdle;
-        public int ClipRelaodTime;
+        public int[] ClipRelaodTime;
         public int DelayBetweenShots;
         public int ShotsPerBarrel;
         public string DamageDealtAtSelfPosition;
@@ -80,24 +81,33 @@ namespace SageCS.INI
         public string ContinueAttackRange;
         public string SuspendFXDelay;
 
-        private static void Parse(INIParser ip, string name)
+        public static void Parse(INIParser ip, string name)
         {
             Weapon wep = new Weapon();
-            string[] data;
+            string s;
+
+            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
+            //get all class variables
+            foreach (var prop in wep.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                fields.Add(prop.Name, prop);
+            }
             do
             {
-                data = ip.ParseLine();
-                switch (data[0])
+                ip.ParseLine();
+                s = ip.getString();
+
+                if (fields.ContainsKey(s))
                 {
-                    case "PrimaryDamage":
-                        wep.PrimaryDamage = float.Parse(data[2]);
-                        break;
-                    case "PrimaryDamageRadius":
-                        wep.PrimaryDamageRadius = float.Parse(data[2]);
-                        break;
+                    ip.SetValue(wep, fields[s]);
+                }
+                else
+                {
+                    if (!s.Equals("End"))
+                        ip.PrintError("no such variable in Upgrade class: " + s);
                 }
             }
-            while (!data[0].Equals("End")); //also test END ?
+            while (!s.Equals("End")); //also test END ?
 
             INIManager.AddWeapon(name, wep);
         }

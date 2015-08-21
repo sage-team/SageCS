@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,35 +28,30 @@ namespace SageCS.INI
         public static void Parse(INIParser ip, string name)
         {
             MappedImage mi = new MappedImage();
-            string[] data;
+            string s;
+
+            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
+            //get all class variables
+            foreach (var prop in mi.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                fields.Add(prop.Name, prop);
+            }
             do
             {
-                data = ip.ParseLine();
-                switch (data[0])
+                ip.ParseLine();
+                s = ip.getString();
+
+                if (fields.ContainsKey(s))
                 {
-                    case "Texture":
-                        mi.Texture = data[2];
-                        break;
-                    case "TextureWitdth":
-                        mi.TextureWidth = int.Parse(data[2]);
-                        break;
-                    case "TextureHeight":
-                        mi.TextureHeight = int.Parse(data[2]);
-                        break;
-                    case "Coords":
-                        Coords co = new Coords();
-                        co.Left = int.Parse(data[2].Replace("Left:", ""));
-                        co.Top = int.Parse(data[3].Replace("Top:", ""));
-                        co.Right = int.Parse(data[4].Replace("Right:", ""));
-                        co.Bottom = int.Parse(data[5].Replace("Bottom:", ""));
-                        mi.coords = co;
-                        break;
-                    case "Status":
-                        mi.Status = data[2];
-                        break;
+                    ip.SetValue(mi, fields[s]);
+                }
+                else
+                {
+                    if (!s.Equals("End"))
+                        ip.PrintError("no such variable in MappedImage class: " + s);
                 }
             }
-            while (!data[0].Equals("End")); //also test END ?
+            while (!s.Equals("End")); //also test END ?
 
             INIManager.AddMappedImage(name, mi);
         }

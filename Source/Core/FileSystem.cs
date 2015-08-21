@@ -43,5 +43,16 @@ namespace SageCS.Core
         {
             return entries[name];
         }
+
+        public static List<Stream> OpenAll(string extension)
+        {
+            List<Stream> streams = new List<Stream>();
+            foreach (KeyValuePair<string, Stream> entry in entries)
+            {
+                if (entry.Key.EndsWith(extension))
+                    streams.Add(entry.Value);
+            }
+            return streams;
+        }
     }
 }
