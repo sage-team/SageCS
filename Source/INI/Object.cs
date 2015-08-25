@@ -455,7 +455,7 @@ namespace SageCS.INI
                 else
                 {
                     if (!s.Equals("End"))
-                        ip.PrintError("no such variable in GameData class: " + s);
+                        ip.PrintError("no such variable in Object class: " + s);
                 }
             }
             while (!s.Equals("End")); //also test END ?

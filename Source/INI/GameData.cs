@@ -10,9 +10,22 @@ using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
+    class WeaponBonus
+    {
+        public string type;
+        public int value;
+
+        public WeaponBonus(string _type, int _value)
+        {
+            this.type = _type;
+            this.value = _value;
+        }
+    }
+
     class GameData
     {
         public bool CheckMemoryLeaks;
+        public string MapName;
         public string ShellMapName; // map file
         public string MoveHintName;
         public bool ShowProps;
@@ -49,14 +62,47 @@ namespace SageCS.INI
         public float WaterPositionX;
         public float WaterPositionY;
         public float WaterPositionZ;
-        public float WaterExtendX;
-        public float WaterExtendY;
+        public float WaterExtentX;
+        public float WaterExtentY;
         public int WaterType;
+        public bool ShowSelectedUnitMarker;
+        public bool VTune;
+        public int MaxDebugCashValueMapValue;
+        public int DebugCashValueMapTileDuration;
+        public int MaxDebugThreatMapValue;
+        public int DebugThreatMapTileDuration;
+        public Vector3 DebugVisibilityTileGapColor;
+        public Vector3 DebugVisibilityTileDeshroudColor;
+
+
+        public bool UseBehindBuildingMarker;
+        public float UnitDamagedThreshold;
+        public float TerrainResourceCellSize;
+        public string AutoFireParticleMediumPrefix;
+        public bool Wireframe;
+        public bool StateMachineDebug;
+        public bool UseCameraConstraints;
+        public bool ShroudOn;
+        public bool FogOfWarOn;
+        public bool ShowCollisionExtends;
+
+        public int DebugProjectileTileWidth;
 
         public string DefaultUnitHealingBuffFxList;
         public string DefaultStructureRepairBuffFxList;
 
         public float DefaultStructureRubbleHeight;
+        public bool ShowCollisionExtents;
+        public int DebugProjectileTileDuration;
+        public Vector3 DebugProjectileTileColor;
+        public int DebugAerialTileWidth;
+        public int DebugAerialTileDuration;
+        public Vector3 DebugAerialTileColor;
+        public int DebugVisibilityTileCount;
+        public float DebugVisibilityTileWidth;
+
+        public int DebugVisibilityTileDuration;
+        public Vector3 DebugVisibilityTileTargettableColor;
 
         public string VertexWaterAvailableMaps1;
         public float VertexWaterHeightClampLow1;
@@ -293,12 +339,12 @@ namespace SageCS.INI
         public Vector2 GoodCommandPointsMP8;
         public Vector2 EvilCommandPointsMP8;
 
-        public float[] MultiPlayMoneyMult = new float[8];
-        public float[] MultiPlayUnitXPMult = new float[8];
-        public float[] MultiPlayBuildingXPMult = new float[8];
+        public float[] MultiPlayMoneyMult;
+        public float[] MultiPlayUnitXPMult;
+        public float[] MultiPlayBuildingXPMult;
 
-        public float[] MultiPlayUnitSpeedMult = new float[8];
-        public float[] MultiPlayBuildingSpeedMult = new float[8];
+        public float[] MultiPlayUnitSpeedMult;
+        public float[] MultiPlayBuildingSpeedMult;
 
         public int HandicapBuildSpeed5;
         public int HandicapBuildSpeed10;
@@ -358,8 +404,8 @@ namespace SageCS.INI
         public int MaxParticleCount;
         public int MaxFieldParticleCount;
 
-        public Dictionary<string, int> WeaponBonuses;
-      
+        public Dictionary<string, WeaponBonus> WeaponBonus =  new Dictionary<string, WeaponBonus>();
+
         public int HealthBonus_Regular;
         public int HealthBonus_Veteran;
         public int HealthBonus_Elite;
@@ -404,7 +450,7 @@ namespace SageCS.INI
 
         public string SpecialPowerViewObject;
 
-        public List<string> StandardPublicBones;
+        public List<string> StandardPublicBone = new List<string>();
 
         public int DefaultStartingCash;
 
@@ -544,7 +590,7 @@ namespace SageCS.INI
         public int MaxNumMembersToForceToImmediatelyEnter;
         public int WaitToForceMemberToEnterDelay;
 
-        public static void parse(INIParser ip)
+        public static void Parse(INIParser ip)
         {
             GameData data  = new GameData();
             string s;

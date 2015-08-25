@@ -18,6 +18,8 @@ namespace SageCS.INI
         private static Dictionary<string, Upgrade> upgrades = new Dictionary<string, Upgrade>();
         private static Dictionary<string, Armor> armors = new Dictionary<string, Armor>();
         private static Dictionary<string, MappedImage> mappedImages = new Dictionary<string, MappedImage>();
+        private static Dictionary<string, AmbientStream> ambientStreams = new Dictionary<string, AmbientStream>();
+        private static Dictionary<string, CommandButton> commandButtons = new Dictionary<string, CommandButton>();
 
         public static void ParseINIs()
         {
@@ -170,6 +172,54 @@ namespace SageCS.INI
                 return true;
             }
             mi = null;
+            return false;
+        }
+
+        public static void AddAmbientStream(string name, AmbientStream ast)
+        {
+            if (!ambientStreams.ContainsKey(name))
+                ambientStreams.Add(name, ast);
+            else
+                ambientStreams[name] = ast;
+        }
+
+        public static AmbientStream GetAmbientStream(string name)
+        {
+            return ambientStreams[name];
+        }
+
+        public static bool TryGetAmbientStream(string name, out AmbientStream ast)
+        {
+            if (ambientStreams.ContainsKey(name))
+            {
+                ast = GetAmbientStream(name);
+                return true;
+            }
+            ast = null;
+            return false;
+        }
+
+        public static void AddCommandButton(string name, CommandButton cb)
+        {
+            if (!commandButtons.ContainsKey(name))
+                commandButtons.Add(name, cb);
+            else
+                commandButtons[name] = cb;
+        }
+
+        public static CommandButton GetCommandButton(string name)
+        {
+            return commandButtons[name];
+        }
+
+        public static bool TryGetCommandButton(string name, out CommandButton cb)
+        {
+            if (commandButtons.ContainsKey(name))
+            {
+                cb = GetCommandButton(name);
+                return true;
+            }
+            cb = null;
             return false;
         }
 

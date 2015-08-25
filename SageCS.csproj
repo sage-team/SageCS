@@ -93,7 +93,9 @@
     <Compile Include="Source\Core\Resource.cs" />
     <Compile Include="Source\Graphics\W3DMesh.cs" />
     <Compile Include="Source\Graphics\Model.cs" />
+    <Compile Include="Source\INI\AmbientStream.cs" />
     <Compile Include="Source\INI\Armor.cs" />
+    <Compile Include="Source\INI\CommandButton.cs" />
     <Compile Include="Source\INI\FXList.cs" />
     <Compile Include="Source\INI\GameData.cs" />
     <Compile Include="Source\INI\INIManager.cs" />

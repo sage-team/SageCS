@@ -1,4 +1,5 @@
-﻿using SageCS.Core.Loaders;
+﻿using OpenTK;
+using SageCS.Core.Loaders;
 using SageCS.Graphics;
 using SageCS.INI;
 using System;
@@ -30,26 +31,35 @@ namespace SageCS.Core
                 switch (s)
                 {
                     case "#include":
-                        PrintError("include");
+                        //PrintError("include");
                         break;
                     case "#define":
-                        macros.Add(getString(), getStrings());
+                        macros.Add(getString().ToUpper(), getStrings());
                         break;
 
                     case "GameData":
-                        GameData.parse(this);
+                        GameData.Parse(this);
                         break;
                     case "Object":
-                        //Object.Parse(this, getString());
+                        //INI.Object.Parse(this, getString());
                         break;
                     case "MappedImage":
-                        MappedImage.Parse(this, getString());
+                        //MappedImage.Parse(this, getString());
                         break;
                     case "Upgrade":
-                        Upgrade.Parse(this, getString());
+                        //Upgrade.Parse(this, getString());
                         break;
                     case "Weapon":
-                        
+                        //Weapon.Parse(this, getString());
+                        break;
+                    case "Armor":
+                        //Armor.Parse(this, getString());
+                        break;
+                    case "AmbientStream":
+                        AmbientStream.Parse(this, getString());
+                        break;
+                    case "CommandButton":
+                        CommandButton.Parse(this, getString());
                         break;
                     default:
                         //PrintError("unhandled entry: " + data[0]);
@@ -74,10 +84,8 @@ namespace SageCS.Core
             for (int i = 0; i < data.Length; i++)
             {
                 //if the string contains a '_' it should be a macro -> cast to upper case
-                if (data[i].Contains('_'))
-                    data[i] = data[i].ToUpper();
-                if (macros.ContainsKey(data[i]))
-                    data[i] = macros[data[i]];
+                if (macros.ContainsKey(data[i].ToUpper()))
+                    data[i] = macros[data[i].ToUpper()];
             }
             if (data.Length != 0 && !data[0].StartsWith(";") && !data[0].StartsWith("//"))
                 return data;
@@ -93,8 +101,23 @@ namespace SageCS.Core
                 info.SetValue(ob, getInt());
             else if (type == typeof(float))
                 info.SetValue(ob, getFloat());
+            else if (type == typeof(float[]))
+                info.SetValue(ob, getFloats());
             else if (type == typeof(bool))
                 info.SetValue(ob, getBool());
+            else if (type == typeof(OpenTK.Vector2))
+                info.SetValue(ob, getVec2());
+            else if (type == typeof(OpenTK.Vector3))
+                info.SetValue(ob, getVec3());
+            else if (type == typeof(List<string>))
+                ((List<string>)info.GetValue(ob)).Add(getString());
+            else if (type == typeof(Dictionary<string, WeaponBonus>))
+            {
+                string name = getString();
+                WeaponBonus wb = new WeaponBonus(getString(), getInt());
+                //((Dictionary<string, INI.WeaponBonus>)info.GetValue((GameData)ob)).Add(name, wb);
+                Console.WriteLine("WeaponBonus dictionary not implemented yet");
+            }
             else
                 PrintError(" invalid type: " + type);
         }
@@ -150,6 +173,9 @@ namespace SageCS.Core
             string s = getString();
             s = s.Replace("%", "");
             s = s.Replace("f", "");
+            s = s.Replace("X:", "").Replace("Y:", "").Replace("Z:", "");
+            s = s.Replace("R:", "").Replace("G:", "").Replace("B:", "");
+            s = s.Replace("MP1:", "").Replace("MP2:", "").Replace("MP3:", "").Replace("MP4:", "").Replace("MP5:", "").Replace("MP6:", "").Replace("MP7:", "").Replace("MP8:", "");
             if (float.TryParse(s, out result))
                 return result;
             else
@@ -157,6 +183,16 @@ namespace SageCS.Core
                 PrintError(s + " could not be parsed as float value!!");
                 throw new FormatException();
             }
+        }
+
+        public float[] getFloats()
+        {
+            List<float> f = new List<float>();
+            while(HasNext())
+            {
+                f.Add(getFloat());
+            }
+            return f.ToArray<float>();
         }
 
         public bool getBool()
@@ -174,14 +210,24 @@ namespace SageCS.Core
             }
         }
 
+        public Vector2 getVec2()
+        {
+            return new Vector2(getFloat(), getFloat());
+        }
+
+        public Vector3 getVec3()
+        {
+            return new Vector3(getFloat(), getFloat(), getFloat());
+        }
+
         public void PrintError(string message)
         {
-            //Console.WriteLine("### INI ERROR ###");
-            //Console.WriteLine("# in file: " + ((BigStream)this.BaseStream).Name);
-            //Console.WriteLine("# at line: " + lineNumber + "     " + line);
-            //Console.WriteLine("# " + message);
-            //Console.WriteLine("#################");
-            //Console.WriteLine(" ");
+            Console.WriteLine("### INI ERROR ###");
+            Console.WriteLine("# in file: " + ((BigStream)this.BaseStream).Name);
+            Console.WriteLine("# at line: " + lineNumber + "     " + line);
+            Console.WriteLine("# " + message);
+            Console.WriteLine("#################");
+            Console.WriteLine(" ");
         }
     }
 }

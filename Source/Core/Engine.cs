@@ -50,18 +50,15 @@ namespace SageCS.Core
 
             FileSystem.Init();
             AudioSystem.Init();
-            var s = FileSystem.Open("language.ini");
-            StreamReader sr = new StreamReader(s);
-            string content = sr.ReadToEnd();
 
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            //Texture tex = new Texture();
-            //var texS = FileSystem.Open("art\\compiledtextures\\al\\all_faction_banners.dds");
-            //tex.Load(texS);
-            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
-            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
-            //W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
+            Texture tex = new Texture();
+            var texS = FileSystem.Open("art\\compiledtextures\\al\\all_faction_banners.dds");
+            tex.Load(texS);
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skn.w3d"));
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_runa.w3d"));
+            W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
             INIManager.ParseINIs();
 
