@@ -1,4 +1,4 @@
-﻿using OpenTK;
+using OpenTK;
 using SageCS.Core.Graphics;
 using System;
 using System.Collections.Generic;
