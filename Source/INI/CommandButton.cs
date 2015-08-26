@@ -1,4 +1,4 @@
-﻿using SageCS.Core;
+using SageCS.Core;
 using SageCS.INI;
 using System;
 using System.Collections.Generic;

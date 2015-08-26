@@ -1,4 +1,4 @@
-﻿using OpenTK;
+using OpenTK;
 using SageCS.Core.Loaders;
 using SageCS.Graphics;
 using SageCS.INI;

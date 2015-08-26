@@ -1,4 +1,4 @@
-﻿using OpenTK;
+using OpenTK;
 using OpenTK.Input;
 using SageCS.Core.Graphics;
 using System;
