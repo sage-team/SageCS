@@ -28,17 +28,20 @@ namespace SageCS.Core
             {
                 ParseLine();
                 string s = getString();
+                string name;
                 switch (s)
                 {
                     case "#include":
-                        //PrintError("include");
+                        PrintError("include");
                         break;
                     case "#define":
                         macros.Add(getString().ToUpper(), getStrings());
                         break;
 
                     case "GameData":
-                        GameData.Parse(this);
+                        //GameData data = new GameData();
+                        //ParseObject(data);
+                        //INIManager.SetGameData(data);
                         break;
                     case "Object":
                         //INI.Object.Parse(this, getString());
@@ -52,14 +55,29 @@ namespace SageCS.Core
                     case "Weapon":
                         //Weapon.Parse(this, getString());
                         break;
+                    case "ModifierList":
+                        ModifierList ml = new ModifierList();
+                        name = getString();
+                        ParseObject(ml);
+                        INIManager.AddModifierList(name, ml);
+                        break;
                     case "Armor":
-                        //Armor.Parse(this, getString());
+                        Armor ar = new Armor();
+                        name = getString();
+                        ParseObject(ar);
+                        INIManager.AddArmor(name, ar);
                         break;
                     case "AmbientStream":
-                        AmbientStream.Parse(this, getString());
+                        AmbientStream ast = new AmbientStream();
+                        name = getString();
+                        ParseObject(ast);
+                        INIManager.AddAmbientStream(name, ast);
                         break;
                     case "CommandButton":
-                        CommandButton.Parse(this, getString());
+                        CommandButton cb = new CommandButton();
+                        name = getString();
+                        ParseObject(cb);
+                        INIManager.AddCommandButton(name, cb);
                         break;
                     default:
                         //PrintError("unhandled entry: " + data[0]);
@@ -67,6 +85,59 @@ namespace SageCS.Core
                 }
             }
         }
+
+        private void ParseObject(object o)
+        {
+            string s;
+
+            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
+            //get all class variables
+            foreach (var prop in o.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                fields.Add(prop.Name, prop);
+            }
+            do
+            {
+                ParseLine();
+                s = getString();
+
+                if (s.Equals("Armor"))
+                {
+                    ((Armor)o).AddType(getString(), getFloat());
+                }
+                else if (s.Equals("Modifier"))
+                {
+                    ((ModifierList)o).AddModifier(getString(), getFloat());
+                }
+                else if (fields.ContainsKey(s))
+                {
+                    Type type = fields[s].FieldType;
+                    if (type == typeof(string))
+                        fields[s].SetValue(o, getString());
+                    else if (type == typeof(int))
+                        fields[s].SetValue(o, getInt());
+                    else if (type == typeof(float))
+                        fields[s].SetValue(o, getFloat());
+                    else if (type == typeof(float[]))
+                        fields[s].SetValue(o, getFloats());
+                    else if (type == typeof(bool))
+                        fields[s].SetValue(o, getBool());
+                    else if (type == typeof(OpenTK.Vector2))
+                        fields[s].SetValue(o, getVec2());
+                    else if (type == typeof(OpenTK.Vector3))
+                        fields[s].SetValue(o, getVec3());
+                    else
+                        PrintError(" invalid type: " + type);
+                }
+                else
+                {
+                    if (!s.Equals("End") && !s.Equals("END"))
+                        PrintError("invalid parameter in " + o.GetType() + " class: " + s);
+                }
+            }
+            while (!s.Equals("End") && !s.Equals("END")); 
+        }
+
 
         public string[] ParseLine()
         {
@@ -87,39 +158,14 @@ namespace SageCS.Core
                 if (macros.ContainsKey(data[i].ToUpper()))
                     data[i] = macros[data[i].ToUpper()];
             }
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i].Equals("#MULTIPLY("))
+                    data[i] = data[i + 1] + "*" + data[i + 2];
+            }
             if (data.Length != 0 && !data[0].StartsWith(";") && !data[0].StartsWith("//"))
                 return data;
             return ParseLine();
-        }
-
-        public void SetValue(object ob, FieldInfo info)
-        {
-            Type type = info.FieldType;
-            if (type == typeof(string))
-                info.SetValue(ob, getString());
-            else if (type == typeof(int))
-                info.SetValue(ob, getInt());
-            else if (type == typeof(float))
-                info.SetValue(ob, getFloat());
-            else if (type == typeof(float[]))
-                info.SetValue(ob, getFloats());
-            else if (type == typeof(bool))
-                info.SetValue(ob, getBool());
-            else if (type == typeof(OpenTK.Vector2))
-                info.SetValue(ob, getVec2());
-            else if (type == typeof(OpenTK.Vector3))
-                info.SetValue(ob, getVec3());
-            else if (type == typeof(List<string>))
-                ((List<string>)info.GetValue(ob)).Add(getString());
-            else if (type == typeof(Dictionary<string, WeaponBonus>))
-            {
-                string name = getString();
-                WeaponBonus wb = new WeaponBonus(getString(), getInt());
-                //((Dictionary<string, INI.WeaponBonus>)info.GetValue((GameData)ob)).Add(name, wb);
-                Console.WriteLine("WeaponBonus dictionary not implemented yet");
-            }
-            else
-                PrintError(" invalid type: " + type);
         }
 
         private bool HasNext()
@@ -176,7 +222,17 @@ namespace SageCS.Core
             s = s.Replace("X:", "").Replace("Y:", "").Replace("Z:", "");
             s = s.Replace("R:", "").Replace("G:", "").Replace("B:", "");
             s = s.Replace("MP1:", "").Replace("MP2:", "").Replace("MP3:", "").Replace("MP4:", "").Replace("MP5:", "").Replace("MP6:", "").Replace("MP7:", "").Replace("MP8:", "");
-            if (float.TryParse(s, out result))
+            if (s.Contains("*"))
+            {
+                string[] vals = s.Split('*');
+                float one, two;
+                if (float.TryParse(vals[0], out one) && float.TryParse(vals[1], out two))
+                    return one * two;
+                else
+                    PrintError(s + " could not be parsed as float value!!");
+                    throw new FormatException();
+            }
+            else if (float.TryParse(s, out result))
                 return result;
             else
             {

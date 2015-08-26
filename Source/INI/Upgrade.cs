@@ -35,37 +35,5 @@ namespace SageCS.INI
         public string UpgradeFX;
         public string SkirmishAIHeuristic;
         public string SubUpgradeTemplateNames;
-
-
-        public static void Parse(INIParser ip, string name)
-        {
-            Upgrade up = new Upgrade();
-            string s;
-
-            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
-            //get all class variables
-            foreach (var prop in up.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                fields.Add(prop.Name, prop);
-            }
-            do
-            {
-                ip.ParseLine();
-                s = ip.getString();
-
-                if (fields.ContainsKey(s))
-                {
-                    ip.SetValue(up, fields[s]);
-                }
-                else 
-                {
-                    if (!s.Equals("End"))
-                        ip.PrintError("no such variable in Upgrade class: " + s);
-                }
-            }
-            while (!s.Equals("End")); //also test END ?
-
-            INIManager.AddUpgrade(name, up);
-        }
     }
 }
