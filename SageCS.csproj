@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Source\Audio\AudioSystem.cs" />
     <Compile Include="Source\Audio\Sound.cs" />
+    <Compile Include="Source\Audio\SoundBuffer.cs" />
     <Compile Include="Source\Core\Engine.cs" />
     <Compile Include="Source\Core\FileSystem.cs" />
     <Compile Include="Source\Core\Loaders\AptFile.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Source\Core\Loaders\INIParser.cs" />
     <Compile Include="Source\Core\Loaders\ImageLoader.cs" />
     <Compile Include="Source\Core\Loaders\W3DLoader.cs" />
+    <Compile Include="Source\Core\Loaders\WavLoader.cs" />
     <Compile Include="Source\Graphics\Hierarchy.cs" />
     <Compile Include="Source\Graphics\Mesh.cs" />
     <Compile Include="Source\Graphics\Renderer.cs" />
