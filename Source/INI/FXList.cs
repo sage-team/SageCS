@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SageCS.Source.INI
+namespace SageCS.INI
 {
     public class FXList
     {

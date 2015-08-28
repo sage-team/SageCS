@@ -11,15 +11,14 @@ namespace SageCS.Audio
 {
     class Sound
     {
-        private int buf;
         private int source;
 
-        public Sound()
-        {
-            buf = AL.GenBuffer();
+        public Sound(SoundBuffer buf)
+        {          
             source = AL.GenSource();
+            AL.SourceQueueBuffer(source, buf.GetID()); 
         }
-
+                
         public void Play()
         {
             AL.SourcePlay(source);
@@ -43,7 +42,6 @@ namespace SageCS.Audio
         ~Sound()
         {
             AL.DeleteSource(source);
-            AL.DeleteBuffer(buf);
         }
     }
 }
