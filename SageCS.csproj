@@ -102,6 +102,7 @@
     <Compile Include="Source\INI\GameData.cs" />
     <Compile Include="Source\INI\INIManager.cs" />
     <Compile Include="Source\INI\MappedImage.cs" />
+    <Compile Include="Source\INI\ModifierList.cs" />
     <Compile Include="Source\INI\Object.cs" />
     <Compile Include="Source\INI\Upgrade.cs" />
     <Compile Include="Source\INI\Weapon.cs" />

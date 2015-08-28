@@ -80,37 +80,6 @@ namespace SageCS.INI
         public string PreAttackType;
         public string ContinueAttackRange;
         public string SuspendFXDelay;
-
-        public static void Parse(INIParser ip, string name)
-        {
-            Weapon wep = new Weapon();
-            string s;
-
-            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
-            //get all class variables
-            foreach (var prop in wep.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                fields.Add(prop.Name, prop);
-            }
-            do
-            {
-                ip.ParseLine();
-                s = ip.getString();
-
-                if (fields.ContainsKey(s))
-                {
-                    ip.SetValue(wep, fields[s]);
-                }
-                else
-                {
-                    if (!s.Equals("End"))
-                        ip.PrintError("no such variable in Upgrade class: " + s);
-                }
-            }
-            while (!s.Equals("End")); //also test END ?
-
-            INIManager.AddWeapon(name, wep);
-        }
     }
 
     public struct DamageFieldNugget

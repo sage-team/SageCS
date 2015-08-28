@@ -20,9 +20,23 @@ namespace SageCS.INI
         private static Dictionary<string, MappedImage> mappedImages = new Dictionary<string, MappedImage>();
         private static Dictionary<string, AmbientStream> ambientStreams = new Dictionary<string, AmbientStream>();
         private static Dictionary<string, CommandButton> commandButtons = new Dictionary<string, CommandButton>();
+        private static Dictionary<string, ModifierList> modifierLists = new Dictionary<string, ModifierList>();
 
         public static void ParseINIs()
         {
+            //map.ini files are loaded when the corresponding map is selected for the game
+
+            new INIParser(FileSystem.Open("data\\ini\\gamedata.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\createaherogamedata.inc"));
+
+            new INIParser(FileSystem.Open("data\\ini\\armor.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\ambientstream.ini"));
+            //new INIParser(FileSystem.Open("data\\ini\\attributemodifier.ini")); //still some error
+
+            new INIParser(FileSystem.Open("data\\ini\\commandbutton.ini"));
+
+
+            /*
             List<Stream> streams = FileSystem.OpenAll(".ini");
             foreach (Stream s in streams)
             {
@@ -43,6 +57,7 @@ namespace SageCS.INI
                 }
             }
             Console.WriteLine("# finished parsing " + streams.Count + " ini files");  
+            */
         }
 
         public static void SetGameData(GameData data)
@@ -220,6 +235,30 @@ namespace SageCS.INI
                 return true;
             }
             cb = null;
+            return false;
+        }
+
+        public static void AddModifierList(string name, ModifierList ml)
+        {
+            if (!modifierLists.ContainsKey(name))
+                modifierLists.Add(name, ml);
+            else
+                modifierLists[name] = ml;
+        }
+
+        public static ModifierList GetModifierList(string name)
+        {
+            return modifierLists[name];
+        }
+
+        public static bool TryGetModifierList(string name, out ModifierList ml)
+        {
+            if(modifierLists.ContainsKey(name))
+            {
+                ml = GetModifierList(name);
+                return true;
+            }
+            ml = null;
             return false;
         }
 

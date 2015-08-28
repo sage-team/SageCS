@@ -25,36 +25,39 @@ namespace SageCS.INI
         public bool InPalantir;
         public string UnitSpecificSound;
         public string Stances;
-
-        public static void Parse(INIParser ip, string name)
-        {
-            CommandButton cb = new CommandButton();
-            string s;
-
-            Dictionary<string, FieldInfo> fields = new Dictionary<string, FieldInfo>();
-            //get all class variables
-            foreach (var prop in cb.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                fields.Add(prop.Name, prop);
-            }
-            do
-            {
-                ip.ParseLine();
-                s = ip.getString();
-
-                if (fields.ContainsKey(s))
-                {
-                    ip.SetValue(cb, fields[s]);
-                }
-                else
-                {
-                    if (!s.Equals("End"))
-                        ip.PrintError("no such variable in CommandButton class: " + s);
-                }
-            }
-            while (!s.Equals("End")); //also test END ?
-
-            INIManager.AddCommandButton(name, cb);
-        }
+        public bool ShowProductionCount;
+        public string Upgrade;
+        public string SpecialPower;
+        public string FlagsUsedForToggle;
+        public string NeededUpgrade;
+        public bool AutoAbility;
+        public bool TriggerWhenReady;
+        public string WeaponSlot;
+        public string AutoAbilityDisallowedOnModelCondition;
+        public string RadiusCursorType;
+        public string EnableOnModelCondition;
+        public string DisableOnModelCondition;
+        public float PresetRange;
+        public bool ShowButton;
+        public float AutoDelay;
+        public bool NeedDamagedTarget;
+        public string SetAutoAbilityUnitSound;
+        public string WeaponSlotToggle1;
+        public string WeaponSlotToggle2;
+        public string CommandTrigger;
+        public bool IsClickable;
+        public int CommandRangeStart;
+        public int CommandRangeCount;
+        public string AffectsKindOf;
+        public string LacksPrerequisiteLabel;
+        public string PurchasedLabel;
+        public bool NeededUpgradeAny;
+        public string Science;
+        public bool RequiresValidContainer;
+        public string ConflictingLabel;
+        public string CreateAHeroUIAllowableUpgrades;
+        public int CreateAHeroUIMinimumLevel;
+        public string CreateAHeroUIPrerequisiteButtonName;
+        public string ToggleButtonName;
     }
 }
