@@ -24,39 +24,93 @@ namespace SageCS.INI
 
         public static void ParseINIs()
         {
-            //map.ini files are loaded when the corresponding map is selected for the game
-
-            new INIParser(FileSystem.Open("data\\ini\\gamedata.ini"));
-            new INIParser(FileSystem.Open("data\\ini\\createaherogamedata.inc"));
-
-            new INIParser(FileSystem.Open("data\\ini\\armor.ini"));
-            new INIParser(FileSystem.Open("data\\ini\\ambientstream.ini"));
-            //new INIParser(FileSystem.Open("data\\ini\\attributemodifier.ini")); //still some error
-
-            new INIParser(FileSystem.Open("data\\ini\\commandbutton.ini"));
-
+            //hardcoded: (on start)
+            new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
 
             /*
-            List<Stream> streams = FileSystem.OpenAll(".ini");
-            foreach (Stream s in streams)
-            {
-                try
-                {
-                    new INIParser(s);
-                }
-                catch
-                {
-                    try
-                    {
-                        Console.WriteLine("## ERROR: unable to parse ini file: " + ((BigStream)s).Name);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("#######");
-                    }
-                }
-            }
-            Console.WriteLine("# finished parsing " + streams.Count + " ini files");  
+            data\ini\default\SubsystemLegend.ini
+            ->most of this stuff is defined here, but why not all files??
+
+            data\ini\default\gamedata.ini 
+            data\ini\gamedata.ini
+            data\ini\GameLOD.ini
+            data\ini\GameLODPresets.ini
+            data\ini\default\water.ini
+            data\ini\water.ini
+            data\ini\default\fire.ini
+            data\ini\fire.ini
+            data\ini\default\Environment.ini
+            data\ini\environment.ini
+            data\ini\AudioSettings.ini
+            data\ini\default\music.ini
+            data\ini\default\speech.ini
+            data\ini\default\soundeffects.ini
+            data\ini\default\ambientstream.ini
+            data\ini\music.ini
+            data\ini\soundeffects.ini
+            data\ini\speech.ini
+            data\ini\voice.ini
+            data\ini\ambientstream.ini
+            data\ini\miscAudio.ini
+            data\ini\default\eva.ini
+            data\ini\eva.ini
+            data\ini\default\science.ini
+            data\ini\science.ini
+            data\ini\default\upgrade.ini
+            data\ini\upgrade.ini
+            data\ini\default\multiplayer.ini
+            data\ini\multiplayer.ini
+            data\ini\default\Terrain.ini
+            data\ini\Terrain.ini
+            data\ini\default\roads.ini
+            data\ini\roads.ini
+            data\ini\default\weather.ini
+            data\ini\weather.ini
+            data\ini\rank.ini
+            data\ini\PlayerAITypes.ini
+            data\ini\default\PlayerTemplate.ini
+            data\ini\PlayerTemplate.ini
+            data\ini\FXParticleSystem.ini
+            data\ini\default\fxlist.ini
+            data\ini\fxList.ini
+            data\ini\weapon.ini
+            data\ini\default\ObjectCreationList.ini
+            data\ini\ObjectCreationList.ini
+            data\ini\locomotor.ini
+            data\ini\default\specialpower.ini
+            data\ini\specialpower.ini
+            data\ini\damagefx.ini
+            data\ini\armor.ini
+            data\ini\CrowdResponse.ini
+            data\ini\LivingWorldAutoResolveArmor.ini
+            data\ini\LivingWorldAutoResolveWeapon.ini
+            data\ini\LivingWorldAutoResolveBody.ini
+            data\ini\LivingWorldAutoResolveLeadership.ini
+            data\ini\LivingWorldAutoResolveCombatChain.ini
+            data\ini\LivingWorldAutoResolveHandicaps.ini
+            data\ini\MissionObjectives.ini
+            data\ini\Emotions.ini
+            data\ini\default\object.ini
+            data\ini\stances.ini
+            data\ini\formationassistant.ini
+            data\ini\Lightpoints.ini
+            data\ini\experienceLevels.ini
+            data\ini\aptButtonTooltipMap.ini
+            data\ini\livingWorldPlayers.ini
+            data\ini\livingworldAITemplate.ini
+            data\ini\livingworldRegionEffects.ini
+            data\ini\livingworld.ini
+            data\ini\livingWorldBuildingIcons.ini
+            data\ini\livingworldbuildploticons.ini
+            data\ini\DrawGroupInfo.ini
+            data\ini\fontsubstitution.ini
+            data\ini\fontsettings.ini
+            data\ini\mouse.ini
+
+            //game starts, but shows nothing
+
+            continue here
+
             */
         }
 

@@ -37,6 +37,7 @@ namespace SageCS.Core
                     case "#define":
                         macros.Add(getString().ToUpper(), getStrings());
                         break;
+                    
 
                     case "GameData":
                         //GameData data = new GameData();
@@ -154,7 +155,6 @@ namespace SageCS.Core
             //insert the values from the macros
             for (int i = 0; i < data.Length; i++)
             {
-                //if the string contains a '_' it should be a macro -> cast to upper case
                 if (macros.ContainsKey(data[i].ToUpper()))
                     data[i] = macros[data[i].ToUpper()];
             }
