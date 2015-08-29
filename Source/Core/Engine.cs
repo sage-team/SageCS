@@ -61,7 +61,9 @@ namespace SageCS.Core
             W3DLoader.Load(FileSystem.Open("art\\w3d\\gu\\gumaarms_skl.w3d"));
 
             INIManager.ParseINIs();
-
+            var buffer = WavLoader.Load(FileSystem.Open("data\\audio\\speech\\ucheer.wav"));
+            Sound testSound = new Sound(buffer);
+            testSound.Play();
             stopwatch.Stop();
             Console.WriteLine("total loading time: " + stopwatch.ElapsedMilliseconds + "ms");
         }
