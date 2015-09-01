@@ -21,8 +21,11 @@ namespace SageCS.Core
         private int index = 0;
         private int lineNumber = 0;
 
+        private List<string> includedFiles = new List<string>();
+
         public INIParser(Stream str) : base(str)
         {
+            //Console.WriteLine(((BigStream)str).Name);
             long filesize = str.Length;
             while (str.Position < filesize)
             {
@@ -32,13 +35,50 @@ namespace SageCS.Core
                 switch (s)
                 {
                     case "#include":
-                        PrintError("include");
+                        string file = getString().Replace("\"", "");
+                        string dir = ((BigStream)str).Path;
+                        if (file.StartsWith(".."))
+                        {
+                            string path = dir.Substring(0, dir.LastIndexOf("\\")) + file.Replace("..", "");
+                            if (!includedFiles.Contains(path))
+                            {
+                                try
+                                {
+                                    new INIParser(FileSystem.Open(path));
+                                    includedFiles.Add(path);
+                                }
+                                catch
+                                {
+                                    Console.WriteLine(path);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            string path = dir + "\\" + file;
+                            if (!includedFiles.Contains(path))
+                            {
+                                try
+                                {
+                                    new INIParser(FileSystem.Open(path));
+                                    includedFiles.Add(path);
+                                }
+                                catch
+                                {
+                                    Console.WriteLine(path);
+                                }
+                            }
+                        }
                         break;
                     case "#define":
                         macros.Add(getString().ToUpper(), getStrings());
                         break;
-                    
-
+                    case "LoadSubsystem":
+                        LoadSubsystem ls = new LoadSubsystem();
+                        name = getString();
+                        ParseObject(ls);
+                        ls.LoadFiles();
+                        break;
                     case "GameData":
                         //GameData data = new GameData();
                         //ParseObject(data);
@@ -102,14 +142,22 @@ namespace SageCS.Core
                 ParseLine();
                 s = getString();
 
-                if (s.Equals("Armor"))
-                {
+                if (s.Equals("InitFile") && (o.GetType() == typeof(LoadSubsystem)))
+                    ((LoadSubsystem)o).AddInitFile(getString());
+                else if (s.Equals("InitFileDebug") && (o.GetType() == typeof(LoadSubsystem)))
+                    ((LoadSubsystem)o).AddInitFileDebug(getString());
+                else if (s.Equals("InitPath") && (o.GetType() == typeof(LoadSubsystem)))
+                    ((LoadSubsystem)o).AddInitPath(getString());
+                else if (s.Equals("IncludePathCinematics") && (o.GetType() == typeof(LoadSubsystem)))
+                    ((LoadSubsystem)o).AddIncludePathCinematics(getString());
+                else if (s.Equals("ExcludePath") && (o.GetType() == typeof(LoadSubsystem)))
+                    ((LoadSubsystem)o).AddExcludePath(getString());
+
+                else if (s.Equals("Armor") && (o.GetType() == typeof(Armor)))
                     ((Armor)o).AddType(getString(), getFloat());
-                }
-                else if (s.Equals("Modifier"))
-                {
+                else if (s.Equals("Modifier") && (o.GetType() == typeof(Armor)))
                     ((ModifierList)o).AddModifier(getString(), getFloat());
-                }
+
                 else if (fields.ContainsKey(s))
                 {
                     Type type = fields[s].FieldType;
@@ -140,7 +188,7 @@ namespace SageCS.Core
         }
 
 
-        public string[] ParseLine()
+        public void ParseLine()
         {
             char[] separators = new char[] { ' ', '\t' };
             line = base.ReadLine().Trim();
@@ -149,23 +197,35 @@ namespace SageCS.Core
             if (line.Contains("//"))
                 line = line.Remove(line.IndexOf("//"));
             lineNumber++;
-            data = line.Replace("=", "").Split(separators, StringSplitOptions.RemoveEmptyEntries);
             index = 0;
+            List<string> dataList = line.Replace("=", "").Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
 
             //insert the values from the macros
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < dataList.Count; i++)
             {
-                if (macros.ContainsKey(data[i].ToUpper()))
-                    data[i] = macros[data[i].ToUpper()];
+                if (macros.ContainsKey(dataList[i].ToUpper()))
+                    dataList[i] = macros[dataList[i].ToUpper()];
             }
-            for (int i = 0; i < data.Length; i++)
+            for (int i = 0; i < dataList.Count; i++)
             {
-                if (data[i].Equals("#MULTIPLY("))
-                    data[i] = data[i + 1] + "*" + data[i + 2];
+                if (dataList[i].Equals("#MULTIPLY("))
+                {
+                    dataList[i] = (float.Parse(dataList[i + 1].Replace(".", "0.").Replace("%", "")) * float.Parse(dataList[i + 2].Replace(".", "0.").Replace("%", ""))).ToString("0.000");
+                    dataList.RemoveAt(i + 1);
+                    dataList.RemoveAt(i + 2);
+                }
+                if (dataList[i].Equals("#ADD("))
+                {
+                    dataList[i] = (float.Parse(dataList[i + 1].Replace(".", "0.").Replace("%", "")) + float.Parse(dataList[i + 2].Replace(".", "0.").Replace("%", ""))).ToString("0.000");
+                    Console.WriteLine(dataList[i]);
+                    dataList.RemoveAt(i + 1);
+                    dataList.RemoveAt(i + 2);
+                }
             }
-            if (data.Length != 0 && !data[0].StartsWith(";") && !data[0].StartsWith("//"))
-                return data;
-            return ParseLine();
+            if (dataList.Count != 0 && !dataList[0].StartsWith(";") && !dataList[0].StartsWith("//"))
+                data = dataList.ToArray<string>();
+            else
+                ParseLine();
         }
 
         private bool HasNext()
@@ -217,22 +277,13 @@ namespace SageCS.Core
         {
             float result;
             string s = getString();
+            s = s.Replace(",", ".");
             s = s.Replace("%", "");
             s = s.Replace("f", "");
             s = s.Replace("X:", "").Replace("Y:", "").Replace("Z:", "");
             s = s.Replace("R:", "").Replace("G:", "").Replace("B:", "");
             s = s.Replace("MP1:", "").Replace("MP2:", "").Replace("MP3:", "").Replace("MP4:", "").Replace("MP5:", "").Replace("MP6:", "").Replace("MP7:", "").Replace("MP8:", "");
-            if (s.Contains("*"))
-            {
-                string[] vals = s.Split('*');
-                float one, two;
-                if (float.TryParse(vals[0], out one) && float.TryParse(vals[1], out two))
-                    return one * two;
-                else
-                    PrintError(s + " could not be parsed as float value!!");
-                    throw new FormatException();
-            }
-            else if (float.TryParse(s, out result))
+            if (float.TryParse(s, out result))
                 return result;
             else
             {

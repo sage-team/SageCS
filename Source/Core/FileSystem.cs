@@ -41,16 +41,21 @@ namespace SageCS.Core
 
         public static Stream Open(string name)
         {
-            return entries[name];
+            return entries[name.ToLower()];
         }
 
-        public static List<Stream> OpenAll(string extension)
+        public static List<Stream> OpenAll(string path, List<string> excluded)
         {
             List<Stream> streams = new List<Stream>();
             foreach (KeyValuePair<string, Stream> entry in entries)
             {
-                if (entry.Key.EndsWith(extension))
+                if (entry.Key.StartsWith(path))
                     streams.Add(entry.Value);
+                foreach (String s in excluded)
+                {
+                    if (entry.Key.StartsWith(s))
+                        streams.Remove(entry.Value);
+                }
             }
             return streams;
         }

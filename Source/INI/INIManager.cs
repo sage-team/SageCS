@@ -11,8 +11,9 @@ namespace SageCS.INI
 {
     class INIManager
     {
-        private static GameData gameData;
 
+
+        private static GameData gameData;
         private static Dictionary<string, Object> objects = new Dictionary<string, Object>();
         private static Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
         private static Dictionary<string, Upgrade> upgrades = new Dictionary<string, Upgrade>();
@@ -26,7 +27,6 @@ namespace SageCS.INI
         {
             //hardcoded: (on start)
             new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
-
             /*
             data\ini\default\SubsystemLegend.ini
             ->most of this stuff is defined here, but why not all files??
@@ -109,8 +109,37 @@ namespace SageCS.INI
 
             //game starts, but shows nothing
 
-            continue here
+            
+            #####
+            with empty subsystemlegend ini
 
+            data\ini\default\SubsystemLegend.ini
+            data\ini\GameLOD.ini
+            data\ini\GameLODPresets.ini
+            data\ini\default\water.ini
+            data\ini\water.ini
+            data\ini\default\fire.ini
+            data\ini\fire.ini
+            data\ini\default\Environment.ini
+            data\ini\environment.ini
+            data\ini\AudioSettings.ini
+            data\ini\default\music.ini
+            data\ini\default\speech.ini
+            data\ini\default\soundeffects.ini
+            data\ini\default\ambientstream.ini
+            data\ini\music.ini
+            data\ini\soundeffects.ini
+            data\ini\speech.ini
+            data\ini\voice.ini
+            data\ini\ambientstream.ini
+            data\ini\miscAudio.ini
+            data\ini\default\eva.ini
+            data\ini\eva.ini
+            data\ini\stances.ini
+            data\ini\formationassistant.ini
+            data\ini\DrawGroupInfo.ini
+            data\ini\fontsubstitution.ini
+            data\ini\mouse.ini
             */
         }
 
@@ -128,16 +157,11 @@ namespace SageCS.INI
                 objects[name] = obj;
         }
 
-        public static Object getObject(string name)
-        {
-            return objects[name];
-        }
-
         public static bool TryGetObject(string name, out Object obj)
         {
             if (objects.ContainsKey(name))
             {
-                obj = getObject(name);
+                obj = objects[name];
                 return true;
             }
             obj = null;
@@ -153,16 +177,11 @@ namespace SageCS.INI
                 weapons[name] = wep;
         }
 
-        public static Weapon GetWeapon(string name)
-        {
-            return weapons[name];
-        }
-
         public static bool TryGetWeapon(string name, out Weapon weapon)
         {
             if (weapons.ContainsKey(name))
             {
-                weapon = GetWeapon(name);
+                weapon = weapons[name];
                 return true;
             }
             weapon = null;
@@ -178,16 +197,11 @@ namespace SageCS.INI
                 upgrades[name] = up;
         }
 
-        public static Upgrade GetUpgrade(string name)
-        {
-            return upgrades[name];
-        }
-
         public static bool TryGetUpgrade(string name, out Upgrade upgrade)
         {
             if (upgrades.ContainsKey(name))
             {
-                upgrade = GetUpgrade(name);
+                upgrade = upgrades[name];
                 return true;
             }
             upgrade = null;
@@ -203,16 +217,11 @@ namespace SageCS.INI
                 armors[name] = ar;
         }
 
-        public static Armor GetArmor(string name)
-        {
-            return armors[name];
-        }
-
         public static bool TryGetArmor(string name, out Armor armor)
         {
             if (armors.ContainsKey(name))
             {
-                armor = GetArmor(name);
+                armor = armors[name];
                 return true;
             }
             armor = null;
@@ -228,16 +237,11 @@ namespace SageCS.INI
                 mappedImages[name] = mi;
         }
 
-        public static MappedImage GetMappedImage(string name)
-        {
-            return mappedImages[name];
-        }
-
         public static bool TryGetMappedImage(string name, out MappedImage mi)
         {
             if (mappedImages.ContainsKey(name))
             {
-                mi = GetMappedImage(name);
+                mi = mappedImages[name];
                 return true;
             }
             mi = null;
@@ -252,16 +256,11 @@ namespace SageCS.INI
                 ambientStreams[name] = ast;
         }
 
-        public static AmbientStream GetAmbientStream(string name)
-        {
-            return ambientStreams[name];
-        }
-
         public static bool TryGetAmbientStream(string name, out AmbientStream ast)
         {
             if (ambientStreams.ContainsKey(name))
             {
-                ast = GetAmbientStream(name);
+                ast = ambientStreams[name];
                 return true;
             }
             ast = null;
@@ -276,16 +275,11 @@ namespace SageCS.INI
                 commandButtons[name] = cb;
         }
 
-        public static CommandButton GetCommandButton(string name)
-        {
-            return commandButtons[name];
-        }
-
         public static bool TryGetCommandButton(string name, out CommandButton cb)
         {
             if (commandButtons.ContainsKey(name))
             {
-                cb = GetCommandButton(name);
+                cb = commandButtons[name];
                 return true;
             }
             cb = null;
@@ -300,16 +294,11 @@ namespace SageCS.INI
                 modifierLists[name] = ml;
         }
 
-        public static ModifierList GetModifierList(string name)
-        {
-            return modifierLists[name];
-        }
-
         public static bool TryGetModifierList(string name, out ModifierList ml)
         {
             if(modifierLists.ContainsKey(name))
             {
-                ml = GetModifierList(name);
+                ml = modifierLists[name];
                 return true;
             }
             ml = null;

@@ -14,6 +14,7 @@ namespace SageCS.Core.Loaders
         private Stream parent;
         private int position = 0;
         private string name;
+        private string path;
 
         public override bool CanRead
         {
@@ -53,6 +54,14 @@ namespace SageCS.Core.Loaders
             get
             {
                 return name;
+            }
+        }
+
+        public string Path
+        {
+            get
+            {
+                return name.Substring(0, name.LastIndexOf("\\"));
             }
         }
 
