@@ -13,6 +13,7 @@ namespace SageCS.INI
         private Dictionary<string, float> types = new Dictionary<string, float>();
         public int FlankedPenalty;
         public int DamageScalar;
+        public string DamageFX;
 
         public void AddType(string key, float value)
         {

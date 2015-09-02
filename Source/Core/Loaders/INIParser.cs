@@ -212,14 +212,15 @@ namespace SageCS.Core
                 {
                     dataList[i] = (float.Parse(dataList[i + 1].Replace(".", "0.").Replace("%", "")) * float.Parse(dataList[i + 2].Replace(".", "0.").Replace("%", ""))).ToString("0.000");
                     dataList.RemoveAt(i + 1);
-                    dataList.RemoveAt(i + 2);
+                    dataList.RemoveAt(i + 1);
+                    dataList.RemoveAt(i + 1);
                 }
                 if (dataList[i].Equals("#ADD("))
                 {
                     dataList[i] = (float.Parse(dataList[i + 1].Replace(".", "0.").Replace("%", "")) + float.Parse(dataList[i + 2].Replace(".", "0.").Replace("%", ""))).ToString("0.000");
-                    Console.WriteLine(dataList[i]);
                     dataList.RemoveAt(i + 1);
-                    dataList.RemoveAt(i + 2);
+                    dataList.RemoveAt(i + 1);
+                    dataList.RemoveAt(i + 1);
                 }
             }
             if (dataList.Count != 0 && !dataList[0].StartsWith(";") && !dataList[0].StartsWith("//"))
