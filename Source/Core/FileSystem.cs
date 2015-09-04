@@ -41,6 +41,7 @@ namespace SageCS.Core
 
         public static Stream Open(string name)
         {
+            entries[name.ToLower()].Position = 0; 
             return entries[name.ToLower()];
         }
 

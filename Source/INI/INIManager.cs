@@ -22,6 +22,8 @@ namespace SageCS.INI
         private static Dictionary<string, AmbientStream> ambientStreams = new Dictionary<string, AmbientStream>();
         private static Dictionary<string, CommandButton> commandButtons = new Dictionary<string, CommandButton>();
         private static Dictionary<string, ModifierList> modifierLists = new Dictionary<string, ModifierList>();
+        private static Dictionary<string, Science> sciences = new Dictionary<string, Science>();
+        private static Dictionary<string, FXList> fxLists = new Dictionary<string, FXList>();
 
         public static void ParseINIs()
         {
@@ -305,11 +307,42 @@ namespace SageCS.INI
             return false;
         }
 
-        //called after each match?
-        public static void ClearAll()
+        public static void AddScience(string name, Science s)
         {
-            objects.Clear();
-            weapons.Clear();
+            if (!sciences.ContainsKey(name))
+                sciences.Add(name, s);
+            else
+                sciences[name] = s;
+        }
+
+        public static bool TryGetScience(string name, out Science s)
+        {
+            if (sciences.ContainsKey(name))
+            {
+                s = sciences[name];
+                return true;
+            }
+            s = null;
+            return false;
+        }
+
+        public static void AddFXList(string name, FXList fl)
+        {
+            if (!fxLists.ContainsKey(name))
+                fxLists.Add(name, fl);
+            else
+                fxLists[name] = fl;
+        }
+
+        public static bool TryGetFXList(string name, out FXList fl)
+        {
+            if (fxLists.ContainsKey(name))
+            {
+                fl = fxLists[name];
+                return true;
+            }
+            fl = null;
+            return false;
         }
     }
 }

@@ -12,13 +12,19 @@ namespace SageCS.INI
 {
     class WeaponBonus
     {
-        public string type;
-        public int value;
+        public Dictionary<string, int> bonuses = new Dictionary<string, int>();
 
-        public WeaponBonus(string _type, int _value)
+        public WeaponBonus AddBonus(string _type, int _value)
         {
-            this.type = _type;
-            this.value = _value;
+            if (!bonuses.ContainsKey(_type))
+            {
+                bonuses.Add(_type, _value);
+            }
+            else
+            {
+                bonuses[_type] = _value;
+            }
+            return this;
         }
     }
 
@@ -404,7 +410,7 @@ namespace SageCS.INI
         public int MaxParticleCount;
         public int MaxFieldParticleCount;
 
-        public Dictionary<string, WeaponBonus> WeaponBonus =  new Dictionary<string, WeaponBonus>();
+        public Dictionary<string, WeaponBonus> WeaponBonuses =  new Dictionary<string, WeaponBonus>();
 
         public int HealthBonus_Regular;
         public int HealthBonus_Veteran;
@@ -450,7 +456,7 @@ namespace SageCS.INI
 
         public string SpecialPowerViewObject;
 
-        public List<string> StandardPublicBone = new List<string>();
+        public List<string> StandardPublicBones = new List<string>();
 
         public int DefaultStartingCash;
 
@@ -589,5 +595,19 @@ namespace SageCS.INI
 
         public int MaxNumMembersToForceToImmediatelyEnter;
         public int WaitToForceMemberToEnterDelay;
+
+        public void AddWeaponBonus(string name, string type, int value)
+        {
+            if (!WeaponBonuses.ContainsKey(name))
+                WeaponBonuses.Add(name, new WeaponBonus().AddBonus(type, value));
+            else
+                WeaponBonuses[name].AddBonus(type, value);
+        }
+
+        public void AddStandardPublicBone(string name)
+        {
+            if (!StandardPublicBones.Contains(name))
+                StandardPublicBones.Add(name);
+        }
     }
 }

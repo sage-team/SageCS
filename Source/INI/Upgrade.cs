@@ -35,5 +35,7 @@ namespace SageCS.INI
         public string UpgradeFX;
         public string SkirmishAIHeuristic;
         public string SubUpgradeTemplateNames;
+        public string GroupName;
+        public int GroupOrder;
     }
 }

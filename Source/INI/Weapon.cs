@@ -24,7 +24,7 @@ namespace SageCS.INI
         public float ScatterRadiusVsInfantry;
         public string DamageType;
         public string DeathType;
-        public int WeaponSpeed;
+        public float WeaponSpeed;
         public int MinWeaponSpeed;
         public bool ScaleWeaponSpeed;
         public int WeaponRecoil;
@@ -49,7 +49,7 @@ namespace SageCS.INI
         public string ContinuousFireCoast;
         public string AutoReloadWhenIdle;
         public int[] ClipRelaodTime;
-        public int DelayBetweenShots;
+        public float DelayBetweenShots;
         public int ShotsPerBarrel;
         public string DamageDealtAtSelfPosition;
         public string RadiusDamageAffects;
@@ -79,55 +79,160 @@ namespace SageCS.INI
         public string PreAttackDelay;
         public string PreAttackType;
         public string ContinueAttackRange;
-        public string SuspendFXDelay;
+        public string FXTrigger;
+        public bool AntiAirborneMonster;
+        public float MaxWeaponSpeed;
+        public float HitPercentage;
+        public int PreAttackRandomAmount;
+        public int FiringDuration;
+        public bool IsAimingWeapon;
+        public float IdleAfterFiringDelay;
+        public bool HitStoredTarget;
+        public float ClipReloadTime;
+        public bool InstantLoadClipOnActivate;
+        public string PreAttackFX;
+
+        public DamageFieldNugget damageFieldNugget;
+        public DamageNugget damageNugget;
+        public MetaImpactNugget metaImpactNugget;
+        private List<ProjectileNugget> ProjectileNuggets = new List<ProjectileNugget>();
+        public WeaponOCLNugget weaponOCLNugget;
+        public DOTNugget dotNugget;
+        public ParalyzeNugget paralyzeNugget;
+        public FireLogicNugget fireLogicNugget;
+        public OpenGateNugget openGateNugget;
+        public DamageContainedNugget damageContainedNugget;
+        public HordeAttackNugget hordeAttackNugget;
+        public LuaEventNugget luaEventNugget;
+        public SlaveAttackNugget slaveAttackNugget;
+        public AttributeModifierNugget attributeModifierNugget;
+        public StealMoneyNugget stealMoneyNugget;
+
+        public void AddProjectileNugget(ProjectileNugget pn)
+        {
+            ProjectileNuggets.Add(pn);
+        }
     }
 
-    public struct DamageFieldNugget
+
+    class DamageFieldNugget
     {
         public string WeaponTemplateName;
         public int Duration;
     }
 
-    public struct DamageNugget
+    class DamageNugget
     {
-        public int Damage;
+        public string DamageScalar;
+        public string RequiredUpgradeNames;
+        public string ForbiddenUpgradeNames;
+        public float Damage;
+        public int DamageMaxHeight;
+        public float DamageSpeed;
         public float Radius;
-        public int DelayTime;
+        public float DelayTime;
+        public float DamageArc;
         public string DamageType;
         public string DamageFXType;
         public string DeathType;
+        public string SpecialObjectFilter;
     }
 
-    public struct MetaImpactNugget
+    class MetaImpactNugget
     {
         public float HeroResist;
         public float ShockWaveAmount;
         public float ShockWaveRadius;
-        public int ShockWaveArc; //in degrees to each side 180 is full circle
+        public float ShockWaveArc; //in degrees to each side 180 is full circle
         public float ShockWaveTaperOff;
+        public float ShockWaveClearMult;
+        public float ShockWaveClearFlingHeight;
         public float ShockWaveSpeed;
         public float ShockWaveZMult;
         public bool InvertShockWave;
+        public bool ShockWaveClearRadius;
+        public string SpecialObjectFilter;
+        public string KillObjectFilter;
     }
 
-    public struct ProjectileNugget
+    class ProjectileNugget
     {
         public string ProjectileTemplateName;
         public string WarheadTemplateName;
+        public string SpecialObjectFilter;
     }
 
-    public struct WeaponOCLNugget
+    class WeaponOCLNugget
     {
         public string WeaponOCLName;
+        public string ForbiddenUpgradeNames;
+        public string RequiredUpgradeNames;
     }
 
-    public struct AttributeModifierNugget
+    class DOTNugget
+    {
+        public bool AcceptDamageAdd;
+        public float Damage;
+        public float DamageScalar;
+        public float Radius;
+        public string DelayTime;
+        public string DamageType;
+        public string DamageFXType;
+        public string DeathType;
+        public int DamageInterval;
+        public int DamageDuration;
+        public string SpecialObjectFilter;
+    }
+
+
+    class ParalyzeNugget
+    {
+        public float Duration;
+        public float Radius;
+        public string ParalyzeFX;
+        public string SpecialObjectFilter;
+    }
+
+    class FireLogicNugget
+    {
+        public string LogicType;
+        public float Damage;
+        public float Radius;
+    }
+
+    class OpenGateNugget
+    {
+        public float Radius;
+    }
+
+    class HordeAttackNugget
+    {
+
+    }
+
+    class DamageContainedNugget
+    {
+
+    }
+
+    class LuaEventNugget
+    {
+
+    }
+
+    class SlaveAttackNugget
+    {
+
+    }
+
+    class AttributeModifierNugget
     {
         public string AttributeModifier;
         public string DamageFXType;
+        public string SpecialObjectFilter;
     }
 
-    public struct StealMoneyNugget
+    class StealMoneyNugget
     {
         public float AmountStolenPerAttack;
     }
