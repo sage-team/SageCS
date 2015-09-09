@@ -12,7 +12,6 @@ namespace SageCS.INI
     class INIManager
     {
 
-
         private static GameData gameData;
         private static Dictionary<string, Object> objects = new Dictionary<string, Object>();
         private static Dictionary<string, Weapon> weapons = new Dictionary<string, Weapon>();
@@ -24,11 +23,27 @@ namespace SageCS.INI
         private static Dictionary<string, ModifierList> modifierLists = new Dictionary<string, ModifierList>();
         private static Dictionary<string, Science> sciences = new Dictionary<string, Science>();
         private static Dictionary<string, FXList> fxLists = new Dictionary<string, FXList>();
+        private static Dictionary<string, MusicTrack> musicTracks = new Dictionary<string, MusicTrack>();
+        private static Dictionary<string, Multisound> multiSounds = new Dictionary<string, Multisound>();
+        private static Dictionary<string, DialogEvent> dialogEvents = new Dictionary<string, DialogEvent>();
+        private static Dictionary<string, AudioEvent> audioEvents = new Dictionary<string, AudioEvent>();
 
         public static void ParseINIs()
         {
             //hardcoded: (on start)
+            new INIParser(FileSystem.Open("data\\ini\\default\\music.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\default\\speech.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\default\\soundeffects.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\default\\ambientstream.ini"));
+
+            new INIParser(FileSystem.Open("data\\ini\\music.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\soundeffects.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\speech.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\voice.ini"));
+            new INIParser(FileSystem.Open("data\\ini\\ambientstream.ini"));
+
             new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
+
             /*
             data\ini\default\SubsystemLegend.ini
             ->most of this stuff is defined here, but why not all files??
@@ -342,6 +357,82 @@ namespace SageCS.INI
                 return true;
             }
             fl = null;
+            return false;
+        }
+
+        public static void AddMusicTrack(string name, MusicTrack mt)
+        {
+            if (!musicTracks.ContainsKey(name))
+                musicTracks.Add(name, mt);
+            else
+                musicTracks[name] = mt;
+        }
+
+        public static bool TryGetMusicTrack(string name, out MusicTrack mt)
+        {
+            if (musicTracks.ContainsKey(name))
+            {
+                mt = musicTracks[name];
+                return true;
+            }
+            mt = null;
+            return false;
+        }
+
+        public static void AddMultisound(string name, Multisound ms)
+        {
+            if (!multiSounds.ContainsKey(name))
+                multiSounds.Add(name, ms);
+            else
+                multiSounds[name] = ms;
+        }
+
+        public static bool TryGetMultisound(string name, out Multisound ms)
+        {
+            if (multiSounds.ContainsKey(name))
+            {
+                ms = multiSounds[name];
+                return true;
+            }
+            ms = null;
+            return false;
+        }
+
+        public static void AddDialogEvent(string name, DialogEvent de)
+        {
+            if (!dialogEvents.ContainsKey(name))
+                dialogEvents.Add(name, de);
+            else
+                dialogEvents[name] = de;
+        }
+
+        public static bool TryGetDialogEvent(string name, out DialogEvent de)
+        {
+            if (dialogEvents.ContainsKey(name))
+            {
+                de = dialogEvents[name];
+                return true;
+            }
+            de = null;
+            return false;
+        }
+
+        public static void AddAudioEvent(string name, AudioEvent ae)
+        {
+            if (!audioEvents.ContainsKey(name))
+                audioEvents.Add(name, ae);
+            else
+                audioEvents[name] = ae;
+        }
+
+        public static bool TryGetAudioEvent(string name, out AudioEvent ae)
+        {
+            if (audioEvents.ContainsKey(name))
+            {
+                ae = audioEvents[name];
+                return true;
+            }
+            ae = null;
             return false;
         }
     }

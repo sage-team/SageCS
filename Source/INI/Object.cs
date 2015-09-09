@@ -17,7 +17,6 @@ namespace SageCS.INI
         public bool FollowBone = false;
         public bool OnlyIfOnLand = false;
         public bool OnlyIfOnWater = false;
-
     }
 
     public class ModelConditionState
@@ -27,11 +26,60 @@ namespace SageCS.INI
         public Dictionary<string, ParticleSysBone> ParticleSysBones;
     }
 
+    public class Animation
+    {
+        public string AnimationName;
+        public int AnimationPriority;
+        public string AnimationMode;
+        public int AnimationBlendTime;
+        public bool UseWeaponTiming;
+        public float[] AnimationSpeedFactorRange = new float[2];
+    }
+
+    public class IdleAnimationState
+    {
+        private List<Animation> animations = new List<Animation>();
+
+        public void AddAnimation(Animation a)
+        {
+            animations.Add(a);
+        }
+    }
+
+    public class TransitionState
+    {
+        public Animation animation;
+    }
+
+    public class AnimationState
+    {
+        public bool ShareAnimation;
+        public bool SimilarRestart;
+        public string StateName;
+        public string Flags;
+        private List<Animation> animations = new List<Animation>();
+
+        public void AddAnimation(Animation a)
+        {
+            animations.Add(a);
+        }
+    }
+
     public class Draw
     {
-        public string ExtraPublicBone;
+        public string WadingParticleSys;
+        public bool StaticModelLODMode;
         public bool OkToChangeModelColor;
+        public string ExtraPublicBone;
+        public IdleAnimationState IdleAnimationState;
         public ModelConditionState DefaultModelConditionState;
+        public ModelConditionState ModelConditionState;
+        private Dictionary<string, AnimationState> animationStates = new Dictionary<string, AnimationState>();
+
+        public void AddAnimationState(string name, AnimationState ast)
+        {
+            animationStates.Add(name, ast);
+        }
     }
 
     public class WeaponSet
@@ -85,8 +133,8 @@ namespace SageCS.INI
         //public string side; //only used in worldBuilder
         //public string editorSorting; //only used in worldBuilder
         public int TransportSlotCount; //how many "slots" we take in a transport (0 == not transportable)
-        public List<WeaponSet> WeaponSets = new List<WeaponSet>(); //object
-        public List<ArmorSet> ArmorSets = new List<ArmorSet>(); //object
+        private List<WeaponSet> weaponSets = new List<WeaponSet>(); //object
+        private List<ArmorSet> armorSets = new List<ArmorSet>(); //object
         public float VisionRange;
         public int BuildCost;
         public int BuildTime;
@@ -166,7 +214,7 @@ namespace SageCS.INI
         public string UnderConstruction;
         public string UnderRepairFromDamage;
         public string UnderRepairFromRubble;
-        public Dictionary<string, string> VoiceAttackUnit = new Dictionary<string, string>(); // Played when ordered to attack a specific type of object e.g. VoiceAttackUnitRohanEntFir
+        private Dictionary<string, string> voiceAttackUnit = new Dictionary<string, string>(); // Played when ordered to attack a specific type of object e.g. VoiceAttackUnitRohanEntFir
         public string VoiceBombard;
         public string VoiceBuildResponse;
         public string VoiceCaptureBuildingComplete;
@@ -175,7 +223,7 @@ namespace SageCS.INI
         public string VoiceDeliverRing;
         public string VoiceEnter;
         public string VoiceEnterHostile;
-        public Dictionary<string, string> VoiceEnterUnit = new Dictionary<string, string>();//<ObjectName>
+        private Dictionary<string, string> voiceEnterUnit = new Dictionary<string, string>();//<ObjectName>
         public string VoiceGetHealed;
         public string VoiceGarrison;
         public string VoiceNoBuild;
@@ -200,11 +248,11 @@ namespace SageCS.INI
         public string KindOf;
         public string CamouflageDetectionMultiplayer;
 
-        public Dictionary<string, Body> Bodys = new Dictionary<string, Body>();
-        public Dictionary<string, Draw> Draws = new Dictionary<string, Draw>();
-        public Dictionary<string, Behaviour> Behaviours = new Dictionary<string, Behaviour>();
+        private Dictionary<string, Body> bodys = new Dictionary<string, Body>();
+        private Dictionary<string, Draw> draws = new Dictionary<string, Draw>();
+        private Dictionary<string, Behaviour> behaviours = new Dictionary<string, Behaviour>();
 
-        public List<InheritableModule> InheritableModules = new List<InheritableModule>();
+        private List<InheritableModule> inheritableModules = new List<InheritableModule>();
 
         public float Scale;
         public string Geometry; //Collision geometry
@@ -216,5 +264,13 @@ namespace SageCS.INI
         public string BuildCompletion;
 
         public string ExperienceScalarTable;
+
+        public void AddDraw(string name, Draw d)
+        {
+            if (!draws.ContainsKey(name))
+                draws.Add(name, d);
+            else
+                draws[name] = d;
+        }
     }
 }

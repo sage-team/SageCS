@@ -10,14 +10,14 @@ namespace SageCS.INI
     class FXList
     {
         public bool PlayEvenIfShrouded;
-        List<ParticleSystem> particleSystems;
-        List<Sound> sounds;
-        List<DynamicDecal> dynamicDecals;
-        List<TerrainScorch> terrainScorches;
-        BuffNugget buffNugget;
-        ViewShake viewShake;
-        CameraShakerVolume cameraShakerVolume;
-        TintDrawable tintDrawable;
+        private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+        private List<Sound> sounds = new List<Sound>();
+        private List<DynamicDecal> dynamicDecals = new List<DynamicDecal>();
+        private List<TerrainScorch> terrainScorches = new List<TerrainScorch>();
+        public BuffNugget buffNugget;
+        public ViewShake viewShake;
+        public CameraShakerVolume cameraShakerVolume;
+        public TintDrawable tintDrawable;
 
         public void AddParticleSystem(ParticleSystem ps)
         {
@@ -44,7 +44,7 @@ namespace SageCS.INI
     {
         public string Name;
         public int Count;
-        public int Offset;
+        public Vector3 Offset;
         public int Radius;
         public float Height;
         public float InitialDelay;
@@ -59,6 +59,14 @@ namespace SageCS.INI
         public string TargetBoneOverride;
         public bool UseTargetOffset;
         public Vector3 TargetOffset;
+        public bool OnlyIfOnWater;
+        public bool OnlyIfOnLand;
+        public string AttachToBone;
+        public string Weather;
+        public string ObjectFilter;
+        public bool SetTargetMatrix;
+        public int SystemLife;
+        public string TargetCoeff;
     }
 
     class BuffNugget
@@ -68,14 +76,21 @@ namespace SageCS.INI
         public string BuffCavalryTemplate;
         public string BuffTrollTemplate;
         public string BuffShipTemplate;
+        public string BuffOrcTemplate;
         public string BuffMonsterTemplate;
         public bool IsComplexBuff;
         public int BuffLifeTime;
+        public string BuffThingTemplate;
     }
 
     class Sound
     {
         public string Name;
+        public string RequiredSourceModelConditions;
+        public string SourceObjectFilter;
+        public string ObjectFilter;
+        public bool StopIfNuggetPlayed;
+        public string ExcludedSourceModelConditions;
     }
 
     class EvaEvent
@@ -100,13 +115,13 @@ namespace SageCS.INI
         public float DecayAt;
         public float Length;
         public float Width;
-        public Vector4 Color;
+        public Vector3 Color;
         public float Probability;
     }
 
     class LightPulse
     {
-        public Vector4 Color;
+        public Vector3 Color;
         public float Radius;
         public float RadiusAsPercentOfObjectSize;
         public int IncreaseTime;
@@ -123,12 +138,15 @@ namespace SageCS.INI
     class ViewShake
     {
         public string Type;
+        public string ObjectFilter;
     }
 
     class TerrainScorch
     {
         public string Type;
         public float Radius;
+        public string Weather;
+        public int[] RandomRange = new int[2];
     }
 
     class FXListAtBonePos
@@ -152,8 +170,9 @@ namespace SageCS.INI
     class DynamicDecal
     {
         public string DecalName;
+        public float Lifetime;
         public float Size;
-        public Vector4 Color;
+        public Vector3 Color;
         public Vector2 Offset;
         public int OpacityStart;
         public float OpacityFadeTimeOne;
@@ -162,8 +181,7 @@ namespace SageCS.INI
         public float OpacityFadeTimeTwo;
         public int OpacityEnd;
         public float StartingDelay;
-        public float LifeTime;
-
+        public string Shader;
     }
 
     class Laser

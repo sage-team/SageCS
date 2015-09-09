@@ -1,3 +1,4 @@
+using OpenTK;
 using SageCS.Core;
 using System;
 using System.Collections.Generic;
@@ -114,7 +115,6 @@ namespace SageCS.INI
         }
     }
 
-
     class DamageFieldNugget
     {
         public string WeaponTemplateName;
@@ -123,6 +123,15 @@ namespace SageCS.INI
 
     class DamageNugget
     {
+        public bool DamageArcInverted;
+        public bool CylinderAOE;
+        public string ForceKillObjectFilter;
+        public int DamageMaxHeightAboveTerrain;
+        public string DamageSubType;
+        public string DamageTaperOff;
+        public bool DrainLife;
+        public float DrainLifeMultiplier;
+        public int FlankingBonus;
         public string DamageScalar;
         public string RequiredUpgradeNames;
         public string ForbiddenUpgradeNames;
@@ -136,11 +145,17 @@ namespace SageCS.INI
         public string DamageFXType;
         public string DeathType;
         public string SpecialObjectFilter;
+        public bool AcceptDamageAdd;
     }
 
     class MetaImpactNugget
     {
+        public bool FlipDirection;
+        public bool ShockWaveArcInverted;
+        public float CyclonicFactor;
+        public bool OnlyWhenJustDied;
         public float HeroResist;
+        public int DelayTime;
         public float ShockWaveAmount;
         public float ShockWaveRadius;
         public float ShockWaveArc; //in degrees to each side 180 is full circle
@@ -157,9 +172,14 @@ namespace SageCS.INI
 
     class ProjectileNugget
     {
+        public string WeaponLaunchBoneSlotOverride;
+        public string RequiredUpgradeNames;
+        public string ForbiddenUpgradeNames;
         public string ProjectileTemplateName;
         public string WarheadTemplateName;
         public string SpecialObjectFilter;
+        public bool UseAlwaysAttackOffset;
+        public Vector3 AlwaysAttackHereOffset;
     }
 
     class WeaponOCLNugget
@@ -171,6 +191,8 @@ namespace SageCS.INI
 
     class DOTNugget
     {
+        public string RequiredUpgradeNames;
+        public string ForbiddenUpgradeNames;
         public bool AcceptDamageAdd;
         public float Damage;
         public float DamageScalar;
@@ -183,7 +205,6 @@ namespace SageCS.INI
         public int DamageDuration;
         public string SpecialObjectFilter;
     }
-
 
     class ParalyzeNugget
     {
@@ -198,6 +219,11 @@ namespace SageCS.INI
         public string LogicType;
         public float Damage;
         public float Radius;
+        public float MaxResistance;
+        public float MinDecay;
+        public int MinMaxBurnRate;
+        public float DelayTime;
+        public int DamageArc;
     }
 
     class OpenGateNugget
@@ -207,17 +233,24 @@ namespace SageCS.INI
 
     class HordeAttackNugget
     {
-
+        public string LockWeaponSlot;
     }
 
     class DamageContainedNugget
     {
-
+        public string KillKindof;
+        public string KillKindofNot;
+        public string DeathType;
+        public int KillCount;
     }
 
     class LuaEventNugget
     {
-
+        public bool SendToNeutral;
+        public bool SendToAllies;
+        public bool SendToEnemies;
+        public int Radius;
+        public string LuaEvent;
     }
 
     class SlaveAttackNugget
@@ -227,6 +260,8 @@ namespace SageCS.INI
 
     class AttributeModifierNugget
     {
+        public float Radius;
+        public string AntiCategories;
         public string AttributeModifier;
         public string DamageFXType;
         public string SpecialObjectFilter;
@@ -235,5 +270,8 @@ namespace SageCS.INI
     class StealMoneyNugget
     {
         public float AmountStolenPerAttack;
+        public string RequiredUpgradeNames;
+        public string SpecialObjectFilter;
+        public string ForbiddenUpgradeNames;
     }
 }

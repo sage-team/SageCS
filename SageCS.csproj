@@ -97,13 +97,17 @@
     <Compile Include="Source\Graphics\Model.cs" />
     <Compile Include="Source\INI\AmbientStream.cs" />
     <Compile Include="Source\INI\Armor.cs" />
+    <Compile Include="Source\INI\AudioEvent.cs" />
     <Compile Include="Source\INI\CommandButton.cs" />
+    <Compile Include="Source\INI\DialogEvent.cs" />
     <Compile Include="Source\INI\FXList.cs" />
     <Compile Include="Source\INI\GameData.cs" />
     <Compile Include="Source\INI\INIManager.cs" />
     <Compile Include="Source\INI\LoadSubsystem.cs" />
     <Compile Include="Source\INI\MappedImage.cs" />
     <Compile Include="Source\INI\ModifierList.cs" />
+    <Compile Include="Source\INI\Multisound.cs" />
+    <Compile Include="Source\INI\MusicTrack.cs" />
     <Compile Include="Source\INI\Object.cs" />
     <Compile Include="Source\INI\Science.cs" />
     <Compile Include="Source\INI\Upgrade.cs" />
