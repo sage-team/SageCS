@@ -10,14 +10,14 @@ namespace SageCS.INI
 {
     class AmbientStream
     {
-        public string Filename;
-        public float Volume;
-        public string Type;
         public string Control;
-        public float MinRange;
-        public float MaxRange;
         public int DryLevel;
+        public string Filename;
+        public float MaxRange;
+        public float MinRange;
         public int ReverbEffectLevel;
         public string SubmixSlider;
+        public string Type;
+        public float Volume;
     }
 }

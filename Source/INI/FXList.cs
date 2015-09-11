@@ -9,95 +9,144 @@ namespace SageCS.INI
 {
     class FXList
     {
-        public bool PlayEvenIfShrouded;
-        private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
-        private List<Sound> sounds = new List<Sound>();
-        private List<DynamicDecal> dynamicDecals = new List<DynamicDecal>();
-        private List<TerrainScorch> terrainScorches = new List<TerrainScorch>();
         public BuffNugget buffNugget;
-        public ViewShake viewShake;
         public CameraShakerVolume cameraShakerVolume;
+        private List<DynamicDecal> dynamicDecals = new List<DynamicDecal>();
+        private List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+        public bool PlayEvenIfShrouded;
+        private List<Sound> sounds = new List<Sound>();
+        private List<TerrainScorch> terrainScorches = new List<TerrainScorch>();
         public TintDrawable tintDrawable;
-
-        public void AddParticleSystem(ParticleSystem ps)
-        {
-            particleSystems.Add(ps);
-        }
+        public ViewShake viewShake;
 
         public void AddDynamicDecal(DynamicDecal dd)
         {
             dynamicDecals.Add(dd);
         }
 
-        public void AddTerrainScorch(TerrainScorch ts)
+        public void AddParticleSystem(ParticleSystem ps)
         {
-            terrainScorches.Add(ts);
+            particleSystems.Add(ps);
         }
 
         public void AddSound(Sound s)
         {
             sounds.Add(s);
         }
+
+        public void AddTerrainScorch(TerrainScorch ts)
+        {
+            terrainScorches.Add(ts);
+        }
     }
 
-    class ParticleSystem
+
+    class AttachedModel
     {
-        public string Name;
-        public int Count;
-        public Vector3 Offset;
-        public int Radius;
-        public float Height;
-        public float InitialDelay;
-        public float RotateX;
-        public float RotateY;
-        public float RotateZ;
-        public bool OrientToObject;
-        public bool Ricochet;
-        public bool AttachToObject;
-        public bool CreateAtGroundHeight;
-        public string CreateBoneOverride;
-        public string TargetBoneOverride;
-        public bool UseTargetOffset;
-        public Vector3 TargetOffset;
-        public bool OnlyIfOnWater;
-        public bool OnlyIfOnLand;
-        public string AttachToBone;
-        public string Weather;
-        public string ObjectFilter;
-        public bool SetTargetMatrix;
-        public int SystemLife;
-        public string TargetCoeff;
+        public int ExpireTimer;
+        public string Modelname;
+        public bool RandomlyRotate;
     }
 
     class BuffNugget
     {
-        public string BuffType;
-        public string BuffInfantryTemplate;
         public string BuffCavalryTemplate;
-        public string BuffTrollTemplate;
-        public string BuffShipTemplate;
-        public string BuffOrcTemplate;
-        public string BuffMonsterTemplate;
-        public bool IsComplexBuff;
+        public string BuffInfantryTemplate;
         public int BuffLifeTime;
+        public string BuffMonsterTemplate;
+        public string BuffOrcTemplate;
+        public string BuffShipTemplate;
         public string BuffThingTemplate;
+        public string BuffTrollTemplate;
+        public string BuffType;
+        public bool IsComplexBuff;
     }
 
-    class Sound
+    class CameraShakerVolume
     {
-        public string Name;
-        public string RequiredSourceModelConditions;
-        public string SourceObjectFilter;
-        public string ObjectFilter;
-        public bool StopIfNuggetPlayed;
-        public string ExcludedSourceModelConditions;
+        public float Amplitude_Degrees;
+        public float Duration_Seconds;
+        public float Radius;
+    }
+
+    class DynamicDecal
+    {
+        public Vector3 Color;
+        public string DecalName;
+        public float Lifetime;
+        public Vector2 Offset;
+        public int OpacityEnd;
+        public float OpacityFadeTimeOne;
+        public float OpacityFadeTimeTwo;
+        public int OpacityPeak;
+        public float OpacityPeakTime;
+        public int OpacityStart;
+        public string Shader;
+        public float Size;
+        public float StartingDelay;
     }
 
     class EvaEvent
     {
-        public string EvaEventOwner;
         public string EvaEventAlly;
         public string EvaEventEnemy;
+        public string EvaEventOwner;
+    }
+
+    class FXListAtBonePos
+    {
+        public string BoneName;
+        public string FX;
+    }
+
+    class FXParticleSysBoneNugget
+    {
+        public string ParticleSysBone;
+    }
+
+    class Laser
+    {
+        public bool LaserBackwards;
+        public string LaserName;
+        public Vector3 TargetPositionOffsetFallback;
+    }
+
+    class LightPulse
+    {
+        public Vector3 Color;
+        public int DecreaseTime;
+        public int IncreaseTime;
+        public float Radius;
+        public float RadiusAsPercentOfObjectSize;
+    }
+
+    class ParticleSystem
+    {
+        public string AttachToBone;
+        public bool AttachToObject;
+        public int Count;
+        public bool CreateAtGroundHeight;
+        public string CreateBoneOverride;
+        public float Height;
+        public float InitialDelay;
+        public string Name;
+        public string ObjectFilter;
+        public Vector3 Offset;
+        public bool OnlyIfOnLand;
+        public bool OnlyIfOnWater;
+        public bool OrientToObject;
+        public int Radius;
+        public bool Ricochet;
+        public float RotateX;
+        public float RotateY;
+        public float RotateZ;
+        public bool SetTargetMatrix;
+        public int SystemLife;
+        public string TargetBoneOverride;
+        public string TargetCoeff;
+        public Vector3 TargetOffset;
+        public bool UseTargetOffset;
+        public string Weather;    
     }
 
     class RayEffect
@@ -107,97 +156,49 @@ namespace SageCS.INI
         public Vector3 SecondaryOffset;
     }
 
-    class Tracer
+    class Sound
     {
-        public string TracerName;
-        public string BoneName;
-        public float Speed;
-        public float DecayAt;
-        public float Length;
-        public float Width;
-        public Vector3 Color;
-        public float Probability;
-    }
-
-    class LightPulse
-    {
-        public Vector3 Color;
-        public float Radius;
-        public float RadiusAsPercentOfObjectSize;
-        public int IncreaseTime;
-        public int DecreaseTime;
-    }
-
-    class CameraShakerVolume
-    {
-        public float Radius;
-        public float Duration_Seconds;
-        public float Amplitude_Degrees;
-    }
-
-    class ViewShake
-    {
-        public string Type;
+        public string ExcludedSourceModelConditions;
+        public string Name;
         public string ObjectFilter;
+        public string RequiredSourceModelConditions;
+        public string SourceObjectFilter;
+        public bool StopIfNuggetPlayed;
     }
 
     class TerrainScorch
     {
-        public string Type;
-        public float Radius;
-        public string Weather;
         public int[] RandomRange = new int[2];
-    }
-
-    class FXListAtBonePos
-    {
-        public string FX;
-        public string BoneName;
-    }
-
-    class FXParticleSysBoneNugget
-    {
-        public string ParticleSysBone;
-    }
-
-    class AttachedModel
-    {
-        public string Modelname;
-        public bool RandomlyRotate;
-        public int ExpireTimer;
-    }
-
-    class DynamicDecal
-    {
-        public string DecalName;
-        public float Lifetime;
-        public float Size;
-        public Vector3 Color;
-        public Vector2 Offset;
-        public int OpacityStart;
-        public float OpacityFadeTimeOne;
-        public int OpacityPeak;
-        public float OpacityPeakTime;
-        public float OpacityFadeTimeTwo;
-        public int OpacityEnd;
-        public float StartingDelay;
-        public string Shader;
-    }
-
-    class Laser
-    {
-        public string LaserName;
-        public bool LaserBackwards;
-        public Vector3 TargetPositionOffsetFallback;
+        public float Radius;
+        public string Type;
+        public string Weather;
     }
 
     class TintDrawable
     {
-        public Vector3 Color;
-        public int PreColorTime;
-        public int PostColorTime;
-        public int SustainedColorTime;
-        public int Frequency;
         public int Amplitude;
+        public Vector3 Color;
+        public int Frequency;
+        public int PostColorTime;
+        public int PreColorTime;
+        public int SustainedColorTime;
+    }
+
+    class Tracer
+    {
+        public string BoneName;
+        public Vector3 Color;
+        public float DecayAt;
+        public float Length;
+        public float Probability;
+        public float Speed;
+        public string TracerName;
+        public float Width;
+    }
+
+    class ViewShake
+    {
+        public string ObjectFilter;
+        public string Type;
     }
 }

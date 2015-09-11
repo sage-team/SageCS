@@ -134,7 +134,7 @@ namespace SageCS.Core
                     case "Object":
                         INI.Object o = new INI.Object();
                         name = getString();
-                        //ParseObject(o);
+                        ParseObject(o);
                         INIManager.AddObject(name, o);
                         break;
                     case "Science":
@@ -176,7 +176,6 @@ namespace SageCS.Core
             {
                 ParseLine();
                 s = getString();
-
                 if (o.GetType() == typeof(LoadSubsystem))
                 {
                     LoadSubsystem ls = (LoadSubsystem)o;
@@ -196,6 +195,37 @@ namespace SageCS.Core
                             break;
                         case "ExcludePath":
                             ls.AddExcludePath(getString());
+                            break;
+                    }
+                }
+                else if (o.GetType() == typeof(AnimationState))
+                {
+                    AnimationState state = (AnimationState)o;
+                    string name;
+                    switch(s)
+                    {
+                        case "Animation":
+                            Animation anim = new Animation();
+                            ParseObject(anim);
+                            state.AddAnimation(anim);
+                            break;
+                        case "BeginScript":
+                            string line = getLine();
+                            while (!line.Equals("EndScript"))
+                            {
+                                state.AddScriptLine(line);
+                                line = getLine();
+                            }
+                            break;
+                        case "ParticleSysBone":
+                            ParticleSysBone bone = new ParticleSysBone();
+                            bone.Type = getString();
+                            name = getString();
+                            if (HasNext())
+                            {
+                                bone.FollowBone = getBool();
+                            }
+                            state.AddParticleSysBone(name, bone);
                             break;
                     }
                 }
@@ -228,11 +258,56 @@ namespace SageCS.Core
                             break;
                     }
                 }
+                else if (o.GetType() == typeof(Draw))
+                {
+                    Draw dr = (Draw)o;
+                    string name;
+                    switch(s)
+                    {
+                        case "AnimationState":
+                            AnimationState astate = new AnimationState();
+                            name = getString();
+                            ParseObject(astate);
+                            dr.AddAnimationState(name, astate);
+                            break;
+                        case "DefaultModelConditionState":
+                            ModelConditionState defMod = new ModelConditionState();
+                            ParseObject(defMod);
+                            dr.DefaultModelConditionState = defMod;
+                            break;
+                        case "IdleAnimationState":
+                            AnimationState iastate = new AnimationState();
+                            ParseObject(iastate);
+                            dr.IdleAnimationState = iastate;
+                            break;
+                        case "ModelConditionState":
+                            ModelConditionState mcs = new ModelConditionState();
+                            name = getString();
+                            ParseObject(mcs);
+                            dr.AddModelConditionState(name, mcs);
+                            break;
+                    }
+                }
                 else if (o.GetType() == typeof(FXList))
                 {
                     FXList fx = (FXList)o;
                     switch(s)
                     {
+                        case "BuffNugget":
+                            BuffNugget bn = new BuffNugget();
+                            ParseObject(bn);
+                            fx.buffNugget = bn;
+                            break;
+                        case "CameraShakerVolume":
+                            CameraShakerVolume cs = new CameraShakerVolume();
+                            ParseObject(cs);
+                            fx.cameraShakerVolume = cs;
+                            break;
+                        case "DynamicDecal":
+                            DynamicDecal dc = new DynamicDecal();
+                            ParseObject(dc);
+                            fx.AddDynamicDecal(dc);
+                            break;
                         case "ParticleSystem":
                             ParticleSystem ps = new ParticleSystem();
                             ParseObject(ps);
@@ -243,35 +318,20 @@ namespace SageCS.Core
                             ParseObject(so);
                             fx.AddSound(so);
                             break;
-                        case "DynamicDecal":
-                            DynamicDecal dc = new DynamicDecal();
-                            ParseObject(dc);
-                            fx.AddDynamicDecal(dc);
-                            break;
                         case "TerrainScorch":
                             TerrainScorch ts = new TerrainScorch();
                             ParseObject(ts);
                             fx.AddTerrainScorch(ts);
                             break;
-                        case "BuffNugget":
-                            BuffNugget bn = new BuffNugget();
-                            ParseObject(bn);
-                            fx.buffNugget = bn;
+                        case "TintDrawable":
+                            TintDrawable td = new TintDrawable();
+                            ParseObject(td);
+                            fx.tintDrawable = td;
                             break;
                         case "ViewShake":
                             ViewShake vs = new ViewShake();
                             ParseObject(vs);
                             fx.viewShake = vs;
-                            break;
-                        case "CameraShakerVolume":
-                            CameraShakerVolume cs = new CameraShakerVolume();
-                            ParseObject(cs);
-                            fx.cameraShakerVolume = cs;
-                            break;
-                        case "TintDrawable":
-                            TintDrawable td = new TintDrawable();
-                            ParseObject(td);
-                            fx.tintDrawable = td;
                             break;
                     }
                 }
@@ -280,11 +340,29 @@ namespace SageCS.Core
                     GameData gd = (GameData)o;
                     switch (s)
                     {
+                        case "StandardPublicBone":
+                            gd.AddStandardPublicBone(getString());
+                            break;
                         case "WeaponBonus":
                             gd.AddWeaponBonus(getString(), getString(), getInt());
                             break;
-                        case "StandardPublicBone":
-                            gd.AddStandardPublicBone(getString());
+                    }
+                }
+                else if (o.GetType() == typeof(ModelConditionState))
+                {
+                    ModelConditionState mstate = (ModelConditionState)o;
+                    string name;
+                    switch(s)
+                    {
+                        case "ParticleSysBone":
+                            ParticleSysBone bone = new ParticleSysBone();
+                            bone.Type = getString();
+                            name = getString();
+                            if (HasNext())
+                            {
+                                bone.FollowBone = getBool();
+                            }
+                            mstate.AddParticleSysBone(name, bone);
                             break;
                     }
                 }
@@ -320,11 +398,29 @@ namespace SageCS.Core
                 else if (o.GetType() == typeof(INI.Object))
                 {
                     INI.Object obj = (INI.Object)o;
+                    string name;
                     switch (s)
                     {
+                        case "ArmorSet":
+                            ArmorSet set = new ArmorSet();
+                            ParseObject(set);
+                            obj.AddArmorSet(set);
+                            break;
+                        case "Behaviour":
+                            Behaviour b = new Behaviour();
+                            name = getString();
+                            ParseObject(b);
+                            obj.AddBehaviour(name, b);
+                            break;
+                        case "Body":
+                            Body bo = new Body();
+                            name = getString();
+                            ParseObject(bo);
+                            obj.AddBody(name, bo);
+                            break;
                         case "Draw":
                             Draw d = new Draw();
-                            string name = getString();
+                            name = getString();
                             ParseObject(d);
                             obj.AddDraw(name, d);
                             break;
@@ -335,6 +431,16 @@ namespace SageCS.Core
                     Weapon w = (Weapon)o;
                     switch(s)
                     {
+                        case "AttributeModifierNugget":
+                            AttributeModifierNugget amn = new AttributeModifierNugget();
+                            ParseObject(amn);
+                            w.attributeModifierNugget = amn;
+                            break;
+                        case "DamageContainedNugget":
+                            DamageContainedNugget dcn = new DamageContainedNugget();
+                            ParseObject(dcn);
+                            w.damageContainedNugget = dcn;
+                            break;
                         case "DamageFieldNugget":
                             DamageFieldNugget dfn = new DamageFieldNugget();
                             ParseObject(dfn);
@@ -345,30 +451,10 @@ namespace SageCS.Core
                             ParseObject(dn);
                             w.damageNugget = dn;
                             break;
-                        case "MetaImpactNugget":
-                            MetaImpactNugget min = new MetaImpactNugget();
-                            ParseObject(min);
-                            w.metaImpactNugget = min;
-                            break;
-                        case "ProjectileNugget":
-                            ProjectileNugget pn = new ProjectileNugget();
-                            ParseObject(pn);
-                            w.AddProjectileNugget(pn);
-                            break;
-                        case "WeaponOCLNugget":
-                            WeaponOCLNugget won = new WeaponOCLNugget();
-                            ParseObject(won);
-                            w.weaponOCLNugget = won;
-                            break;
                         case "DOTNugget":
                             DOTNugget don = new DOTNugget();
                             ParseObject(don);
                             w.dotNugget = don;
-                            break;
-                        case "ParalyzeNugget":
-                            ParalyzeNugget pan = new ParalyzeNugget();
-                            ParseObject(pan);
-                            w.paralyzeNugget = pan;
                             break;
                         case "FireLogicNugget":
                             FireLogicNugget fln = new FireLogicNugget();
@@ -380,35 +466,45 @@ namespace SageCS.Core
                             ParseObject(han);
                             w.hordeAttackNugget = han;
                             break;
-                        case "DamageContainedNugget":
-                            DamageContainedNugget dcn = new DamageContainedNugget();
-                            ParseObject(dcn);
-                            w.damageContainedNugget = dcn;
+                        case "LuaEventNugget":
+                            LuaEventNugget len = new LuaEventNugget();
+                            ParseObject(len);
+                            w.luaEventNugget = len;
+                            break;
+                        case "MetaImpactNugget":
+                            MetaImpactNugget min = new MetaImpactNugget();
+                            ParseObject(min);
+                            w.metaImpactNugget = min;
                             break;
                         case "OpenGateNugget":
                             OpenGateNugget ogn = new OpenGateNugget();
                             ParseObject(ogn);
                             w.openGateNugget = ogn;
                             break;
-                        case "LuaEventNugget":
-                            LuaEventNugget len = new LuaEventNugget();
-                            ParseObject(len);
-                            w.luaEventNugget = len;
+                        case "ParalyzeNugget":
+                            ParalyzeNugget pan = new ParalyzeNugget();
+                            ParseObject(pan);
+                            w.paralyzeNugget = pan;
+                            break;
+                        case "ProjectileNugget":
+                            ProjectileNugget pn = new ProjectileNugget();
+                            ParseObject(pn);
+                            w.AddProjectileNugget(pn);
                             break;
                         case "SlaveAttackNugget":
                             SlaveAttackNugget san = new SlaveAttackNugget();
                             ParseObject(san);
                             w.slaveAttackNugget = san;
                             break;
-                        case "AttributeModifierNugget":
-                            AttributeModifierNugget amn = new AttributeModifierNugget();
-                            ParseObject(amn);
-                            w.attributeModifierNugget = amn;
-                            break;
                         case "StealMoneyNugget":
                             StealMoneyNugget smn = new StealMoneyNugget();
                             ParseObject(smn);
                             w.stealMoneyNugget = smn;
+                            break;
+                        case "WeaponOCLNugget":
+                            WeaponOCLNugget won = new WeaponOCLNugget();
+                            ParseObject(won);
+                            w.weaponOCLNugget = won;
                             break;
                     }
                 }
@@ -444,15 +540,22 @@ namespace SageCS.Core
             while (!s.Equals("End") && !s.Equals("END")); 
         }
 
-
-        public void ParseLine()
+        public string getLine()
         {
-            char[] separators = new char[] { ' ', '\t' };
             line = base.ReadLine().Trim();
             if (line.Contains(";"))
                 line = line.Remove(line.IndexOf(";"));
             if (line.Contains("//"))
                 line = line.Remove(line.IndexOf("//"));
+            lineNumber++;
+            index = 0;
+            return line;
+        }
+        
+        public void ParseLine()
+        {
+            char[] separators = new char[] { ' ', '\t' };
+            line = getLine();
             line = line.Replace("%", "");
             line = line.Replace("Left:", "");
             line = line.Replace("Top:", "");
@@ -460,12 +563,13 @@ namespace SageCS.Core
             line = line.Replace("Bottom:", "");
             line = line.Replace("Min:", "");
             line = line.Replace("Max:", "");
+            line = line.Replace("Followbone:", "");
+            line = line.Replace("FollowBone:", "");
+            line = line.Replace("FOLLOWBONE:", "");
             line = line.Replace(",", ".");
             line = line.Replace("X:", "").Replace("Y:", "").Replace("Z:", "");
             line = line.Replace("R:", "").Replace("G:", "").Replace("B:", "");
             line = line.Replace("MP1:", "").Replace("MP2:", "").Replace("MP3:", "").Replace("MP4:", "").Replace("MP5:", "").Replace("MP6:", "").Replace("MP7:", "").Replace("MP8:", "");
-            lineNumber++;
-            index = 0;
             List<string> dataList = line.Replace("=", "").Split(separators, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
 
             //insert the values from the macros

@@ -1,230 +1,202 @@
 using OpenTK;
-using SageCS.Core;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SageCS.INI
 {
-    class WeaponBonus
-    {
-        public Dictionary<string, int> bonuses = new Dictionary<string, int>();
-
-        public WeaponBonus AddBonus(string _type, int _value)
-        {
-            if (!bonuses.ContainsKey(_type))
-            {
-                bonuses.Add(_type, _value);
-            }
-            else
-            {
-                bonuses[_type] = _value;
-            }
-            return this;
-        }
-    }
-
     class GameData
     {
-        public bool CheckMemoryLeaks;
-        public string MapName;
-        public string ShellMapName; // map file
-        public string MoveHintName;
-        public bool ShowProps;
-        public bool UseFPSLimit;
-        public int FramesPerSecondLimit;
-        public bool Windowed;
-        public int XResolution;
-        public int YResolution;
-        public int MaxShellScreens;
-        public bool UseCloudMap;
-        public bool AllowTreeFading;
-        public bool UseLightMap;
         public bool AdjustCliffTextures;
-        public bool StretchTerrain;
-        public bool UseHalfHeightMap;
-        public bool ShowObjectHealth;
-        public bool HideGarrisonFlags;
-        public int Use3WayTerrainBlends;
+        public bool AllowTreeFading;
+        public int AutoAflameParticleMax;
+        public string AutoAflameParticlePrefix;
+        public string AutoAflameParticleSystem;
+        public int AutoFireParticleLargeMax;
+        public string AutoFireParticleLargePrefix;
+        public string AutoFireParticleLargeSystem;
+        public int AutoFireParticleMediumMax;
+        public string AutoFireParticleMediumPrefix;
+        public string AutoFireParticleMediumSystem;
+        public int AutoFireParticleSmallMax;
+        public string AutoFireParticleSmallPrefix;
+        public string AutoFireParticleSmallSystem;
+        public int AutoSmokeParticleLargeMax;
+        public string AutoSmokeParticleLargePrefix;
+        public string AutoSmokeParticleLargeSystem;
+        public int AutoSmokeParticleMediumMax;
+        public string AutoSmokeParticleMediumPrefix;
+        public string AutoSmokeParticleMediumSystem;
+        public int AutoSmokeParticleSmallMax;
+        public string AutoSmokeParticleSmallPrefix;
+        public string AutoSmokeParticleSmallSystem;
+
+        public float AmmoPipScaleFactor;
+
+        public float CameraAdjustSpeed;
+        public float CameraEaseFactor;
+        public float CameraLockHeightDelta;
+        public float CameraTerrainSampleRadiusForHeight;
+        public bool CheckMemoryLeaks;
+
+        public Vector3 DebugAerialTileColor;
+        public int DebugAerialTileDuration;
+        public int DebugAerialTileWidth;
+        public int DebugCashValueMapTileDuration;
+        public Vector3 DebugProjectileTileColor;
+        public int DebugProjectileTileDuration;
+        public int DebugProjectileTileWidth;
+        public int DebugVisibilityTileCount;
+        public int DebugVisibilityTileDuration;
+        public Vector3 DebugVisibilityTileTargettableColor;
+        public float DebugVisibilityTileWidth;
+        public float DefaultCameraMaxHeight;
+        public float DefaultCameraMinHeight;
+        public float DefaultCameraPitchAngle;
+        public float DefaultCameraScrollSpeedScalar;
+        public float DefaultCameraYawAngle;
+        public string DefaultStructureRepairBuffFxList;
+        public float DefaultStructureRubbleHeight;
+        public int DebugThreatMapTileDuration;
+        public Vector3 DebugVisibilityTileDeshroudColor;
+        public Vector3 DebugVisibilityTileGapColor;
+        public int DefaultOcclusionDelay;
+        public string DefaultUnitHealingBuffFxList;
+        public float DownwindAngle;
         public bool DrawEntireTerrain;
+        public bool DrawSkyBox;
+
+        public bool EnforceMaxCameraHeight;
+
+        public bool FogOfWarOn;
+        public int FramesPerSecondLimit;
+
+        public float Gravity; // ft/sec^2
+        public float GroundStiffness;
+
+        public bool HideGarrisonFlags;
+
+        public string MapName;
+        public float MaxCameraHeight;
+        public int MaxDebugCashValueMapValue;
+        public int MaxDebugThreatMapValue;
+        public int MaxShellScreens;
+        public float MinCameraHeight;
+        public string MoveHintName;
+
+        public float OccludedColorLuminanceScale;
+        public int OpacityOfSimpleMergeDecals;
+
+        public float ParticleScale;
+        public float PartitionCellSize;
+
+        public bool RightMouseAlwaysScrolls;
+
+        public float ScrollAmountCutoff;
+        public string ShellMapName; // map file
+        public bool ShowCollisionExtends;
+        public bool ShowObjectHealth;
+        public bool ShowProps;
+        public bool ShowSelectedUnitMarker;
+        public bool ShroudOn;
+        public bool StateMachineDebug;
+        public bool StretchTerrain;
+        public float StructureStiffness;
+
+        public float TerrainHeightAtEdgeOfMap;
         public string TerrainLOD;
         public int TerrainLODTargetTimeMS;
-        public bool RightMouseAlwaysScrolls;
+        public float TerrainResourceCellSize;
+
+        public float UnitDamagedThreshold;
+        public float UnitReallyDamagedThreshold;
+        public int Use3WayTerrainBlends;
+        public bool UseBehindBuildingMarker;
+        public bool UseCameraConstraints;
+        public bool UseCameraInReplay;
+        public bool UseCloudMap;
         public bool UseCloudPlane;
-        public bool UseShadowVolumes;
+        public bool UseFPSLimit;
+        public bool UseHalfHeightMap;
+        public bool UseLightMap;
         public bool UseShadowDecals;
         public bool UseShadowMapping;
-        public bool ShowSelectedUnitMaker;
+        public bool UseShadowVolumes;
         public bool UseSimpleHordeDecals;
         public bool UseSimpleMergeDecals;
-        public int OpacityOfSimpleMergeDecals;
-        public bool UseBehindBuildingMaker;
-        public int DefaultOcclusionDelay;
-        public float OccludedColorLuminanceScale;
+
+        public int VertexWaterAngle1;
+        public int VertexWaterAngle2;
+        public int VertexWaterAngle3;
+        public int VertexWaterAngle4;
+        public float VertexWaterAttenuationA1;
+        public float VertexWaterAttenuationA2;
+        public float VertexWaterAttenuationA3;
+        public float VertexWaterAttenuationA4;
+        public float VertexWaterAttenuationB1;
+        public float VertexWaterAttenuationB2;
+        public float VertexWaterAttenuationB3;
+        public float VertexWaterAttenuationB4;
+        public float VertexWaterAttenuationC1;
+        public float VertexWaterAttenuationC2;
+        public float VertexWaterAttenuationC3;
+        public float VertexWaterAttenuationC4;
+        public float VertexWaterAttenuationRange1;
+        public float VertexWaterAttenuationRange2;
+        public float VertexWaterAttenuationRange3;
+        public float VertexWaterAttenuationRange4;
+        public string VertexWaterAvailableMaps1;
+        public string VertexWaterAvailableMaps2;
+        public string VertexWaterAvailableMaps3;
+        public string VertexWaterAvailableMaps4;
+        public float VertexWaterGridSize1;
+        public float VertexWaterGridSize2;
+        public float VertexWaterGridSize3;
+        public float VertexWaterGridSize4;
+        public float VertexWaterHeightClampLow1;
+        public float VertexWaterHeightClampLow2;
+        public float VertexWaterHeightClampLow3;
+        public float VertexWaterHeightClampLow4;
+        public float VertexWaterHeightClampHi1;
+        public float VertexWaterHeightClampHi2;
+        public float VertexWaterHeightClampHi3;
+        public float VertexWaterHeightClampHi4;
+        public int VertexWaterXGridCells1;
+        public int VertexWaterXGridCells2;
+        public int VertexWaterXGridCells3;
+        public int VertexWaterXGridCells4;
+        public float VertexWaterXPosition1;
+        public float VertexWaterXPosition2;
+        public float VertexWaterXPosition3;
+        public float VertexWaterXPosition4;
+        public int VertexWaterYGridCells1;
+        public int VertexWaterYGridCells2;
+        public int VertexWaterYGridCells3;
+        public int VertexWaterYGridCells4;
+        public float VertexWaterYPosition1;
+        public float VertexWaterYPosition2;
+        public float VertexWaterYPosition3;
+        public float VertexWaterYPosition4;
+        public float VertexWaterZPosition1;
+        public float VertexWaterZPosition2;
+        public float VertexWaterZPosition3;
+        public float VertexWaterZPosition4;
+        public bool VTune;
+
+        public float WaterExtentX;
+        public float WaterExtentY;
         public float WaterPositionX;
         public float WaterPositionY;
         public float WaterPositionZ;
-        public float WaterExtentX;
-        public float WaterExtentY;
         public int WaterType;
-        public bool ShowSelectedUnitMarker;
-        public bool VTune;
-        public int MaxDebugCashValueMapValue;
-        public int DebugCashValueMapTileDuration;
-        public int MaxDebugThreatMapValue;
-        public int DebugThreatMapTileDuration;
-        public Vector3 DebugVisibilityTileGapColor;
-        public Vector3 DebugVisibilityTileDeshroudColor;
-
-
-        public bool UseBehindBuildingMarker;
-        public float UnitDamagedThreshold;
-        public float TerrainResourceCellSize;
-        public string AutoFireParticleMediumPrefix;
+        public bool Windowed;
         public bool Wireframe;
-        public bool StateMachineDebug;
-        public bool UseCameraConstraints;
-        public bool ShroudOn;
-        public bool FogOfWarOn;
-        public bool ShowCollisionExtends;
 
-        public int DebugProjectileTileWidth;
+        public int XResolution;
 
-        public string DefaultUnitHealingBuffFxList;
-        public string DefaultStructureRepairBuffFxList;
+        public int YResolution;
 
-        public float DefaultStructureRubbleHeight;
-        public bool ShowCollisionExtents;
-        public int DebugProjectileTileDuration;
-        public Vector3 DebugProjectileTileColor;
-        public int DebugAerialTileWidth;
-        public int DebugAerialTileDuration;
-        public Vector3 DebugAerialTileColor;
-        public int DebugVisibilityTileCount;
-        public float DebugVisibilityTileWidth;
 
-        public int DebugVisibilityTileDuration;
-        public Vector3 DebugVisibilityTileTargettableColor;
 
-        public string VertexWaterAvailableMaps1;
-        public float VertexWaterHeightClampLow1;
-        public float VertexWaterHeightClampHi1;
-        public int VertexWaterAngle1;
-        public float VertexWaterXPosition1;
-        public float VertexWaterYPosition1;
-        public float VertexWaterZPosition1;
-        public int VertexWaterXGridCells1;
-        public int VertexWaterYGridCells1;
-        public float VertexWaterGridSize1;
-        public float VertexWaterAttenuationA1;
-        public float VertexWaterAttenuationB1;
-        public float VertexWaterAttenuationC1;
-        public float VertexWaterAttenuationRange1;
-
-        public string VertexWaterAvailableMaps2;
-        public float VertexWaterHeightClampLow2;
-        public float VertexWaterHeightClampHi2;
-        public int VertexWaterAngle2;
-        public float VertexWaterXPosition2;
-        public float VertexWaterYPosition2;
-        public float VertexWaterZPosition2;
-        public int VertexWaterXGridCells2;
-        public int VertexWaterYGridCells2;
-        public float VertexWaterGridSize2;
-        public float VertexWaterAttenuationA2;
-        public float VertexWaterAttenuationB2;
-        public float VertexWaterAttenuationC2;
-        public float VertexWaterAttenuationRange2;
-
-        public string VertexWaterAvailableMaps3;
-        public float VertexWaterHeightClampLow3;
-        public float VertexWaterHeightClampHi3;
-        public int VertexWaterAngle3;
-        public float VertexWaterXPosition3;
-        public float VertexWaterYPosition3;
-        public float VertexWaterZPosition3;
-        public int VertexWaterXGridCells3;
-        public int VertexWaterYGridCells3;
-        public float VertexWaterGridSize3;
-        public float VertexWaterAttenuationA3;
-        public float VertexWaterAttenuationB3;
-        public float VertexWaterAttenuationC3;
-        public float VertexWaterAttenuationRange3;
-
-        public string VertexWaterAvailableMaps4;
-        public float VertexWaterHeightClampLow4;
-        public float VertexWaterHeightClampHi4;
-        public int VertexWaterAngle4;
-        public float VertexWaterXPosition4;
-        public float VertexWaterYPosition4;
-        public float VertexWaterZPosition4;
-        public int VertexWaterXGridCells4;
-        public int VertexWaterYGridCells4;
-        public float VertexWaterGridSize4;
-        public float VertexWaterAttenuationA4;
-        public float VertexWaterAttenuationB4;
-        public float VertexWaterAttenuationC4;
-        public float VertexWaterAttenuationRange4;
-
-        public float DownwindAngle;
-        public bool DrawSkyBox;
-
-        public float DefaultCameraMinHeight;
-        public float DefaultCameraMaxHeight;
-        public float DefaultCameraPitchAngle;
-        public float DefaultCameraYawAngle;
-        public float DefaultCameraScrollSpeedScalar;
-
-        public float CameraLockHeightDelta;
-        public float CameraTerrainSampleRadiusForHeight;
-
-        public float CameraEaseFactor;
-
-        public float MaxCameraHeight;
-        public float MinCameraHeight;
-
-        public bool UseCameraInReplay;
-        public float CameraAdjustSpeed;
-        public float ScrollAmountCutoff;
-        public bool EnforceMaxCameraHeight;
-        public float TerrainHeightAtEdgeOfMap;
-        public float UnitReallyDamagedThreshold;
-        public float GroundStiffness;
-        public float StructureStiffness;
-        public float Gravity; // ft/sec^2
-
-        public float PartitionCellSize;
-        public float TerrainResourceCellize;
-
-        public float ParticleScale;
-
-        public string AutoFireParticleSmallPrefix;
-        public string AutoFireParticleSmallSystem;
-        public int AutoFireParticleSmallMax;
-        public string AutofireParticleMediumPrefix;
-        public string AutoFireParticleMediumSystem;
-        public int AutoFireParticleMediumMax;
-        public string AutoFireParticleLargePrefix;
-        public string AutoFireParticleLargeSystem;
-        public int AutoFireParticleLargeMax;
-        public string AutoSmokeParticleSmallPrefix;
-        public string AutoSmokeParticleSmallSystem;
-        public int AutoSmokeParticleSmallMax;
-        public string AutoSmokeParticleMediumPrefix;
-        public string AutoSmokeParticleMediumSystem;
-        public int AutoSmokeParticleMediumMax;
-        public string AutoSmokeParticleLargePrefix;
-        public string AutoSmokeParticleLargeSystem;
-        public int AutoSmokeParticleLargeMax;
-        public string AutoAflameParticlePrefix;
-        public string AutoAflameParticleSystem;
-        public int AutoAflameParticleMax;
-
-        public float AmmoPipScaleFactor;
+        
         public float ContainerPipScaleFactor;
         public Vector2 AmmoPipScreenOffset;
         public Vector2 ContainerPipScreenOffset;
@@ -596,6 +568,12 @@ namespace SageCS.INI
         public int MaxNumMembersToForceToImmediatelyEnter;
         public int WaitToForceMemberToEnterDelay;
 
+        public void AddStandardPublicBone(string name)
+        {
+            if (!StandardPublicBones.Contains(name))
+                StandardPublicBones.Add(name);
+        }
+
         public void AddWeaponBonus(string name, string type, int value)
         {
             if (!WeaponBonuses.ContainsKey(name))
@@ -603,11 +581,19 @@ namespace SageCS.INI
             else
                 WeaponBonuses[name].AddBonus(type, value);
         }
+    }
 
-        public void AddStandardPublicBone(string name)
+    class WeaponBonus
+    {
+        public Dictionary<string, int> bonuses = new Dictionary<string, int>();
+
+        public WeaponBonus AddBonus(string _type, int _value)
         {
-            if (!StandardPublicBones.Contains(name))
-                StandardPublicBones.Add(name);
+            if (!bonuses.ContainsKey(_type))
+                bonuses.Add(_type, _value);
+            else
+                bonuses[_type] = _value;
+            return this;
         }
     }
 }

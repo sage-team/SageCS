@@ -37,7 +37,7 @@ namespace SageCS.Core
             catch
             {
                 Texture t = new Texture();
-                t.Load(File.Open("EnglishSplashjpg", FileMode.Open));
+                t.Load(File.Open("EnglishSplash.jpg", FileMode.Open));
                 Renderer.textures.Add("splash", t);
             }
             

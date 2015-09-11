@@ -50,8 +50,11 @@ namespace SageCS.Core
             List<Stream> streams = new List<Stream>();
             foreach (KeyValuePair<string, Stream> entry in entries)
             {
-                if (entry.Key.StartsWith(path))
+                if (entry.Key.StartsWith(path.ToLower()))
+                {
+                    entry.Value.Position = 0;
                     streams.Add(entry.Value);
+                }
                 foreach (String s in excluded)
                 {
                     if (entry.Key.StartsWith(s))

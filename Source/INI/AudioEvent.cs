@@ -8,24 +8,24 @@ namespace SageCS.INI
 {
     class AudioEvent
     {
-        private List<MusicTrack> sounds = new List<MusicTrack>();
-        public float Volume;
-        public int MinVolume;
-        public float MinRange;
-        public float MaxRange;
-        public string Priority;
+        public string Control;
+        public int DryLevel;
         public int Limit;
-        public string Type;
-        public string SubmixSlider;
+        public float MaxRange;
+        public float MinRange;
+        public int MinVolume;
         public int[] PitchShift = new int[2];
         public int PlayPercent;
-        public int DryLevel;
+        public string Priority;
         public int ReverbEffectLevel;
+        private List<MusicTrack> sounds = new List<MusicTrack>();
+        public string SubmixSlider;
+        public string Type;
+        public float Volume;
+        public int VolumeShift;
         public int ZoomedInOffscreenVolumePercent;
         public int ZoomedInOffscreenMinVolumePercent;
         public int ZoomedInOffscreenOcclusionPercent;
-        public string Control;
-        public int VolumeShift;
 
         public void AddMusicTrack(MusicTrack mt)
         {

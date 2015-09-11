@@ -10,10 +10,10 @@ namespace SageCS.INI
 {
     class Armor
     {
-        private Dictionary<string, float> types = new Dictionary<string, float>();
-        public int FlankedPenalty;
-        public int DamageScalar;
         public string DamageFX;
+        public int DamageScalar;
+        public int FlankedPenalty;
+        private Dictionary<string, float> types = new Dictionary<string, float>();
 
         public void AddType(string key, float value)
         {

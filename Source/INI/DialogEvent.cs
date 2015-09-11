@@ -8,11 +8,11 @@ namespace SageCS.INI
 {
     class DialogEvent
     {
-        public string Filename;
-        public string SubmixSlider;
-        public float Volume;
-        public string Type;
         public int DryLevel;
+        public string Filename;
         public int ReverbEffectLevel;
+        public string SubmixSlider;
+        public string Type;
+        public float Volume;
     }
 }

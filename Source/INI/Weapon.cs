@@ -12,223 +12,197 @@ namespace SageCS.INI
 {
     class Weapon
     {
-        public float PrimaryDamage;
-        public float PrimaryDamageRadius;
-        public float SecondaryDamage;
-        public float SecondaryDamageRadius;
-        public float AttackRange;
-        public float MinimumAttackRange;
-        public string RequestAssistRange;
         public string AcceptableAimDelta;
-        public float ScatterRadius;
-        public string ScatterTargetScalar;
-        public float ScatterRadiusVsInfantry;
-        public string DamageType;
-        public string DeathType;
-        public float WeaponSpeed;
-        public int MinWeaponSpeed;
-        public bool ScaleWeaponSpeed;
-        public int WeaponRecoil;
-        public int MinTargetPitch;
-        public int MaxTargetPitch;
-        public string ProjectileObject;
-        public string FireSound;
-        public string FireSoundLoopTime;
-        public string FireFX;
-        public string ProjectileDetonationFX;
-        public string FireOCL;
-        public string ProjectileDetonationOCL;
-        public string ProjectileExhaust;
-        public string VeterancyFireFX;
-        public string VeterancyProjectileDetonationFX;
-        public string VeterancyFireOCL;
-        public string VeterancyProjectileDetonationOCL;
-        public string VeterancyProjectileExhaust;
-        public int ClipSize;
-        public string ContinuousFireOne;
-        public string ContinuousFireTwo;
-        public string ContinuousFireCoast;
-        public string AutoReloadWhenIdle;
-        public int[] ClipRelaodTime;
-        public float DelayBetweenShots;
-        public int ShotsPerBarrel;
-        public string DamageDealtAtSelfPosition;
-        public string RadiusDamageAffects;
-        public string ProjectileCollidesWith;
+        public string AllowAttackGarrisonedBldgs;
+        public string AntiAirborneInfantry;
+        public bool AntiAirborneMonster;
         public string AntiAirborneVehicle;
+        public string AntiBallisticMissile;
         public string AntiGround;
-        public string AntiProjectile;
-        public string AntiSmallMissile;
         public string AntiMine;
         public string AntiParachute;
-        public string AntiAirborneInfantry;
-        public string AntiBallisticMissile;
+        public string AntiProjectile;
+        public string AntiSmallMissile;
+        public float AttackRange;
+        public AttributeModifierNugget attributeModifierNugget;
         public string AutoReloadsClip;
-        public string ProjectileStreamName; //Obsolete
-        public string LaserName;
-        public string WeaponBonus;
-        public string HistoricBonusTime;
-        public string HistoricBonusRadius;
-        public string HistoricBonusCount;
-        public string HistoricBonusWeapon;
-        public string LeechRangeWeapon;
-        public string ScatterTarget;
-        public string CapableOfFollowingWaypoints;
-        public string ShowsAmmoPips;
-        public string AllowAttackGarrisonedBldgs;
-        public string PlayFXWhenStealthed;
-        public string PreAttackDelay;
-        public string PreAttackType;
-        public string ContinueAttackRange;
-        public string FXTrigger;
-        public bool AntiAirborneMonster;
-        public float MaxWeaponSpeed;
-        public float HitPercentage;
-        public int PreAttackRandomAmount;
-        public int FiringDuration;
-        public bool IsAimingWeapon;
-        public float IdleAfterFiringDelay;
-        public bool HitStoredTarget;
-        public float ClipReloadTime;
-        public bool InstantLoadClipOnActivate;
-        public string PreAttackFX;
+        public string AutoReloadWhenIdle;
 
+        public string CapableOfFollowingWaypoints;
+        public float ClipReloadTime;
+        public int ClipSize;
+        public string ContinueAttackRange;
+        public string ContinuousFireCoast;
+        public string ContinuousFireOne;
+        public string ContinuousFireTwo;
+
+        public DamageContainedNugget damageContainedNugget;
+        public string DamageDealtAtSelfPosition;
         public DamageFieldNugget damageFieldNugget;
         public DamageNugget damageNugget;
-        public MetaImpactNugget metaImpactNugget;
-        private List<ProjectileNugget> ProjectileNuggets = new List<ProjectileNugget>();
-        public WeaponOCLNugget weaponOCLNugget;
+        public string DamageType;
+        public string DeathType;
+        public float DelayBetweenShots;
         public DOTNugget dotNugget;
-        public ParalyzeNugget paralyzeNugget;
+
+        public string FireFX;
         public FireLogicNugget fireLogicNugget;
-        public OpenGateNugget openGateNugget;
-        public DamageContainedNugget damageContainedNugget;
+        public string FireOCL;
+        public string FireSound;
+        public string FireSoundLoopTime;
+        public int FiringDuration;
+        public string FXTrigger;
+
+        public string HistoricBonusCount;
+        public string HistoricBonusRadius;
+        public string HistoricBonusTime;
+        public string HistoricBonusWeapon;
+        public float HitPercentage;
+        public bool HitStoredTarget;
         public HordeAttackNugget hordeAttackNugget;
+
+        public float IdleAfterFiringDelay;
+        public bool InstantLoadClipOnActivate;
+        public bool IsAimingWeapon;
+
+        public string LaserName;
+        public string LeechRangeWeapon;
         public LuaEventNugget luaEventNugget;
+
+        public int MaxTargetPitch;
+        public float MaxWeaponSpeed;
+        public MetaImpactNugget metaImpactNugget;
+        public float MinimumAttackRange;
+        public int MinTargetPitch;
+        public float MinWeaponSpeed;
+
+        public OpenGateNugget openGateNugget;
+
+        public ParalyzeNugget paralyzeNugget;
+        public string PlayFXWhenStealthed;
+        public string PreAttackDelay;
+        public string PreAttackFX;
+        public int PreAttackRandomAmount;
+        public string PreAttackType;
+        public float PrimaryDamage;
+        public float PrimaryDamageRadius;
+        public string ProjectileCollidesWith;
+        public string ProjectileDetonationFX;
+        public string ProjectileDetonationOCL;
+        public string ProjectileExhaust;
+        private List<ProjectileNugget> projectileNuggets = new List<ProjectileNugget>();
+        public string ProjectileObject;
+        public string ProjectileStreamName; //Obsolete
+
+        public string RadiusDamageAffects;
+        public string RequestAssistRange;
+
+        public bool ScaleWeaponSpeed;
+        public float ScatterRadius;
+        public float ScatterRadiusVsInfantry;
+        public string ScatterTarget;
+        public string ScatterTargetScalar;
+        public float SecondaryDamage;
+        public float SecondaryDamageRadius;
+        public int ShotsPerBarrel;
+        public string ShowsAmmoPips;
         public SlaveAttackNugget slaveAttackNugget;
-        public AttributeModifierNugget attributeModifierNugget;
         public StealMoneyNugget stealMoneyNugget;
+
+        public string VeterancyFireFX;
+        public string VeterancyFireOCL;
+        public string VeterancyProjectileDetonationFX;
+        public string VeterancyProjectileDetonationOCL;
+        public string VeterancyProjectileExhaust;
+
+        public string WeaponBonus;
+        public WeaponOCLNugget weaponOCLNugget;
+        public int WeaponRecoil;
+        public float WeaponSpeed;    
 
         public void AddProjectileNugget(ProjectileNugget pn)
         {
-            ProjectileNuggets.Add(pn);
+            projectileNuggets.Add(pn);
         }
     }
 
-    class DamageFieldNugget
+    class AttributeModifierNugget
     {
-        public string WeaponTemplateName;
-        public int Duration;
+        public string AntiCategories;
+        public string AttributeModifier;
+        public string DamageFXType;
+        public float Radius;
+        public string SpecialObjectFilter;
+    }
+
+    class DamageContainedNugget
+    {
+        public string DeathType;
+        public int KillCount;
+        public string KillKindof;
+        public string KillKindofNot;
     }
 
     class DamageNugget
     {
-        public bool DamageArcInverted;
+        public bool AcceptDamageAdd;
         public bool CylinderAOE;
-        public string ForceKillObjectFilter;
+        public float Damage;
+        public float DamageArc;
+        public bool DamageArcInverted;
+        public string DamageFXType;
+        public int DamageMaxHeight;
         public int DamageMaxHeightAboveTerrain;
+        public string DamageScalar;
+        public float DamageSpeed;
         public string DamageSubType;
         public string DamageTaperOff;
+        public string DamageType;
+        public string DeathType;
+        public float DelayTime;
         public bool DrainLife;
         public float DrainLifeMultiplier;
         public int FlankingBonus;
-        public string DamageScalar;
-        public string RequiredUpgradeNames;
         public string ForbiddenUpgradeNames;
-        public float Damage;
-        public int DamageMaxHeight;
-        public float DamageSpeed;
+        public string ForceKillObjectFilter;
         public float Radius;
-        public float DelayTime;
-        public float DamageArc;
-        public string DamageType;
-        public string DamageFXType;
-        public string DeathType;
-        public string SpecialObjectFilter;
-        public bool AcceptDamageAdd;
-    }
-
-    class MetaImpactNugget
-    {
-        public bool FlipDirection;
-        public bool ShockWaveArcInverted;
-        public float CyclonicFactor;
-        public bool OnlyWhenJustDied;
-        public float HeroResist;
-        public int DelayTime;
-        public float ShockWaveAmount;
-        public float ShockWaveRadius;
-        public float ShockWaveArc; //in degrees to each side 180 is full circle
-        public float ShockWaveTaperOff;
-        public float ShockWaveClearMult;
-        public float ShockWaveClearFlingHeight;
-        public float ShockWaveSpeed;
-        public float ShockWaveZMult;
-        public bool InvertShockWave;
-        public bool ShockWaveClearRadius;
-        public string SpecialObjectFilter;
-        public string KillObjectFilter;
-    }
-
-    class ProjectileNugget
-    {
-        public string WeaponLaunchBoneSlotOverride;
         public string RequiredUpgradeNames;
-        public string ForbiddenUpgradeNames;
-        public string ProjectileTemplateName;
-        public string WarheadTemplateName;
         public string SpecialObjectFilter;
-        public bool UseAlwaysAttackOffset;
-        public Vector3 AlwaysAttackHereOffset;
     }
 
-    class WeaponOCLNugget
+    class DamageFieldNugget
     {
-        public string WeaponOCLName;
-        public string ForbiddenUpgradeNames;
-        public string RequiredUpgradeNames;
+        public int Duration;
+        public string WeaponTemplateName;
     }
 
     class DOTNugget
     {
-        public string RequiredUpgradeNames;
-        public string ForbiddenUpgradeNames;
         public bool AcceptDamageAdd;
         public float Damage;
-        public float DamageScalar;
-        public float Radius;
-        public string DelayTime;
-        public string DamageType;
-        public string DamageFXType;
-        public string DeathType;
-        public int DamageInterval;
         public int DamageDuration;
-        public string SpecialObjectFilter;
-    }
-
-    class ParalyzeNugget
-    {
-        public float Duration;
+        public string DamageFXType;
+        public int DamageInterval;
+        public float DamageScalar;
+        public string DamageType;
+        public string DeathType;
+        public string DelayTime;
+        public string ForbiddenUpgradeNames;
         public float Radius;
-        public string ParalyzeFX;
+        public string RequiredUpgradeNames;
         public string SpecialObjectFilter;
     }
 
     class FireLogicNugget
     {
-        public string LogicType;
         public float Damage;
-        public float Radius;
+        public int DamageArc;
+        public float DelayTime;
+        public string LogicType;
         public float MaxResistance;
         public float MinDecay;
         public int MinMaxBurnRate;
-        public float DelayTime;
-        public int DamageArc;
-    }
-
-    class OpenGateNugget
-    {
-        public float Radius;
+        public float Radius; 
     }
 
     class HordeAttackNugget
@@ -236,21 +210,60 @@ namespace SageCS.INI
         public string LockWeaponSlot;
     }
 
-    class DamageContainedNugget
-    {
-        public string KillKindof;
-        public string KillKindofNot;
-        public string DeathType;
-        public int KillCount;
-    }
-
     class LuaEventNugget
     {
-        public bool SendToNeutral;
+        public string LuaEvent;
+        public int Radius;
         public bool SendToAllies;
         public bool SendToEnemies;
-        public int Radius;
-        public string LuaEvent;
+        public bool SendToNeutral;
+    }
+
+    class MetaImpactNugget
+    {
+        public float CyclonicFactor;
+        public int DelayTime;
+        public bool FlipDirection;
+        public float HeroResist;
+        public bool InvertShockWave;
+        public string KillObjectFilter;
+        public bool OnlyWhenJustDied;
+        public float ShockWaveAmount;
+        public float ShockWaveArc;
+        public bool ShockWaveArcInverted;
+        public float ShockWaveClearFlingHeight;
+        public float ShockWaveClearMult;
+        public bool ShockWaveClearRadius;
+        public float ShockWaveRadius;
+        public float ShockWaveSpeed;
+        public float ShockWaveTaperOff;
+        public float ShockWaveZMult;
+        public string SpecialObjectFilter;   
+    }
+
+    class OpenGateNugget
+    {
+        public float Radius;
+    }
+
+    class ParalyzeNugget
+    {
+        public float Duration;
+        public string ParalyzeFX;
+        public float Radius;
+        public string SpecialObjectFilter;
+    }
+
+    class ProjectileNugget
+    {
+        public Vector3 AlwaysAttackHereOffset;
+        public string ForbiddenUpgradeNames;
+        public string ProjectileTemplateName;
+        public string RequiredUpgradeNames;
+        public string SpecialObjectFilter;
+        public bool UseAlwaysAttackOffset;
+        public string WarheadTemplateName;
+        public string WeaponLaunchBoneSlotOverride;
     }
 
     class SlaveAttackNugget
@@ -258,20 +271,18 @@ namespace SageCS.INI
 
     }
 
-    class AttributeModifierNugget
-    {
-        public float Radius;
-        public string AntiCategories;
-        public string AttributeModifier;
-        public string DamageFXType;
-        public string SpecialObjectFilter;
-    }
-
     class StealMoneyNugget
     {
         public float AmountStolenPerAttack;
+        public string ForbiddenUpgradeNames;
         public string RequiredUpgradeNames;
         public string SpecialObjectFilter;
+    }
+
+    class WeaponOCLNugget
+    {
         public string ForbiddenUpgradeNames;
+        public string RequiredUpgradeNames;
+        public string WeaponOCLName;
     }
 }

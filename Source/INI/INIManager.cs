@@ -35,13 +35,13 @@ namespace SageCS.INI
             new INIParser(FileSystem.Open("data\\ini\\default\\speech.ini"));
             new INIParser(FileSystem.Open("data\\ini\\default\\soundeffects.ini"));
             new INIParser(FileSystem.Open("data\\ini\\default\\ambientstream.ini"));
-
             new INIParser(FileSystem.Open("data\\ini\\music.ini"));
             new INIParser(FileSystem.Open("data\\ini\\soundeffects.ini"));
             new INIParser(FileSystem.Open("data\\ini\\speech.ini"));
             new INIParser(FileSystem.Open("data\\ini\\voice.ini"));
             new INIParser(FileSystem.Open("data\\ini\\ambientstream.ini"));
 
+            //the last ini to be parsed (game specific inis)
             new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
 
             /*

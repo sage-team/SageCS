@@ -8,12 +8,12 @@ namespace SageCS.INI
 {
     class MusicTrack
     {
-        public string Filename;
-        public float Volume;
         public string Control;
-        public string Type;
-        public int ReverbEffectLevel;
         public int DryLevel;
+        public string Filename;
+        public int ReverbEffectLevel;
         public string SubmixSlider;
+        public string Type;
+        public float Volume;
     }
 }
