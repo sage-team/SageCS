@@ -25,7 +25,7 @@ namespace SageCS.Core
 
         public INIParser(Stream str) : base(str)
         {
-            Console.WriteLine(((BigStream)str).Name);
+            //Console.WriteLine(((BigStream)str).Name);
             long filesize = str.Length;
             while (str.Position < filesize)
             {
@@ -42,6 +42,8 @@ namespace SageCS.Core
                             string path = dir.Substring(0, dir.LastIndexOf("\\")) + file.Replace("..", "");
                             if (!includedFiles.Contains(path))
                             {
+                                Console.WriteLine(path);
+                                PrintError("no such file");
                                 new INIParser(FileSystem.Open(path));
                                 includedFiles.Add(path);
                             }

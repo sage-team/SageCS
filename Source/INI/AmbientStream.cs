@@ -19,5 +19,5 @@ namespace SageCS.INI
         public string SubmixSlider;
         public string Type;
         public float Volume;
-    }
+    }   
 }
