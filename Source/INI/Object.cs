@@ -196,6 +196,9 @@ namespace SageCS.INI
         public int AnimationPriority;
         public float[] AnimationSpeedFactorRange = new float[2];
         public float Distance;
+        public float FadeBeginFrame;
+        public float FadeEndFrame;
+        public bool FadingIn;
         public bool UseWeaponTiming;
     }
 
@@ -243,7 +246,11 @@ namespace SageCS.INI
 
     class Body
     {
+        public bool CanRespawn;
+        public int CheerRadius;
         public string DamageCreationList;
+        public int DelayedDeathTime;
+        public bool DoHealthCheck;
         public string GrabFX;
         public int GrabDamage;
         public string GrabObject;
@@ -313,8 +320,12 @@ namespace SageCS.INI
     {
         //these values are set because not all of them have to be defined in the ini file
         public bool FollowBone = false;
+        public string FXTrigger;
+        public bool HouseColor = false;
         public bool OnlyIfOnLand = false;
         public bool OnlyIfOnWater = false;
+        public string Persist;
+        public int PersistID;
         public string Type;
     }
 

@@ -14,7 +14,6 @@ namespace SageCS.Core.Loaders
         private Stream parent;
         private int position = 0;
         private string name;
-        private string path;
 
         public override bool CanRead
         {
@@ -122,7 +121,7 @@ namespace SageCS.Core.Loaders
             throw new NotImplementedException();
         }
 
-        public BigStream(Stream p,uint off, uint len,string n)
+        public BigStream(Stream p, uint off, uint len, string n)
         {
             parent = p;
             offset = (int)off;

@@ -30,7 +30,7 @@ namespace SageCS.INI
                 List<Stream> files = FileSystem.OpenAll(s, excludePaths);
                 foreach(Stream st in files)
                 {
-                    st.Position = 0;//needed?
+                    st.Position = 0;
                     new INIParser(st);
                 }
             }

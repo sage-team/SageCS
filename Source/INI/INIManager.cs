@@ -27,10 +27,12 @@ namespace SageCS.INI
         private static Dictionary<string, Multisound> multiSounds = new Dictionary<string, Multisound>();
         private static Dictionary<string, DialogEvent> dialogEvents = new Dictionary<string, DialogEvent>();
         private static Dictionary<string, AudioEvent> audioEvents = new Dictionary<string, AudioEvent>();
+        private static Dictionary<string, StreamedSound> streamedSounds = new Dictionary<string, StreamedSound>();
 
         public static void ParseINIs()
         {
-            //hardcoded: (on start)
+            new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
+
             new INIParser(FileSystem.Open("data\\ini\\default\\music.ini"));
             new INIParser(FileSystem.Open("data\\ini\\default\\speech.ini"));
             new INIParser(FileSystem.Open("data\\ini\\default\\soundeffects.ini"));
@@ -41,123 +43,37 @@ namespace SageCS.INI
             new INIParser(FileSystem.Open("data\\ini\\voice.ini"));
             new INIParser(FileSystem.Open("data\\ini\\ambientstream.ini"));
 
-            //the last ini to be parsed (game specific inis)
-            new INIParser(FileSystem.Open("data\\ini\\default\\subsystemlegend.ini"));
-
             /*
-            data\ini\default\SubsystemLegend.ini
-            ->most of this stuff is defined here, but why not all files??
-
-            data\ini\default\gamedata.ini 
-            data\ini\gamedata.ini
-            data\ini\GameLOD.ini
-            data\ini\GameLODPresets.ini
-            data\ini\default\water.ini
-            data\ini\water.ini
-            data\ini\default\fire.ini
-            data\ini\fire.ini
-            data\ini\default\Environment.ini
-            data\ini\environment.ini
-            data\ini\AudioSettings.ini
-            data\ini\default\music.ini
-            data\ini\default\speech.ini
-            data\ini\default\soundeffects.ini
-            data\ini\default\ambientstream.ini
-            data\ini\music.ini
-            data\ini\soundeffects.ini
-            data\ini\speech.ini
-            data\ini\voice.ini
-            data\ini\ambientstream.ini
-            data\ini\miscAudio.ini
-            data\ini\default\eva.ini
-            data\ini\eva.ini
-            data\ini\default\science.ini
-            data\ini\science.ini
-            data\ini\default\upgrade.ini
-            data\ini\upgrade.ini
-            data\ini\default\multiplayer.ini
-            data\ini\multiplayer.ini
-            data\ini\default\Terrain.ini
-            data\ini\Terrain.ini
-            data\ini\default\roads.ini
-            data\ini\roads.ini
-            data\ini\default\weather.ini
-            data\ini\weather.ini
-            data\ini\rank.ini
-            data\ini\PlayerAITypes.ini
-            data\ini\default\PlayerTemplate.ini
-            data\ini\PlayerTemplate.ini
-            data\ini\FXParticleSystem.ini
-            data\ini\default\fxlist.ini
-            data\ini\fxList.ini
-            data\ini\weapon.ini
-            data\ini\default\ObjectCreationList.ini
-            data\ini\ObjectCreationList.ini
-            data\ini\locomotor.ini
-            data\ini\default\specialpower.ini
-            data\ini\specialpower.ini
-            data\ini\damagefx.ini
-            data\ini\armor.ini
-            data\ini\CrowdResponse.ini
-            data\ini\LivingWorldAutoResolveArmor.ini
-            data\ini\LivingWorldAutoResolveWeapon.ini
-            data\ini\LivingWorldAutoResolveBody.ini
-            data\ini\LivingWorldAutoResolveLeadership.ini
-            data\ini\LivingWorldAutoResolveCombatChain.ini
-            data\ini\LivingWorldAutoResolveHandicaps.ini
-            data\ini\MissionObjectives.ini
-            data\ini\Emotions.ini
-            data\ini\default\object.ini
-            data\ini\stances.ini
-            data\ini\formationassistant.ini
-            data\ini\Lightpoints.ini
-            data\ini\experienceLevels.ini
-            data\ini\aptButtonTooltipMap.ini
-            data\ini\livingWorldPlayers.ini
-            data\ini\livingworldAITemplate.ini
-            data\ini\livingworldRegionEffects.ini
-            data\ini\livingworld.ini
-            data\ini\livingWorldBuildingIcons.ini
-            data\ini\livingworldbuildploticons.ini
-            data\ini\DrawGroupInfo.ini
-            data\ini\fontsubstitution.ini
-            data\ini\fontsettings.ini
-            data\ini\mouse.ini
-
-            //game starts, but shows nothing
-
-            
-            #####
-            with empty subsystemlegend ini
-
-            data\ini\default\SubsystemLegend.ini
-            data\ini\GameLOD.ini
-            data\ini\GameLODPresets.ini
-            data\ini\default\water.ini
-            data\ini\water.ini
-            data\ini\default\fire.ini
-            data\ini\fire.ini
-            data\ini\default\Environment.ini
-            data\ini\environment.ini
-            data\ini\AudioSettings.ini
-            data\ini\default\music.ini
-            data\ini\default\speech.ini
-            data\ini\default\soundeffects.ini
-            data\ini\default\ambientstream.ini
-            data\ini\music.ini
-            data\ini\soundeffects.ini
-            data\ini\speech.ini
-            data\ini\voice.ini
-            data\ini\ambientstream.ini
-            data\ini\miscAudio.ini
-            data\ini\default\eva.ini
-            data\ini\eva.ini
-            data\ini\stances.ini
-            data\ini\formationassistant.ini
-            data\ini\DrawGroupInfo.ini
-            data\ini\fontsubstitution.ini
-            data\ini\mouse.ini
+            // inis on startup (without the files defined in the subsystemlegend)
+            data\ini\GameLOD.ini 
+            data\ini\GameLODPresets.ini 
+            data\ini\default\water.ini 
+            data\ini\water.ini 
+            data\ini\default\fire.ini 
+            data\ini\fire.ini 
+            data\ini\default\Environment.ini 
+            data\ini\environment.ini 
+            data\ini\AudioSettings.ini 
+            data\ini\default\music.ini 
+            data\ini\default\speech.ini 
+            data\ini\default\soundeffects.ini 
+            data\ini\default\ambientstream.ini 
+            data\ini\music.ini 
+            data\ini\soundeffects.ini 
+            data\ini\speech.ini 
+            data\ini\voice.ini 
+            data\ini\ambientstream.ini 
+            data\ini\miscAudio.ini 
+            data\ini\default\eva.ini 
+            data\ini\eva.ini 
+            data\ini\stances.ini 
+            data\ini\formationassistant.ini 
+            data\ini\DrawGroupInfo.ini 
+            data\ini\fontsubstitution.ini 
+            data\ini\mouse.ini 
             */
+
+            Console.WriteLine("### finished loading " + INIParser.count + " .ini files!");
         }
 
         public static void SetGameData(GameData data)
@@ -434,6 +350,14 @@ namespace SageCS.INI
             }
             ae = null;
             return false;
+        }
+
+        public static void AddStreamedSound(string name, StreamedSound ss)
+        {
+            if (!streamedSounds.ContainsKey(name))
+                streamedSounds.Add(name, ss);
+            else
+                streamedSounds[name] = ss;
         }
     }
 }

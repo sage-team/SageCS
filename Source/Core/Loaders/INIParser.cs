@@ -16,16 +16,22 @@ namespace SageCS.Core
     {
         public static Dictionary<string, string> macros = new Dictionary<string, string>();
 
+        private static List<string> includedFiles = new List<string>();
+
+        public static int count = 0;
+
+        public static List<string> objects = new List<string>();
+
         private string[] data;
         private string line;
         private int index = 0;
         private int lineNumber = 0;
+        private BigStream str;
 
-        private List<string> includedFiles = new List<string>();
-
-        public INIParser(Stream str) : base(str)
+        public INIParser(Stream stream) : base(stream)
         {
-            //Console.WriteLine(((BigStream)str).Name);
+            str = (BigStream)stream;
+            //Console.WriteLine(str.Name);
             long filesize = str.Length;
             while (str.Position < filesize)
             {
@@ -35,28 +41,7 @@ namespace SageCS.Core
                 switch (s)
                 {
                     case "#include":
-                        string file = getString().Replace("\"", "");
-                        string dir = ((BigStream)str).Path;
-                        if (file.StartsWith(".."))
-                        {
-                            string path = dir.Substring(0, dir.LastIndexOf("\\")) + file.Replace("..", "");
-                            if (!includedFiles.Contains(path))
-                            {
-                                Console.WriteLine(path);
-                                PrintError("no such file");
-                                new INIParser(FileSystem.Open(path));
-                                includedFiles.Add(path);
-                            }
-                        }
-                        else
-                        {
-                            string path = dir + "\\" + file;
-                            if (!includedFiles.Contains(path))
-                            {
-                                new INIParser(FileSystem.Open(path));
-                                includedFiles.Add(path);
-                            }
-                        }
+                        includeFile(getString());
                         break;
                     case "#define":
                         macros.Add(getString().ToUpper(), getStrings());
@@ -145,6 +130,12 @@ namespace SageCS.Core
                         ParseObject(sc);
                         INIManager.AddScience(name, sc);
                         break;
+                    case "StreamedSound":
+                        StreamedSound ss = new StreamedSound();
+                        name = getString();
+                        ParseObject(ss);
+                        INIManager.AddStreamedSound(name, ss);
+                        break;
                     case "Upgrade":
                         Upgrade u = new Upgrade();
                         name = getString();
@@ -158,10 +149,15 @@ namespace SageCS.Core
                         INIManager.AddWeapon(name, w);
                         break;
                     default:
-                        //PrintError("unhandled entry: " + data[0]);
+                        if (!objects.Contains(s))
+                        {
+                            //PrintError("unhandled entry: " + s);
+                            objects.Add(s);
+                        }
                         break;
                 }
             }
+            count++;
         }
 
         private void ParseObject(object o)
@@ -220,14 +216,8 @@ namespace SageCS.Core
                             }
                             break;
                         case "ParticleSysBone":
-                            ParticleSysBone bone = new ParticleSysBone();
-                            bone.Type = getString();
                             name = getString();
-                            if (HasNext())
-                            {
-                                bone.FollowBone = getBool();
-                            }
-                            state.AddParticleSysBone(name, bone);
+                            state.AddParticleSysBone(name, ParseParticleSysBone());
                             break;
                     }
                 }
@@ -357,14 +347,8 @@ namespace SageCS.Core
                     switch(s)
                     {
                         case "ParticleSysBone":
-                            ParticleSysBone bone = new ParticleSysBone();
-                            bone.Type = getString();
                             name = getString();
-                            if (HasNext())
-                            {
-                                bone.FollowBone = getBool();
-                            }
-                            mstate.AddParticleSysBone(name, bone);
+                            mstate.AddParticleSysBone(name, ParseParticleSysBone());
                             break;
                     }
                 }
@@ -542,7 +526,84 @@ namespace SageCS.Core
             while (!s.Equals("End") && !s.Equals("END")); 
         }
 
-        public string getLine()
+        private ParticleSysBone ParseParticleSysBone()
+        {
+            ParticleSysBone bone = new ParticleSysBone();
+            bone.Type = getString();
+            while (HasNext())
+            {
+                string val = getString().ToLower();
+                if (val.Contains("followbone:"))
+                {
+                    if (val.Equals("followbone:"))
+                        bone.FollowBone = getBool();
+                    else if (val.Contains("yes"))
+                        bone.FollowBone = true;
+                }
+                else if (val.Contains("fxtrigger:"))
+                {
+                    if (val.Equals("fxtrigger:"))
+                        bone.FXTrigger = getString();
+                    else if (val.Contains("fxtrigger:"))
+                        bone.FXTrigger = val.Replace("fxtrigger:", "");
+                }
+                else if (val.Contains("housecolor:"))
+                {
+                    if (val.Equals("housecolor:"))
+                        bone.HouseColor = getBool();
+                    else if (val.Contains("yes"))
+                        bone.HouseColor = true;
+                }
+                else if (val.Contains("onlyifonland:"))
+                {
+                    if (val.Equals("onlyifonland:"))
+                        bone.OnlyIfOnLand = getBool();
+                    else if (val.Contains("yes"))
+                        bone.OnlyIfOnLand = true;
+                }
+                else if (val.Contains("onlyifonwater:"))
+                {
+                    if (val.Equals("onlyifonwater:"))
+                        bone.OnlyIfOnWater = getBool();
+                    else if (val.Contains("yes"))
+                        bone.OnlyIfOnWater = true;
+                }
+                else if (val.Contains("persist"))
+                {
+                    if (val.Equals("persistid:"))
+                        bone.PersistID = getInt();
+                    else if (val.Contains("persistid:"))
+                        bone.PersistID = int.Parse(val.Replace("persistid:", ""));
+                    else if (val.Equals("persist:"))
+                        bone.Persist = getString();
+                    else if (val.Contains("persist:"))
+                        bone.Persist = val.Replace("persist", "");
+                }
+                else
+                    PrintError("invalid object: " + val);
+            }
+            return bone;
+        }
+
+        private void includeFile(string file)
+        {
+            file = file.Replace("\"", "");
+            string dir = ((BigStream)str).Path;
+            while (file.StartsWith("..\\"))
+            {
+                dir = dir.Substring(0, dir.LastIndexOf("\\"));
+                file = file.Remove(0, 3);
+            }
+            string path = dir + "\\" + file;
+
+            if (!includedFiles.Contains(path.ToLower()))
+            {
+                new INIParser(FileSystem.Open(path));
+                includedFiles.Add(path.ToLower());
+            }
+        }
+
+        private string getLine()
         {
             line = base.ReadLine().Trim();
             if (line.Contains(";"))
@@ -554,7 +615,7 @@ namespace SageCS.Core
             return line;
         }
         
-        public void ParseLine()
+        private void ParseLine()
         {
             char[] separators = new char[] { ' ', '\t' };
             line = getLine();
@@ -565,9 +626,6 @@ namespace SageCS.Core
             line = line.Replace("Bottom:", "");
             line = line.Replace("Min:", "");
             line = line.Replace("Max:", "");
-            line = line.Replace("Followbone:", "");
-            line = line.Replace("FollowBone:", "");
-            line = line.Replace("FOLLOWBONE:", "");
             line = line.Replace(",", ".");
             line = line.Replace("X:", "").Replace("Y:", "").Replace("Z:", "");
             line = line.Replace("R:", "").Replace("G:", "").Replace("B:", "");
@@ -605,7 +663,15 @@ namespace SageCS.Core
                 }
             }
             if (dataList.Count != 0 && !dataList[0].StartsWith(";") && !dataList[0].StartsWith("//"))
+            {
                 data = dataList.ToArray<string>();
+                if (data[0].Equals("#include"))
+                {
+                    getString();
+                    includeFile(getString());
+                    ParseLine();
+                }
+            }
             else
                 ParseLine();
         }
@@ -615,7 +681,7 @@ namespace SageCS.Core
             return (index < data.Length);
         }
 
-        public string getString()
+        private string getString()
         {
             if (!HasNext())
             {
@@ -626,7 +692,7 @@ namespace SageCS.Core
             return data[index++];
         }
 
-        public string getStrings()
+        private string getStrings()
         {
             string result = "";
             while(HasNext())
@@ -636,7 +702,7 @@ namespace SageCS.Core
             return result;
         }
 
-        public int getInt()
+        private int getInt()
         {
             int result;
             string s = getString();
@@ -649,7 +715,7 @@ namespace SageCS.Core
             }
         }
 
-        public int[] getInts()
+        private int[] getInts()
         {
             List<int> i = new List<int>();
             while (HasNext())
@@ -659,7 +725,7 @@ namespace SageCS.Core
             return i.ToArray<int>();
         }
  
-        public float getFloat()
+        private float getFloat()
         {
             float result;
             string s = getString();
@@ -675,7 +741,7 @@ namespace SageCS.Core
             }
         }
 
-        public float[] getFloats()
+        private float[] getFloats()
         {
             List<float> f = new List<float>();
             while(HasNext())
@@ -685,7 +751,7 @@ namespace SageCS.Core
             return f.ToArray<float>();
         }
 
-        public bool getBool()
+        private bool getBool()
         {
             bool result;
             string s = getString();
@@ -704,17 +770,17 @@ namespace SageCS.Core
             }
         }
 
-        public Vector2 getVec2()
+        private Vector2 getVec2()
         {
             return new Vector2(getFloat(), getFloat());
         }
 
-        public Vector3 getVec3()
+        private Vector3 getVec3()
         {
             return new Vector3(getFloat(), getFloat(), getFloat());
         }
 
-        public void PrintError(string message)
+        private void PrintError(string message)
         {
             Console.WriteLine("### INI ERROR ###");
             Console.WriteLine("# in file: " + ((BigStream)this.BaseStream).Name);

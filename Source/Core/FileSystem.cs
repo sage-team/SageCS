@@ -1,10 +1,7 @@
+using SageCS.Core.Loaders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using SageCS.Core.Loaders;
 
 namespace SageCS.Core
 {
@@ -41,7 +38,7 @@ namespace SageCS.Core
 
         public static Stream Open(string name)
         {
-            entries[name.ToLower()].Position = 0; 
+            entries[name.ToLower()].Position = 0;
             return entries[name.ToLower()];
         }
 
@@ -53,7 +50,8 @@ namespace SageCS.Core
                 if (entry.Key.StartsWith(path.ToLower()))
                 {
                     entry.Value.Position = 0;
-                    streams.Add(entry.Value);
+                    if (entry.Value.Length != 0)
+                        streams.Add(entry.Value);
                 }
                 foreach (String s in excluded)
                 {

@@ -32,6 +32,8 @@ namespace SageCS.INI
 
         public bool NoUpgradeDiscount;
 
+        public string ObjectFilter;
+
         public bool PersistsInCampaign;
 
         public string RequiredObjectFilter;
@@ -46,7 +48,11 @@ namespace SageCS.INI
         public string Type;         //PLAYER or OBJECT
 
         public string UnitSpecificSound;
+        public float UpgradeBonusPercent;
         public string UpgradeFX;
+        public string UpgradeMustBePresent;
         public string UseObjectTemplateForCostDiscount;
+
+        public int WallUpgradeRadius;
     }
 }
