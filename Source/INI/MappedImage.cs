@@ -19,10 +19,10 @@ namespace SageCS.INI
             public int Bottom;
         }
 
+        public Coords coords;
+        public string Status;
         public string Texture;
         public int TextureWidth;
         public int TextureHeight;
-        public Coords coords;
-        public string Status;
     }
 }

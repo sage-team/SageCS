@@ -1,10 +1,7 @@
+using SageCS.Core.Loaders;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
-using SageCS.Core.Loaders;
 
 namespace SageCS.Core
 {
@@ -41,16 +38,26 @@ namespace SageCS.Core
 
         public static Stream Open(string name)
         {
-            return entries[name];
+            entries[name.ToLower()].Position = 0;
+            return entries[name.ToLower()];
         }
 
-        public static List<Stream> OpenAll(string extension)
+        public static List<Stream> OpenAll(string path, List<string> excluded)
         {
             List<Stream> streams = new List<Stream>();
             foreach (KeyValuePair<string, Stream> entry in entries)
             {
-                if (entry.Key.EndsWith(extension))
-                    streams.Add(entry.Value);
+                if (entry.Key.StartsWith(path.ToLower()))
+                {
+                    entry.Value.Position = 0;
+                    if (entry.Value.Length != 0)
+                        streams.Add(entry.Value);
+                }
+                foreach (String s in excluded)
+                {
+                    if (entry.Key.StartsWith(s))
+                        streams.Remove(entry.Value);
+                }
             }
             return streams;
         }

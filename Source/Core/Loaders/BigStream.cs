@@ -56,6 +56,14 @@ namespace SageCS.Core.Loaders
             }
         }
 
+        public string Path
+        {
+            get
+            {
+                return name.Substring(0, name.LastIndexOf("\\"));
+            }
+        }
+
         public override long Position
         {
             get
@@ -113,7 +121,7 @@ namespace SageCS.Core.Loaders
             throw new NotImplementedException();
         }
 
-        public BigStream(Stream p,uint off, uint len,string n)
+        public BigStream(Stream p, uint off, uint len, string n)
         {
             parent = p;
             offset = (int)off;

@@ -9,22 +9,22 @@ namespace SageCS.INI
     class ModifierList
     {
         public string Category;
-        public Dictionary<string, float> modifiers = new Dictionary<string, float>();
+        public string ClearModelCondition;
         public int Duration;
-        public string FX;
-        public string FX2;
-        public string FX3;
-        public bool MultiLevelFX;
         public string EndFX;
         public string EndFX2;
         public string EndFX3;
-        public bool ReplaceInCategoryIfLongest;
+        public string FX;
+        public string FX2;
+        public string FX3;
         public bool IgnoreIfAnticategoryActive;
         public string ModelCondition;
-        public string ClearModelCondition;
+        public Dictionary<string, string> modifiers = new Dictionary<string, string>();
+        public bool MultiLevelFX;
+        public bool ReplaceInCategoryIfLongest;
         public string Upgrade;
 
-        public void AddModifier(string key, float value)
+        public void AddModifier(string key, string value)
         {
             if (!modifiers.ContainsKey(key))
                 modifiers.Add(key, value);
